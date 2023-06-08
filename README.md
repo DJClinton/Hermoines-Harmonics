@@ -9,7 +9,7 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
 - Dakota Fedor
 - Sahil Patel
 - Ryan Symons
-- MEMBER5
+- Caity Kurutz
 
 
 ## Prerequisites
