@@ -8,6 +8,6 @@ public class EstoreApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EstoreApiApplication.class, args);
-	}
 
+	}
 }
