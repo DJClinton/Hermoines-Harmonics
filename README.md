@@ -5,10 +5,11 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
   
 ## Team
 
-- MEMBER1
-- MEMBER2
-- MEMBER3
-- MEMBER4
+- Hiroto Takeuchi
+- Dakota Fedor
+- Sahil Patel
+- Ryan Symons
+- Caity Kurutz
 
 
 ## Prerequisites
