@@ -8,7 +8,8 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
 - Hiroto Takeuchi
 - Dakota Fedor
 - Sahil Patel
-- MEMBER4
+- Ryan Symons
+- MEMBER5
 
 
 ## Prerequisites
