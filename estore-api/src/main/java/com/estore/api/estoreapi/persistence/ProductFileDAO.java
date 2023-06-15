@@ -63,8 +63,8 @@ public class ProductFileDAO implements ProductDAO {
      * 
      * @return  The array of {@link Product products}, may be empty
      */
-    private Product[] getHeroesArray() {
-        return getHeroesArray(null);
+    private Product[] getProductsArray() {
+        return getProductsArray(null);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ProductFileDAO implements ProductDAO {
      * 
      * @return  The array of {@link Product products}, may be empty
      */
-    private Product[] getHeroesArray(String containsText) { // if containsText == null, no filter
+    private Product[] getProductsArray(String containsText) { // if containsText == null, no filter
         ArrayList<Product> heroArrayList = new ArrayList<>();
 
         for (Product product : products.values()) {
@@ -98,7 +98,7 @@ public class ProductFileDAO implements ProductDAO {
      * @throws IOException when file cannot be accessed or written to
      */
     private boolean save() throws IOException {
-        Product[] heroArray = getHeroesArray();
+        Product[] heroArray = getProductsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
@@ -142,7 +142,7 @@ public class ProductFileDAO implements ProductDAO {
     @Override
     public Product[] getProducts() {
         synchronized(products) {
-            return getHeroesArray();
+            return getProductsArray();
         }
     }
 
@@ -152,7 +152,7 @@ public class ProductFileDAO implements ProductDAO {
     @Override
     public Product[] findProducts(String containsText) {
         synchronized(products) {
-            return getHeroesArray(containsText);
+            return getProductsArray(containsText);
         }
     }
 
