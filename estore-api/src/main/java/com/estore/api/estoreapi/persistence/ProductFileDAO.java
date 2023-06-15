@@ -77,17 +77,17 @@ public class ProductFileDAO implements ProductDAO {
      * @return  The array of {@link Product products}, may be empty
      */
     private Product[] getProductsArray(String containsText) { // if containsText == null, no filter
-        ArrayList<Product> heroArrayList = new ArrayList<>();
+        ArrayList<Product> productArrayList = new ArrayList<>();
 
         for (Product product : products.values()) {
             if (containsText == null || product.getName().contains(containsText)) {
-                heroArrayList.add(product);
+                productArrayList.add(product);
             }
         }
 
-        Product[] heroArray = new Product[heroArrayList.size()];
-        heroArrayList.toArray(heroArray);
-        return heroArray;
+        Product[] productArray = new Product[productArrayList.size()];
+        productArrayList.toArray(productArray);
+        return productArray;
     }
 
     /**
@@ -98,12 +98,12 @@ public class ProductFileDAO implements ProductDAO {
      * @throws IOException when file cannot be accessed or written to
      */
     private boolean save() throws IOException {
-        Product[] heroArray = getProductsArray();
+        Product[] productArray = getProductsArray();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
         // with the file or reading from the file
-        objectMapper.writeValue(new File(filename),heroArray);
+        objectMapper.writeValue(new File(filename),productArray);
         return true;
     }
 
@@ -123,10 +123,10 @@ public class ProductFileDAO implements ProductDAO {
         // Deserializes the JSON objects from the file into an array of products
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
-        Product[] heroArray = objectMapper.readValue(new File(filename),Product[].class);
+        Product[] productArray = objectMapper.readValue(new File(filename),Product[].class);
 
         // Add each product to the tree map and keep track of the greatest id
-        for (Product product : heroArray) {
+        for (Product product : productArray) {
             products.put(product.getId(),product);
             if (product.getId() > nextId)
                 nextId = product.getId();
@@ -177,10 +177,10 @@ public class ProductFileDAO implements ProductDAO {
         synchronized(products) {
             // We create a new product object because the id field is immutable
             // and we need to assign the next unique id
-            Product newHero = new Product(nextId(),product.getName());
-            products.put(newHero.getId(),newHero);
+            Product newProduct = new Product(nextId(),product.getName());
+            products.put(newProduct.getId(),newProduct);
             save(); // may throw an IOException
-            return newHero;
+            return newProduct;
         }
     }
 
