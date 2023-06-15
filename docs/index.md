@@ -4,8 +4,11 @@ Welcome to the PROJECT Project!
 
 ## Team
 
-* MEMBER1
-* MEMBER2
+* Hiroto Takeuchi
+* Dakota Fedor
+* Sahil Patel
+* Ryan Symons
+* Caity Kurutz
 
 ## [Design Documentation](DesignDoc)
 
