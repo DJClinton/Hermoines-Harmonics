@@ -177,8 +177,8 @@ public class ProductFileDAO implements ProductDAO {
         synchronized(products) {
             // We create a new product object because the id field is immutable
             // and we need to assign the next unique id
-            Product newProduct = new Product(nextId(),product.getName());
-            products.put(newProduct.getId(),newProduct);
+            Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getQuantity());
+            products.put(newProduct.getId(), newProduct);
             save(); // may throw an IOException
             return newProduct;
         }
@@ -193,7 +193,7 @@ public class ProductFileDAO implements ProductDAO {
             if (products.containsKey(product.getId()) == false)
                 return null;  // product does not exist
 
-            products.put(product.getId(),product);
+            products.put(product.getId(), product);
             save(); // may throw an IOException
             return product;
         }
