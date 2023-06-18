@@ -29,9 +29,9 @@ import com.estore.api.estoreapi.model.Product;
  */
 
 @RestController
-@RequestMapping("products")
-public class ProductController {
-    private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
+@RequestMapping("inventory")
+public class InventoryController {
+    private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
     private ProductDAO productDao;
 
     /**
@@ -41,7 +41,7 @@ public class ProductController {
      * <br>
      * This dependency is injected by the Spring Framework
      */
-    public ProductController(ProductDAO productDao) {
+    public InventoryController(ProductDAO productDao) {
         this.productDao = productDao;
     }
 
@@ -56,7 +56,7 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
-        LOG.info("GET /products/" + id);
+        LOG.info("GET /inventory/" + id);
         try {
             Product product = productDao.getProduct(id);
             if (product != null)
@@ -79,7 +79,7 @@ public class ProductController {
      */
     @GetMapping("")
     public ResponseEntity<Product[]> getProducts() {
-        LOG.info("GET /products");
+        LOG.info("GET /inventory");
         try {
             Product[] products = productDao.getProducts();
             return new ResponseEntity<Product[]>(products,HttpStatus.OK);
@@ -104,7 +104,7 @@ public class ProductController {
      */
     @GetMapping("/")
     public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
-        LOG.info("GET /products/?name="+name);
+        LOG.info("GET /inventory/?name="+name);
 
         try {
             Product[] products = productDao.findProducts(name);
@@ -126,7 +126,7 @@ public class ProductController {
      */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        LOG.info("POST /products " + product);
+        LOG.info("POST /inventory " + product);
 
         try {
             if (productDao.getProduct(product.getId()) != null) { // Checks if the current product already exists.
@@ -153,7 +153,7 @@ public class ProductController {
      */
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        LOG.info("PUT /products " + product);
+        LOG.info("PUT /inventory " + product);
 
         try {
             if (productDao.getProduct(product.getId()) == null) {
@@ -180,7 +180,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-        LOG.info("DELETE /products/" + id);
+        LOG.info("DELETE /inventory/" + id);
 
         try {
             if (productDao.getProduct(id) == null) {
