@@ -19,11 +19,12 @@ export class ProductDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    this.getProduct();
+    this.route.params.subscribe((params) => {
+      this.getProduct(params['id']);
+    });
   }
 
-  getProduct(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+  getProduct(id: number): void {
     this.productService
       .getProduct(id)
       .subscribe((product) => (this.product = product));
