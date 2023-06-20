@@ -129,8 +129,10 @@ public class InventoryController {
         LOG.info("POST /inventory " + product);
 
         try {
-            if (productDao.getProduct(product.getId()) != null) { // Checks if the current product already exists.
-                return new ResponseEntity<Product>(HttpStatus.CONFLICT);
+            for (Product existingProduct : productDao.getProducts()) {
+                if(existingProduct.getName().equals(product.getName())) {
+                   return new ResponseEntity<Product>(HttpStatus.CONFLICT); 
+                }
             }
             
             product = productDao.createProduct(product);
