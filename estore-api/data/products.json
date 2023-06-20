@@ -1,4 +1,5 @@
 [
-	{ "id": 1, "name": "Chaos Control" },
-	{ "id": 2, "name": "Squeaky Clean Time Machine" }
+	{ "id": 1, "name": "Saxophone", "price": 499.99, "quantity": 4 },
+	{ "id": 2, "name": "Triangle", "price": 9.99, "quantity": 6 },
+	{ "id": 3, "name": "Clarinet", "price": 299.99, "quantity": 7}
 ]
