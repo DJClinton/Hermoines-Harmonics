@@ -39,6 +39,7 @@ public class Buyer {
                  @JsonProperty("paymentMethods") List<CreditCard> paymentMethods) {
 
         LOG.info("Creating buyer account with email: " + email + " and password: " + password);
+        this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -219,11 +220,13 @@ public class Buyer {
     }
 
     
-
-
-
-
-
-    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return String.format(STRING_FORMAT, id, email, password, firstName, lastName, 
+                             phoneNumber, pastOrders, paymentMethods);
+    }
 
 }

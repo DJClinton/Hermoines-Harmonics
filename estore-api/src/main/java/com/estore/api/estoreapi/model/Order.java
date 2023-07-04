@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.model;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,10 +14,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Order {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
-    static final String STRING_FORMAT = "Order [product=%s, date=%s]";
+    static final String STRING_FORMAT = "Order [productId=%d, date=%s]";
 
-    @JsonProperty("product")
-    private Product product;
+    @JsonProperty("productId")
+    private int productId;
+
     @JsonProperty("date")
     private Date date;
 
@@ -27,20 +29,20 @@ public class Order {
      * @param date      date that this order was placed
      */
 
-    public Order(@JsonProperty("product") Product product, @JsonProperty("date") Date date) {
-        this.product = product;
+    public Order(@JsonProperty("productId") int productId, @JsonProperty("date") Date date) {
+        this.productId = productId;
         this.date = date;
         LOG.info("Creating " + this);
     }
 
     /**
-     * Retrieve the product that was sold in this order
+     * Retrieve the product id that was sold in this order
      * 
-     * @return sold product
+     * @return sold product id
      */
-    public Product getProduct() {
-        LOG.info("Retrieving order product: " + product);
-        return product;
+    public int getProductId() {
+        LOG.info("Retrieving order product by id: " + productId);
+        return productId;
     }
 
     /**
@@ -58,7 +60,7 @@ public class Order {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, product, date);
+        return String.format(STRING_FORMAT, productId, date);
     }
 
 }
