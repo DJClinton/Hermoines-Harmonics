@@ -3,7 +3,6 @@ package com.estore.api.estoreapi.model;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -14,13 +13,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Order {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
-    static final String STRING_FORMAT = "Order [productId=%d, date=%s]";
+    static final String STRING_FORMAT = "Order [productIds=%s, date=%s, order=%s]";
+
+    enum OrderStatus {
+        UNPROCESSED,
+        SHIPPED,
+        RECIEVED
+    }
 
     @JsonProperty("productId")
-    private int productId;
+    private int[] productIds;
 
     @JsonProperty("date")
     private Date date;
+
+    @JsonProperty("orderStatus")
+    private OrderStatus orderStatus;
 
     /**
      * Create an order with the product sold and the date it was placed
@@ -29,20 +37,22 @@ public class Order {
      * @param date      date that this order was placed
      */
 
-    public Order(@JsonProperty("productId") int productId, @JsonProperty("date") Date date) {
-        this.productId = productId;
+    public Order(@JsonProperty("productId") int[] productIds, @JsonProperty("date") Date date, 
+                 @JsonProperty("orderStatus") OrderStatus orderStatus) {
+        this.productIds = productIds;
         this.date = date;
+        this.orderStatus = orderStatus;
         LOG.info("Creating " + this);
     }
 
     /**
-     * Retrieve the product id that was sold in this order
+     * Retrieve the product ids that were sold in this order
      * 
-     * @return sold product id
+     * @return sold product ids
      */
-    public int getProductId() {
-        LOG.info("Retrieving order product by id: " + productId);
-        return productId;
+    public int[] getProductIds() {
+        LOG.info("Retrieving order product by id: " + productIds);
+        return productIds;
     }
 
     /**
@@ -56,11 +66,20 @@ public class Order {
     }
 
     /**
+     * Retrieve the order status
+     * 
+     * @return order status
+     */
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, productId, date);
+        return String.format(STRING_FORMAT, productIds, date, orderStatus);
     }
 
 }
