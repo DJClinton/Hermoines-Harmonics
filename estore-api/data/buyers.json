@@ -2,7 +2,7 @@
     {
         "id":1,"email":"user1@user1.com","password":"1234","firstName":"John","lastName":"Buyer","phoneNumber":"555-555-5555",
         "pastOrders":[
-            {"productId":1, "date":16615184739}
+            {"productIds":[1], "date":16615184739}
         ],
         "paymentMethods":[
             {"holderName": "John B. Buyer", "cardNumber": 1234, "expDate": 1761518473, "securityCode": 123}
