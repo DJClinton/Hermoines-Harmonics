@@ -18,7 +18,7 @@ public class Order {
     enum OrderStatus {
         UNPROCESSED,
         SHIPPED,
-        RECIEVED
+        DELIVERED
     }
 
     @JsonProperty("productId")

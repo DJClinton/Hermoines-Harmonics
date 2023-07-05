@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -54,9 +55,7 @@ public class BuyerFileDAO implements BuyerDAO {
      * @return The next id
      */
     private synchronized static int nextId() {
-        int id = nextId;
-        ++nextId;
-        return id;
+        return nextId++;
     }
 
 
@@ -66,15 +65,8 @@ public class BuyerFileDAO implements BuyerDAO {
      * @return  The array of {@link Buyer buyers}, may be empty
      */
     private Buyer[] getBuyersArray() {
-        ArrayList<Buyer> buyerArrayList = new ArrayList<>();
-
-        for (Buyer buyer : buyers.values()) {
-            buyerArrayList.add(buyer);
-        }
-
-        Buyer[] buyerArray = new Buyer[buyerArrayList.size()];
-        buyerArrayList.toArray(buyerArray);
-        return buyerArray;
+        Collection<Buyer> buyersCollection = buyers.values();
+        return buyersCollection.toArray(new Buyer[buyersCollection.size()]);
     }
 
     /**
@@ -153,7 +145,9 @@ public class BuyerFileDAO implements BuyerDAO {
     @Override
     public Buyer createBuyer(Buyer buyer) throws IOException {
         synchronized(buyers) {
-            buyers.put(buyer.getId(), buyer);
+            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
+                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods());
+            buyers.put(buyer.getId(), newBuyer);
             save(); // may throw an IOException
             return buyer;
         }

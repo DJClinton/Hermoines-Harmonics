@@ -59,10 +59,10 @@ public class BuyerController {
         LOG.info("GET /account/" + id);
         try {
             Buyer buyer = buyerDao.getBuyer(id);
-            if (buyer != null)
-                return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
-            else
+            if (buyer == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                
+            return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -134,11 +134,12 @@ public class BuyerController {
         LOG.info("PUT /account " + buyer);
 
         try {
-            if (buyerDao.getBuyer(buyer.getId()) == null) {
+            buyer = buyerDao.updateBuyer(buyer);
+
+            if(buyer == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            buyer = buyerDao.updateBuyer(buyer);
             return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
 
         } catch (IOException ioe) {
@@ -161,11 +162,10 @@ public class BuyerController {
         LOG.info("DELETE /account/" + id);
 
         try {
-            if (buyerDao.getBuyer(id) == null) {
+            if(!buyerDao.deleteBuyer(id)) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
-            buyerDao.deleteBuyer(id);
+            
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
