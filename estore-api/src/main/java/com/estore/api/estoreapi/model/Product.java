@@ -136,6 +136,16 @@ public class Product {
         return quantity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Product) {
+            Product other = (Product)o;
+            return (this.id == other.id);
+        } else {
+            return false;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
