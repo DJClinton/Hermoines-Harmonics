@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estore.api.estoreapi.persistence.UserDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,14 +19,14 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationController {
 
   private final AuthenticationManager authenticationManager;
-  private final UserDAO userDao;
+  private final UserFileDAO userDao;
   private final JwtUtil jwtUtil;
 
   @PostMapping("/authenticate")
   public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
     authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-    final UserDetails user = userDao.getUserDetails(request.getEmail());
+    final UserDetails user = userDao.getUser(request.getEmail());
     if (user != null) {
       return ResponseEntity.ok(jwtUtil.generateToken(user));
     }
