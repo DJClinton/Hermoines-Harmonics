@@ -30,11 +30,11 @@ public class UserFileDAOTest {
     mockObjectMapper = mock(ObjectMapper.class);
 
     testUsers = new User[3];
-    testUsers[0] = new User(1, "admin@admin.com", "password",
+    testUsers[0] = new User(0, "admin@admin.com", "password",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
-    testUsers[1] = new User(2, "user1@user1.com", "password",
+    testUsers[1] = new User(1, "user1@user1.com", "password",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
-    testUsers[2] = new User(3, "user2@user2.com", "password",
+    testUsers[2] = new User(2, "user2@user2.com", "password",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
 
     when(mockObjectMapper
@@ -80,18 +80,14 @@ public class UserFileDAOTest {
   }
 
   @Test
-  public void testCreateUser() {
+  public void testCreateUser() throws IOException {
     // Setup
     User newUser = new User(4, "fakeadmin@admin.com", "password",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
     User[] expected = { testUsers[0], testUsers[1], testUsers[2], newUser };
 
     // Invoke
-    try {
-      userFileDAO.createUser(newUser);
-    } catch (IOException e) {
-      /* Squash */
-    }
+    userFileDAO.createUser(newUser);
 
     User[] actual = userFileDAO.getUsers();
 
@@ -104,7 +100,7 @@ public class UserFileDAOTest {
     // Setup
     int index0 = 0;
     int index1 = 1;
-    User updatedUser = new User(3, "newuser2@user2.com", "securepassword",
+    User updatedUser = new User(2, "newuser2@user2.com", "securepassword",
         Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
     User[] expected = { testUsers[index0], testUsers[index1], updatedUser };
 
