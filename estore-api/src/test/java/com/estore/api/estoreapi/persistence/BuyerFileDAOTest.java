@@ -38,7 +38,7 @@ public class BuyerFileDAOTest {
     @BeforeEach
     public void setupBuyerFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
-        testBuyers = new Buyer[3];
+        testBuyers = new Buyer[1];
         List<Order> pastOrderList = new ArrayList<>();
         List<CreditCard> paymentMethods = new ArrayList<>();
 
@@ -54,19 +54,6 @@ public class BuyerFileDAOTest {
         paymentMethods.add(card);
         testBuyers[0] = new Buyer(1, "john@gmail.com", "1234", "john", 
                                   "buyer", "555-123-4567", pastOrderList, paymentMethods);
-
-
-        paymentMethods = new ArrayList<>();
-        card = new CreditCard("Connor C. Customer", 5678, new Date(), 555);
-        paymentMethods.add(card);
-        testBuyers[1] = new Buyer(2, "connor@yahoo.com", "1234", "connor", 
-                                  "customer", "111-111-1111", pastOrderList, paymentMethods);
-
-        paymentMethods = new ArrayList<>();
-        card = new CreditCard("Bobathon B. Bobbington IV Jr", 9, new Date(), 123);
-        paymentMethods.add(card);
-        testBuyers[1] = new Buyer(3, "bobathon@tempmail.com", "1234", "bob", 
-                                  "Bobbington IV Jr", "444-444-4444", pastOrderList, paymentMethods);
         
 
         // When the object mapper is supposed to read from the file
@@ -99,7 +86,7 @@ public class BuyerFileDAOTest {
     @Test
     public void testCreateBuyer() {
         // Setup
-        Buyer buyer = new Buyer(3, "Joe@joe.com", "password", "joe", "setup", 
+        Buyer buyer = new Buyer(2, "Joe@joe.com", "password", "joe", "setup", 
                                 "999-999-9999", new ArrayList<Order>(), new ArrayList<CreditCard>());
 
         // Invoke
@@ -121,7 +108,7 @@ public class BuyerFileDAOTest {
     @Test
     public void testUpdateBuyer() {
         // Setup
-        Buyer buyer = new Buyer(3, "Joe@joe.com", "password", "joe", "setup", 
+        Buyer buyer = new Buyer(1, "Joe@joe.com", "password", "joe", "setup", 
                                 "999-999-9999", new ArrayList<Order>(), new ArrayList<CreditCard>());
 
         // Invoke

@@ -84,7 +84,7 @@ public class BuyerTest {
     @Test
     public void testToString() {
         String expectedString = String.format(Buyer.STRING_FORMAT, expectedId, expectedEmail, expectedPassword, 
-                                              expectedFirstName, expectedLastName, expectedPassword, expectedPastOrders,
+                                              expectedFirstName, expectedLastName, expectedPhoneNumber, expectedPastOrders,
                                               expectedPaymentMethods);
 
         assertEquals(expectedString, buyer.toString());
