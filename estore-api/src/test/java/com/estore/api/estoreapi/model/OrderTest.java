@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Date;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,8 @@ public class OrderTest {
         ids[1] = 2;
         ids[2] = 3;
 
-        String expectedString = String.format(Order.STRING_FORMAT, ids, date, OrderStatus.SHIPPED);
+
+        String expectedString = String.format(Order.STRING_FORMAT, Arrays.toString(ids), date, OrderStatus.SHIPPED);
 
         
         //Invoke
