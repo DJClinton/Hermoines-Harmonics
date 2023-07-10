@@ -15,8 +15,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ProductsComponent } from './products/products.component';
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent],
+  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, ProductsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
