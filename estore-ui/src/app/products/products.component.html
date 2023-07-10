@@ -1,1 +1,6 @@
-<p>products works!</p>
+<h2>{{product.name | uppercase}} Details</h2>
+<div><span>id: </span>{{product.id}}</div>
+<div>
+  <label for="name">Product name: </label>
+  <input id="name" [(ngModel)]="product.name" placeholder="name">
+</div>
