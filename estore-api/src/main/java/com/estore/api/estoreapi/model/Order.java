@@ -1,5 +1,6 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ public class Order {
 
     static final String STRING_FORMAT = "Order [productIds=%s, date=%s, order=%s]";
 
-    enum OrderStatus {
+    public enum OrderStatus {
         UNPROCESSED,
         SHIPPED,
         DELIVERED
@@ -33,8 +34,9 @@ public class Order {
     /**
      * Create an order with the product sold and the date it was placed
      * 
-     * @param product   product that was sold in this order
-     * @param date      date that this order was placed
+     * @param productIds    ids of products that were sold in this order
+     * @param date          date that this order was placed
+     * @param orderStatus   status of the order
      */
 
     public Order(@JsonProperty("productId") int[] productIds, @JsonProperty("date") Date date, 
@@ -79,7 +81,7 @@ public class Order {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, productIds, date, orderStatus);
+        return String.format(STRING_FORMAT, Arrays.toString(productIds), date, orderStatus);
     }
 
 }
