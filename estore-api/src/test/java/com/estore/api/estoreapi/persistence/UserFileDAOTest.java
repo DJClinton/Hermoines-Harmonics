@@ -2,6 +2,7 @@ package com.estore.api.estoreapi.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.estore.api.estoreapi.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,12 +58,31 @@ public class UserFileDAOTest {
   }
 
   @Test
-  public void testGetUser() {
+  public void testGetUserByEmail() {
     // Setup
     User expected = testUsers[1];
 
     // Invoke
     User actual = (User) userFileDAO.getUser("user1@user1.com");
+
+    // Analyze
+    assertEquals(expected, actual, "User not found");
+  }
+
+  @Test
+  public void testGedUserByEmailThrow() {
+    assertThrows(UsernameNotFoundException.class, () -> {
+      userFileDAO.getUser("fakeuser@user.com");
+    });
+  }
+
+  @Test
+  public void testGetUserById() {
+    // Setup
+    User expected = testUsers[1];
+
+    // Invoke
+    User actual = (User) userFileDAO.getUserById(1);
 
     // Analyze
     assertEquals(expected, actual, "User not found");
@@ -96,6 +117,17 @@ public class UserFileDAOTest {
   }
 
   @Test
+  public void testCreateUserException() throws IOException {
+    // Setup
+    User newUser = new User(4, "user1@user1.com", "password",
+        Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+
+    // Invoke & Analyze
+    assertThrows(IllegalArgumentException.class, () -> userFileDAO.createUser(newUser),
+        "IOException not thrown");
+  }
+
+  @Test
   public void testUpdateUser() {
     // Setup
     int index0 = 0;
@@ -126,6 +158,28 @@ public class UserFileDAOTest {
     // Invoke
     try {
       userFileDAO.deleteUser(testUsers[2].getId());
+    } catch (IOException e) {
+      /* Squash */}
+
+    User[] actual = userFileDAO.getUsers();
+
+    // Analyze
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void testDeleteUserFalse() {
+    // Setup
+    int index0 = 0;
+    int index1 = 1;
+    int index2 = 2;
+    User[] expected = { testUsers[index0], testUsers[index1], testUsers[index2] };
+
+    int falseId = 3;
+    // Invoke
+    try {
+      boolean res = userFileDAO.deleteUser(falseId);
+      assertFalse(res);
     } catch (IOException e) {
       /* Squash */}
 

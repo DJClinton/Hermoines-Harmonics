@@ -1,6 +1,7 @@
 package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -72,5 +73,25 @@ public class UserTest {
     // Analyze
     assertEquals(expected, actual);
 
+  }
+
+  @Test
+  public void testEquals() {
+    int id1 = 4;
+    int id2 = 3;
+    String email1 = "user@email.com";
+    String email2 = "user2@email.com";
+    String password = "password";
+    Collection<SimpleGrantedAuthority> authorities = Collections
+        .singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    User user1 = new User(id1, email1, password, authorities);
+    User user2 = new User(id1, email2, password, authorities);
+    User user3 = new User(id2, email1, password, authorities);
+
+    // Invoke & Analyze
+    assertEquals(user1, user1, "User is not equal to itself");
+    assertEquals(user1, user2, "Users are not equal");
+    assertNotEquals(user1, user3, "Users are equal");
+    assertNotEquals(user1, "Bobby", "User is equal to a string");
   }
 }
