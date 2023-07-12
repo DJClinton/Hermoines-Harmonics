@@ -42,6 +42,7 @@ public class JwtAuthFilterTest {
     FilterChain mockFilterChain = mock(FilterChain.class);
     SecurityContext mockSecurityContext = mock(SecurityContext.class);
     UserDetails mockUserDetails = mock(UserDetails.class);
+    Authentication mockAuthentication = mock(Authentication.class);
 
     jwtAuthFilter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
 
@@ -59,7 +60,6 @@ public class JwtAuthFilterTest {
     when(mockJwtUtil.validateToken("token", mockUserDetails)).thenReturn(true);
     try (MockedStatic<SecurityContextHolder> mockSecurityContextHolder = mockStatic(SecurityContextHolder.class)) {
       mockSecurityContextHolder.when(SecurityContextHolder::getContext).thenReturn(mockSecurityContext);
-      Authentication mockAuthentication = mock(Authentication.class);
       when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
       jwtAuthFilter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
 
