@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.estore.api.estoreapi.persistence.UserDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ public class SecurityConfig {
   private static final Logger LOG = Logger.getLogger(SecurityConfig.class.getName());
 
   private final JwtAuthFilter jwtAuthFilter;
-  private final UserDAO userDao;
+  private final UserFileDAO userDao;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -70,7 +70,7 @@ public class SecurityConfig {
     return new UserDetailsService() {
       @Override
       public UserDetails loadUserByUsername(String email) {
-        return userDao.getUserDetails(email);
+        return userDao.getUser(email);
       }
     };
   }

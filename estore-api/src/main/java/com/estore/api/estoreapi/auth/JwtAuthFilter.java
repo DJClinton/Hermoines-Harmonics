@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.estore.api.estoreapi.persistence.UserDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 import java.util.logging.Logger;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthFilter extends OncePerRequestFilter {
   private static final Logger LOG = Logger.getLogger(JwtAuthFilter.class.getName());
 
-  private final UserDAO userDao;
+  private final UserFileDAO userDao;
   private final JwtUtil jwtUtil;
 
   @Override
@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     jwtToken = authHeader.substring(7);
     userEmail = jwtUtil.extractUsername(jwtToken);
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = userDao.getUserDetails(userEmail);
+      UserDetails userDetails = userDao.getUser(userEmail);
       LOG.info("userDetails " + userDetails);
       LOG.info("password " + userDetails.getPassword());
       if (jwtUtil.validateToken(jwtToken, userDetails)) {
