@@ -25,20 +25,24 @@ export class ProductsComponent {
   addProduct(name: string, price: number, quantity: number) {
     const id: number = 0; // Server will handle the actual product ID, replacing this temporary value.
     const newProduct: Product = {id, name, price, quantity};
-    this.productService.addProduct(newProduct).subscribe(() => {
+    this.productService.addProduct(newProduct).subscribe((product: Product) => {
+      this.products.push(product);
       this.getProducts(); // Refreshes product list
+      console.log("Product created successfully")
     });
   }
 
   updateProduct(product: Product) {
     this.productService.updateProduct(product).subscribe(() => {
       this.getProducts();
+      console.log("Product updated successfully")
     });
   }
 
   deleteProduct(id: number) {
     this.productService.deleteProduct(id).subscribe(() => {
       this.getProducts();
+      console.log("Product deleted successfully")
     });
   }
 }
