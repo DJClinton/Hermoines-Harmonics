@@ -9,7 +9,7 @@
     <input id="new-product-quantity" type="number" #productQuantity />
   
     <!-- (click) passes input value to add() and then clears the input -->
-    <button type="button" class="add-button" (click)="add(productName.value); productName.value=''">
+    <button type="button" class="add-button" (click)="addProduct(productName.value, +productPrice.value, +productQuantity.value); productName.value=''; productPrice.value=''; productQuantity.value=''">
       Add product
     </button>
   </div>
