@@ -81,7 +81,7 @@ public class User extends org.springframework.security.core.userdetails.User {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", cart=" + getCart().toString() + ", totalCost=" + getTotalCost() + ", username=" + getUsername() + ", password=" + getPassword() + ", enabled=" + isEnabled()
+    return "User [id=" + id + ", username=" + getUsername() + ", password=" + getPassword() + ", enabled=" + isEnabled()
         + ", accountNonExpired=" + isAccountNonExpired() + ", credentialsNonExpired=" + isCredentialsNonExpired()
         + ", accountNonLocked=" + isAccountNonLocked() + ", authorities=" + getAuthoritiesAsString() + "]";
   }

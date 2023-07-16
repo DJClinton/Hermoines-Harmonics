@@ -285,7 +285,7 @@ public class Buyer {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, email, password, firstName, lastName, 
+        return String.format(STRING_FORMAT, id, email, cart, totalCost, password, firstName, lastName, 
                              phoneNumber, pastOrders, paymentMethods);
     }
 
