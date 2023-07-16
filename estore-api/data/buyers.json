@@ -6,6 +6,8 @@
         ],
         "paymentMethods":[
             {"holderName": "John B. Buyer", "cardNumber": 1234, "expDate": 1761518473, "securityCode": 123}
-        ]
+        ],
+        "cart": [], 
+        "totalCost": 0
     }
 ]
