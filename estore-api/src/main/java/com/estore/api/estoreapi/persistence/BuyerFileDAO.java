@@ -186,6 +186,13 @@ public class BuyerFileDAO implements BuyerDAO {
         }
     }
 
+    /**
+     * Calculates the total cost of the Buyer's cart based off of the items
+     * @param items
+     * @param buyer
+     * @throws IOException
+     */
+
     public void calcTotalCost(Collection<Integer> items, Buyer buyer) throws IOException{
     int total = 0;
     for (int id : items){

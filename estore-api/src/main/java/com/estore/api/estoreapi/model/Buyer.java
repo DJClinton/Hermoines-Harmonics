@@ -231,30 +231,53 @@ public class Buyer {
         paymentMethods.add(creditCard);
     }
     
+    /**
+     * Gets the total cost of the buyer's cart
+     * @return the total cost of the cart
+     */
 
     @JsonGetter("totalCost")
     public int getTotalCost(){
         return this.totalCost;
     }
 
+    /**
+     * Sets the total cost of the cart
+     * @param cost
+     */
+
     @JsonSetter("totalCost")
     public void setTotalCost(int cost){
         this.totalCost = cost;
     }
+
+    /**
+     * Grabs the array of the ids in the cart
+     * @return the ids of the items in the cart
+     */
 
     @JsonGetter("cart")
     public Collection<Integer> getCart(){
         return cart;
     }
 
+    /**
+     * Add a product into the cart
+     * @param product
+     */
+
     public void addProductCart(Product product){
         this.cart.add(product.getId());
     }
 
+    /**
+     * Remove a product from the cart
+     * @param product
+     */
+
     public void removeProductCart(Product product){
         this.cart.remove(product.getId());
     }
-
 
     
     /**
