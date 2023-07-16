@@ -17,12 +17,6 @@ public class User extends org.springframework.security.core.userdetails.User {
   @JsonProperty("id")
   private Integer id;
 
-  @JsonProperty("cart")
-  private Collection<Integer> cart;
-
-  @JsonProperty("totalCost")
-  private int totalCost;
-
   /**
    * To make authority to be serialized properly we convert it to list of strings
    * so the constructor uses Collection of Strings
@@ -48,48 +42,21 @@ public class User extends org.springframework.security.core.userdetails.User {
       @JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
       @JsonProperty("accountNonLocked") boolean accountNonLocked,
       @JsonProperty("authorities") Collection<String> authorities,
-      @JsonProperty("cart") Collection<Integer> cart,
       @JsonProperty("totalCost") int totalCost) {
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
         authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     this.id = id;
-    this.cart = new ArrayList<Integer>();
-    this.totalCost = 0;
+
   }
 
   public User(int id, int totalCost, String username, String password, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, true, true, true, true, authorities);
     this.id = id;
-    this.cart = new ArrayList<Integer>();
-     this.totalCost = 0;
   }
 
   @JsonGetter("id")
   public Integer getId() {
     return id;
-  }
-
-  @JsonGetter("totalCost")
-  public int getTotalCost(){
-    return this.totalCost;
-  }
-
-  @JsonSetter("totalCost")
-  public void setTotalCost(int cost){
-    this.totalCost = cost;
-  }
-
-  @JsonGetter("cart")
-  public Collection<Integer> getCart(){
-    return cart;
-  }
-
-  public void addProductCart(Product product){
-    this.cart.add(product.getId());
-  }
-
-   public void removeProductCart(Product product){
-    this.cart.remove(product.getId());
   }
 
   @JsonSetter("id")

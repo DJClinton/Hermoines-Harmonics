@@ -1,9 +1,13 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Represents a buyer account
@@ -31,11 +35,15 @@ public class Buyer {
     private List<Order> pastOrders;
     @JsonProperty("paymentMethods")
     private List<CreditCard> paymentMethods;
+    @JsonProperty 
+    private Collection<Integer> cart;
+    @JsonProperty("totalCost")
+    private int totalCost;
 
-    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email, 
+    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email,@JsonProperty("cart") Collection<Integer> cart,
                  @JsonProperty("password") String password, @JsonProperty("firstName") String firstName, 
                  @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrders") List<Order> pastOrders, 
+                 @JsonProperty("pastOrders") List<Order> pastOrders, @JsonProperty("totalCost") int totalCost,
                  @JsonProperty("paymentMethods") List<CreditCard> paymentMethods) {
 
         LOG.info("Creating buyer account with email: " + email + " and password: " + password);
@@ -47,7 +55,11 @@ public class Buyer {
         this.phoneNumber = phoneNumber;
         this.pastOrders = pastOrders;
         this.paymentMethods = paymentMethods;
+        this.cart = new ArrayList<Integer>();
+        this.totalCost = 0;
     }
+
+    
 
     /**
      * Retrieves this buyer's account id
@@ -218,6 +230,31 @@ public class Buyer {
         LOG.info("Appending credit card: " + creditCard);
         paymentMethods.add(creditCard);
     }
+    
+
+    @JsonGetter("totalCost")
+    public int getTotalCost(){
+        return this.totalCost;
+    }
+
+    @JsonSetter("totalCost")
+    public void setTotalCost(int cost){
+        this.totalCost = cost;
+    }
+
+    @JsonGetter("cart")
+    public Collection<Integer> getCart(){
+        return cart;
+    }
+
+    public void addProductCart(Product product){
+        this.cart.add(product.getId());
+    }
+
+    public void removeProductCart(Product product){
+        this.cart.remove(product.getId());
+    }
+
 
     
     /**
