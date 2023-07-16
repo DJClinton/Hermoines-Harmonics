@@ -124,15 +124,4 @@ public class UserFileDAO {
       return response != null;
     }
   }
-
-  public void calcTotalCost(Collection<Integer> items, User user) throws IOException{
-    int total = 0;
-    for (int id : items){
-      total += productDAOCopy.getProduct(id).getPrice();
-    }
-
-    user.setTotalCost(total);
-    updateUser(user);
-    
-  }
 }

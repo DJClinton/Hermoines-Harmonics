@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.estore.api.estoreapi.model.Buyer;
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,8 @@ public class BuyerFileDAO implements BuyerDAO {
                                         // to the file
     private static int nextId;  // The next Id to assign to a new product
     private String filename;    // Filename to read from and write to
+
+    private ProductFileDAO productFileDAOCopy;
 
     /**
      * Creates a Buyer File Data Access Object
@@ -145,8 +148,8 @@ public class BuyerFileDAO implements BuyerDAO {
     @Override
     public Buyer createBuyer(Buyer buyer) throws IOException {
         synchronized(buyers) {
-            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
-                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods());
+            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getCart(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
+                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getTotalCost(), buyer.getPaymentMethods());
             buyers.put(buyer.getId(), newBuyer);
             save(); // may throw an IOException
             return buyer;
@@ -182,4 +185,15 @@ public class BuyerFileDAO implements BuyerDAO {
                 return false;
         }
     }
+
+    public void calcTotalCost(Collection<Integer> items, Buyer buyer) throws IOException{
+    int total = 0;
+    for (int id : items){
+      total += productFileDAOCopy.getProduct(id).getPrice();
+    }
+
+    buyer.setTotalCost(total);
+    updateBuyer(buyer);
+    
+  }
 }
