@@ -48,7 +48,7 @@ public class User extends org.springframework.security.core.userdetails.User {
 
   }
 
-  public User(int id, int totalCost, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+  public User(int id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, true, true, true, true, authorities);
     this.id = id;
   }
