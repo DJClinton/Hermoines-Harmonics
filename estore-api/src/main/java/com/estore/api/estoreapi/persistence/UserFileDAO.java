@@ -22,6 +22,8 @@ public class UserFileDAO {
 
   private ObjectMapper objectMapper;
 
+  private ProductFileDAO productDAOCopy;
+
   private String filename;
 
   private Map<Integer, User> users;
