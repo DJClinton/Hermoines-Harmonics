@@ -148,8 +148,8 @@ public class BuyerFileDAO implements BuyerDAO {
     @Override
     public Buyer createBuyer(Buyer buyer) throws IOException {
         synchronized(buyers) {
-            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getCart(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
-                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getTotalCost(), buyer.getPaymentMethods());
+            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
+                                       buyer.getPhoneNumber(), buyer.getPastOrders(),  buyer.getPaymentMethods(), buyer.getCart(), /*wishlist,*/ buyer.getTotalCost());
             buyers.put(buyer.getId(), newBuyer);
             save(); // may throw an IOException
             return buyer;
