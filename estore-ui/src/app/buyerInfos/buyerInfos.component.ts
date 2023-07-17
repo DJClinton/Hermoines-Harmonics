@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { BuyerInfoService } from '../buyer-info.service';
-import { BuyerInfo } from '../buyer-info';
+import { BuyerInfoService } from '../buyerInfo.service';
+import { BuyerInfo } from '../buyerInfo';
 import { CreditCard } from '../CreditCard';
 
 @Component({
-  selector: 'app-buyer-infos',
-  templateUrl: './buyer-infos.component.html',
-  styleUrls: ['./buyer-infos.component.scss']
+  selector: 'app-buyerInfos',
+  templateUrl: './buyerInfos.component.html',
+  styleUrls: ['./buyerInfos.component.scss']
 })
 export class BuyerInfosComponent {
   buyerInfos: BuyerInfo[] = [];
