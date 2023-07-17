@@ -13,32 +13,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreditCard {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
-    static final String STRING_FORMAT = "Credit Card [holdername=%s, cardNumber=%d, expDate=%s, securityCode=%d]";
+    static final String STRING_FORMAT = "Credit Card [holdername=%s, cardNumber=%d]";
 
     @JsonProperty("holderName") 
     private String holderName;
     @JsonProperty("cardNumber")
     private int cardNumber;
-    @JsonProperty("expDate")
-    private Date expirationDate;
-    @JsonProperty("securityCode")
-    private int securityCode;
 
     /**
      * Create a credit card for buyer use
      * 
      * @param holderName        name of the holder of the card
      * @param cardNumber        credit card number
-     * @param expirationDate    expiration date of card
-     * @param securityCode      card security code number
      */
-    public CreditCard(@JsonProperty("holderName") String holderName, @JsonProperty("cardNumber") int cardNumber,
-                      @JsonProperty("expDate") Date expirationDate, @JsonProperty("securityCode")int securityCode) {
+    public CreditCard(@JsonProperty("holderName") String holderName, @JsonProperty("cardNumber") int cardNumber) {
 
         this.holderName = holderName;
         this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.securityCode = securityCode;
         LOG.info("Creating " + this);
     }
 
@@ -63,26 +54,6 @@ public class CreditCard {
     }
 
     /**
-     * Sets the credit card's expiration date
-     * 
-     * @param expirationDate new expiration date
-     */
-    public void setExpirationDate(Date expirationDate) {
-        LOG.info("Setting credit card expiration date to: " + expirationDate);
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * Sets the credit card's security code
-     * 
-     * @param securityCode new security code
-     */
-    public void setSecurityCode(int securityCode) {
-        LOG.info("Setting credit card security code to: " + securityCode);
-        this.securityCode = securityCode;
-    }
-
-    /**
      * Retrieves the holder name of the credit card
      * 
      * @return holder name of the card
@@ -103,31 +74,11 @@ public class CreditCard {
     }
 
     /**
-     * Retrieves the expiration date of the credit card
-     * 
-     * @return card expiration date
-     */
-    public Date getExpirationDate() {
-        LOG.info("Retrieving credit card expiration date: " + expirationDate);
-        return expirationDate;
-    }
-
-    /**
-     * Retrieves the security code of the credit card
-     * 
-     * @return card security code
-     */
-    public int getSecurityCode() {
-        LOG.info("Retrieving credit card security code: " + securityCode);
-        return securityCode;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, holderName, cardNumber, expirationDate, securityCode);
+        return String.format(STRING_FORMAT, holderName, cardNumber);
     }
     
 }

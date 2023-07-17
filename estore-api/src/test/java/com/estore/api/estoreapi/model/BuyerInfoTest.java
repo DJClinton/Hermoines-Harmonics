@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,11 @@ public class BuyerInfoTest {
     private String expectedFirstName;
     private String expectedLastName;
     private String expectedPhoneNumber;
-    private CreditCard expectedPaymentMethod;
+    private Collection<Integer> expectedPastOrderIds;
+    private Collection<CreditCard> expectedCreditCards;
+    private Collection<String> expectedShippingAddresses;
+    private Collection<Integer> expectedCart;
+    private Collection<Integer> expectedWishlist;
     private BuyerInfo buyerInfo;
     
     @BeforeEach
@@ -29,9 +34,28 @@ public class BuyerInfoTest {
         expectedFirstName = "joe";
         expectedLastName = "smith";
         expectedPhoneNumber = "222-222-2222";
-        expectedPaymentMethod = new CreditCard("joe smith", 1234, new Date(), 321);
+
+        expectedPastOrderIds = new ArrayList<>();
+        expectedPastOrderIds.add(1);
+        expectedPastOrderIds.add(2);
+
+        CreditCard card = new CreditCard("joe smith", 1234);
+        expectedCreditCards = new ArrayList<>();
+        expectedCreditCards.add(card);
+
+        expectedShippingAddresses = new ArrayList<>();
+        expectedShippingAddresses.add("stupid town");
+
+        expectedCart = new ArrayList<>();
+        expectedCart.add(4);
+
+        expectedWishlist = new ArrayList<>();
+        expectedWishlist.add(5);
+
+
         buyerInfo = new BuyerInfo(expectedId, expectedUserId, expectedFirstName, 
-                          expectedLastName, expectedPhoneNumber, expectedPaymentMethod);
+                          expectedLastName, expectedPhoneNumber, expectedPastOrderIds, expectedCreditCards, 
+                          expectedShippingAddresses, expectedCart, expectedWishlist);
     }
 
 
@@ -61,15 +85,36 @@ public class BuyerInfoTest {
     }
 
     @Test
-    public void testPaymentMethod() {
-        assertEquals(expectedPaymentMethod, buyerInfo.getPaymentMethod());
+    public void testPastOrderIds() {
+        assertEquals(expectedPastOrderIds, buyerInfo.getPastOrderIds());
+    }
+
+    @Test
+    public void testCreditCards() {
+        assertEquals(expectedCreditCards, buyerInfo.getCreditCards());
+    }
+
+    @Test
+    public void testShippingAddresses() {
+        assertEquals(expectedShippingAddresses, buyerInfo.getShippingAddresses());
+    }
+
+    @Test
+    public void testCart() {
+        assertEquals(expectedCart, buyerInfo.getCart());
+    }
+
+    @Test
+    public void testWishlist() {
+        assertEquals(expectedWishlist, buyerInfo.getWishlist());
     }
 
     @Test
     public void testToString() {
         String expectedString = String.format(BuyerInfo.STRING_FORMAT, expectedId, expectedUserId, 
                                               expectedFirstName, expectedLastName, expectedPhoneNumber,
-                                              expectedPaymentMethod);
+                                              expectedPastOrderIds, expectedCreditCards, 
+                                              expectedShippingAddresses, expectedCart, expectedWishlist);
 
         assertEquals(expectedString, buyerInfo.toString());
     }
