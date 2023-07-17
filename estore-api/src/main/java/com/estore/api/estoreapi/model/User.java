@@ -28,6 +28,8 @@ public class User extends org.springframework.security.core.userdetails.User {
    * @param credentialsNonExpired
    * @param accountNonLocked
    * @param authorities
+   * @param cart
+   * @param totalCost
    */
   @JsonCreator
   public User(
@@ -38,10 +40,12 @@ public class User extends org.springframework.security.core.userdetails.User {
       @JsonProperty("accountNonExpired") boolean accountNonExpired,
       @JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
       @JsonProperty("accountNonLocked") boolean accountNonLocked,
-      @JsonProperty("authorities") Collection<String> authorities) {
+      @JsonProperty("authorities") Collection<String> authorities,
+      @JsonProperty("totalCost") int totalCost) {
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
         authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     this.id = id;
+
   }
 
   public User(int id, String username, String password, Collection<? extends GrantedAuthority> authorities) {

@@ -1,9 +1,13 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Represents a buyer account
@@ -31,12 +35,17 @@ public class Buyer {
     private List<Order> pastOrders;
     @JsonProperty("paymentMethods")
     private List<CreditCard> paymentMethods;
+    @JsonProperty 
+    private Collection<Integer> cart;
+    @JsonProperty("totalCost")
+    private int totalCost;
+    private Collection<Integer> wishlist;
 
-    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email, 
+    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email,@JsonProperty("cart") Collection<Integer> cart,
                  @JsonProperty("password") String password, @JsonProperty("firstName") String firstName, 
                  @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrders") List<Order> pastOrders, 
-                 @JsonProperty("paymentMethods") List<CreditCard> paymentMethods) {
+                 @JsonProperty("pastOrders") List<Order> pastOrders, @JsonProperty("totalCost") int totalCost,
+                 @JsonProperty("paymentMethods") List<CreditCard> paymentMethods, @JsonProperty ("wishlist") Collection<Integer> wishlist) {
 
         LOG.info("Creating buyer account with email: " + email + " and password: " + password);
         this.id = id;
@@ -47,7 +56,12 @@ public class Buyer {
         this.phoneNumber = phoneNumber;
         this.pastOrders = pastOrders;
         this.paymentMethods = paymentMethods;
+        this.cart = new ArrayList<Integer>();
+        this.wishlist = new ArrayList<Integer>();
+        this.totalCost = 0;
     }
+
+    
 
     /**
      * Retrieves this buyer's account id
@@ -218,6 +232,82 @@ public class Buyer {
         LOG.info("Appending credit card: " + creditCard);
         paymentMethods.add(creditCard);
     }
+    
+    /**
+     * Gets the total cost of the buyer's cart
+     * @return the total cost of the cart
+     */
+
+    @JsonGetter("totalCost")
+    public int getTotalCost(){
+        return this.totalCost;
+    }
+
+    /**
+     * Sets the total cost of the cart
+     * @param cost
+     */
+
+    @JsonSetter("totalCost")
+    public void setTotalCost(int cost){
+        this.totalCost = cost;
+    }
+
+    /**
+     * Grabs the array of the ids in the cart
+     * @return the ids of the items in the cart
+     */
+
+    @JsonGetter("cart")
+    public Collection<Integer> getCart(){
+        return cart;
+    }
+
+    /**
+     * Add a product into the cart
+     * @param product
+     */
+
+    public void addProductCart(Product product){
+        this.cart.add(product.getId());
+    }
+
+    /**
+     * Remove a product from the cart
+     * @param product
+     */
+
+    public void removeProductCart(Product product){
+        this.cart.remove(product.getId());
+    }
+
+        /**
+     * Grabs the array of the ids in the wishlist
+     * @return the ids of the items in the cart
+     */
+
+    @JsonGetter("wishlist")
+    public Collection<Integer> getWishlist(){
+        return wishlist;
+    }
+
+    /**
+     * Add a product into the wishlist
+     * @param product
+     */
+
+    public void addProductWishlist(Product product){
+        this.wishlist.add(product.getId());
+    }
+
+    /**
+     * Remove a product from the wishlist
+     * @param product
+     */
+
+    public void removeProductWishlist(Product product){
+        this.wishlist.remove(product.getId());
+    }
 
     
     /**
@@ -225,7 +315,7 @@ public class Buyer {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, email, password, firstName, lastName, 
+        return String.format(STRING_FORMAT, id, email, cart, totalCost, password, firstName, lastName, 
                              phoneNumber, pastOrders, paymentMethods);
     }
 
