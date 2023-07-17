@@ -8,11 +8,14 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import com.estore.api.estoreapi.SpringContext;
 import com.estore.api.estoreapi.model.Buyer;
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,6 +38,8 @@ public class BuyerFileDAO implements BuyerDAO {
     private static int nextId;  // The next Id to assign to a new product
     private String filename;    // Filename to read from and write to
 
+    private ProductFileDAO productFileDAOCopy;
+
     /**
      * Creates a Buyer File Data Access Object
      * 
@@ -47,6 +52,7 @@ public class BuyerFileDAO implements BuyerDAO {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();  // load the buyers from the file
+        productFileDAOCopy = SpringContext.getBean(ProductFileDAO.class);
     }
 
     /**
@@ -146,7 +152,7 @@ public class BuyerFileDAO implements BuyerDAO {
     public Buyer createBuyer(Buyer buyer) throws IOException {
         synchronized(buyers) {
             Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
-                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods());
+                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods(), buyer.getCart(), buyer.getWishlist());
             buyers.put(buyer.getId(), newBuyer);
             save(); // may throw an IOException
             return buyer;
@@ -182,4 +188,22 @@ public class BuyerFileDAO implements BuyerDAO {
                 return false;
         }
     }
+
+    /**
+     * Calculates the total cost of the Buyer's cart based off of the items
+     * @param items
+     * @param buyer
+     * @throws IOException
+     */
+
+    public void calcTotalCost(Collection<Integer> items, Buyer buyer) throws IOException{
+        int total = 0;
+        for (int id : items){
+            total += productFileDAOCopy.getProduct(id).getPrice();
+        }
+
+        buyer.setTotalCost(total);
+        updateBuyer(buyer);
+    
+  }
 }

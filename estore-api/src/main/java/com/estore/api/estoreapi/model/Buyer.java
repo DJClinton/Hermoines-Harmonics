@@ -1,9 +1,13 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Represents a buyer account
@@ -13,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Buyer {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
-    static final String STRING_FORMAT = "Buyer [id=%d, email=%s, password=%s, first name=%s, last name=%s, phone number=%s, past orders=%s, payment methods=%s]";
+    static final String STRING_FORMAT = "Buyer [id=%d, email=%s, password=%s, first name=%s, last name=%s, phone number=%s, past orders=%s, payment methods=%s, cart=%s, wishlist=%s]";
 
     @JsonProperty("id")
     private int id;
@@ -31,12 +35,19 @@ public class Buyer {
     private List<Order> pastOrders;
     @JsonProperty("paymentMethods")
     private List<CreditCard> paymentMethods;
+    @JsonProperty("cart")
+    private Collection<Integer> cart;
+    @JsonProperty("wishlist")
+    private Collection<Integer> wishlist;
 
-    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email, 
+    private int totalCost;
+
+    public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email,
                  @JsonProperty("password") String password, @JsonProperty("firstName") String firstName, 
                  @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrders") List<Order> pastOrders, 
-                 @JsonProperty("paymentMethods") List<CreditCard> paymentMethods) {
+                 @JsonProperty("pastOrders") List<Order> pastOrders, @JsonProperty("paymentMethods") List<CreditCard> paymentMethods, 
+                 @JsonProperty("cart") Collection<Integer> cart,
+                 @JsonProperty ("wishlist") Collection<Integer> wishlist) {
 
         LOG.info("Creating buyer account with email: " + email + " and password: " + password);
         this.id = id;
@@ -47,7 +58,11 @@ public class Buyer {
         this.phoneNumber = phoneNumber;
         this.pastOrders = pastOrders;
         this.paymentMethods = paymentMethods;
+        this.cart = new ArrayList<Integer>();
+        this.wishlist = new ArrayList<Integer>();
     }
+
+    
 
     /**
      * Retrieves this buyer's account id
@@ -219,6 +234,82 @@ public class Buyer {
         paymentMethods.add(creditCard);
     }
 
+    /**
+     * Grabs the array of the ids in the cart
+     * @return the ids of the items in the cart
+     */
+
+    @JsonGetter("cart")
+    public Collection<Integer> getCart(){
+        return cart;
+    }
+
+    /**
+     * Add a product into the cart
+     * @param product
+     */
+
+    public void addProductCart(Product product){
+        this.cart.add(product.getId());
+    }
+
+    /**
+     * Remove a product from the cart
+     * @param product
+     */
+
+    public void removeProductCart(Product product){
+        this.cart.remove(product.getId());
+    }
+
+        /**
+     * Grabs the array of the ids in the wishlist
+     * @return the ids of the items in the cart
+     */
+
+    @JsonGetter("wishlist")
+    public Collection<Integer> getWishlist(){
+        return wishlist;
+    }
+
+    /**
+     * Add a product into the wishlist
+     * @param product
+     */
+
+    public void addProductWishlist(Product product){
+        this.wishlist.add(product.getId());
+    }
+
+    /**
+     * Remove a product from the wishlist
+     * @param product
+     */
+
+    public void removeProductWishlist(Product product){
+        this.wishlist.remove(product.getId());
+    }
+
+    /**
+     * Gets the total cost of the buyer's cart
+     * @return the total cost of the cart
+     */
+
+     @JsonGetter("totalCost")
+     public int getTotalCost(){
+         return this.totalCost;
+     }
+ 
+     /**
+      * Sets the total cost of the cart
+      * @param cost
+      */
+ 
+     @JsonSetter("totalCost")
+     public void setTotalCost(int cost){
+         this.totalCost = cost;
+     }
+
     
     /**
      * {@inheritDoc}
@@ -226,7 +317,7 @@ public class Buyer {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT, id, email, password, firstName, lastName, 
-                             phoneNumber, pastOrders, paymentMethods);
+                             phoneNumber, pastOrders, paymentMethods, cart, wishlist);
     }
 
 }
