@@ -276,7 +276,7 @@ public class BuyerInfo {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT, id, userid, firstName, lastName, 
-                             phoneNumber, creditCards);
+                             phoneNumber, pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
     }
 
 }

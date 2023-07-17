@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +41,25 @@ public class BuyerInfoFileDAOTest {
         mockObjectMapper = mock(ObjectMapper.class);
         testBuyerInfos = new BuyerInfo[1];
 
+        Collection<Integer> pastOrderIds = new ArrayList<>();
+        pastOrderIds.add(1);
+        pastOrderIds.add(2);
 
-        CreditCard card = new CreditCard("John B. Buyer", 1234, new Date(), 333);
-        testBuyerInfos[0] = new BuyerInfo(1, 2, "John", "Buyer", "555-123-4567", card);
+        CreditCard card = new CreditCard("John B. Buyer", 1234);
+        Collection<CreditCard> creditCards = new ArrayList<>();
+        creditCards.add(card);
+
+        Collection<String> shippingAddresses = new ArrayList<>();
+        shippingAddresses.add("towny mc town face");
+
+        Collection<Integer> cart = new ArrayList<>();
+        cart.add(4);
+
+        Collection<Integer> wishlist = new ArrayList<>();
+        wishlist.add(5);
+
+        testBuyerInfos[0] = new BuyerInfo(1, 2, "John", "Buyer", "555-123-4567", 
+                                          pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
         
 
         // When the object mapper is supposed to read from the file
@@ -75,8 +92,23 @@ public class BuyerInfoFileDAOTest {
     @Test
     public void testCreateBuyerInfo() {
         // Setup
+        Collection<Integer> pastOrderIds = new ArrayList<>();
+        pastOrderIds.add(6);
+        pastOrderIds.add(7);
+
+        CreditCard card = new CreditCard("Joe Setup", 1234);
+        Collection<CreditCard> creditCards = new ArrayList<>();
+        creditCards.add(card);
+
+        Collection<String> shippingAddresses = new ArrayList<>();
+        shippingAddresses.add("whoville");
+
+        Collection<Integer> cart = new ArrayList<>();
+
+        Collection<Integer> wishlist = new ArrayList<>();
+        wishlist.add(2);
         BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe", "setup", 
-                                "999-999-9999", new CreditCard("joe setup", 123, new Date(), 456));
+                                "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
 
         // Invoke
         BuyerInfo result = assertDoesNotThrow(() -> buyerInfoFileDAO.createBuyerInfo(buyerInfo),
@@ -90,14 +122,33 @@ public class BuyerInfoFileDAOTest {
         assertEquals(actual.getFirstName(), buyerInfo.getFirstName());
         assertEquals(actual.getLastName(), buyerInfo.getLastName());
         assertEquals(actual.getPhoneNumber(), buyerInfo.getPhoneNumber());
-        assertEquals(actual.getPaymentMethod(), buyerInfo.getPaymentMethod());
+        assertEquals(actual.getPastOrderIds(), buyerInfo.getPastOrderIds());
+        assertEquals(actual.getCreditCards(), buyerInfo.getCreditCards());
+        assertEquals(actual.getShippingAddresses(), buyerInfo.getShippingAddresses());
+        assertEquals(actual.getCart(), buyerInfo.getCart());
+        assertEquals(actual.getWishlist(), buyerInfo.getWishlist());
     }
 
     @Test
     public void testUpdateBuyerInfo() {
         // Setup
+        Collection<Integer> pastOrderIds = new ArrayList<>();
+        pastOrderIds.add(6);
+        pastOrderIds.add(7);
+
+        CreditCard card = new CreditCard("Joe Setup", 1234);
+        Collection<CreditCard> creditCards = new ArrayList<>();
+        creditCards.add(card);
+
+        Collection<String> shippingAddresses = new ArrayList<>();
+        shippingAddresses.add("whoville");
+
+        Collection<Integer> cart = new ArrayList<>();
+
+        Collection<Integer> wishlist = new ArrayList<>();
+        wishlist.add(2);
         BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe", "setup", 
-                                "999-999-9999", new CreditCard("joe setup", 123, new Date(), 456));
+                                "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
 
         // Invoke
         BuyerInfo result = assertDoesNotThrow(() -> buyerInfoFileDAO.updateBuyerInfo(buyerInfo),
