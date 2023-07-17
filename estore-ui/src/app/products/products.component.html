@@ -1,27 +1,27 @@
 <h2>Products</h2>
 
 <div>
-    <label for="new-product-name">Product name:</label>
-    <input id="new-product-name" #productName />
-    <label for="new-product-price">Product price:</label>
-    <input id="new-product-price" type="number" #productPrice />
-    <label for="new-product-quantity">Product quantity:</label>
-    <input id="new-product-quantity" type="number" #productQuantity />
+  <label for="new-product-name">Product name:</label>
+  <input id="new-product-name" #productName />
+  <label for="new-product-price">Product price:</label>
+  <input id="new-product-price" type="number" #productPrice />
+  <label for="new-product-quantity">Product quantity:</label>
+  <input id="new-product-quantity" type="number" #productQuantity />
   
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button type="button" class="add-button" (click)="addProduct(productName.value, +productPrice.value, +productQuantity.value); productName.value=''; productPrice.value=''; productQuantity.value=''">
-      Add product
-    </button>
-  </div>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button type="button" class="add-button" (click)="addProduct(productName.value, +productPrice.value, +productQuantity.value); productName.value=''; productPrice.value=''; productQuantity.value=''">
+    Add product
+  </button>
+</div>
 
 <ul class = "Products">
-    <li *ngFor="let product of products">
-      <div>
-        <a routerLink="/detail/{{product.id}}">
-            <span class="badge">{{product.id}}</span> {{product.name}}
-        </a>
-        <button type="button" class="edit" title="edit product information" (click)="updateProduct(product)">Edit Product</button>
-        <button type="button" class="delete" title="delete product" (click)="deleteProduct(product.id)">Delete Product</button>
-      </div>
-    </li>
+  <li *ngFor="let product of products">
+    <div>
+      <a routerLink="/detail/{{product.id}}">
+        <span class="badge">{{product.id}}</span> {{product.name}}
+      </a>
+      <button type="button" class="edit" title="edit product information" (click)="updateProduct(product)">Edit Product</button>
+      <button type="button" class="delete" title="delete product" (click)="deleteProduct(product.id)">Delete Product</button>
+    </div>
+  </li>
 </ul>

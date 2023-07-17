@@ -12,7 +12,7 @@ export class ProductService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  private inverntoryUrl = 'http://localhost:8080/inventory';
+  private inventoryUrl = 'http://localhost:8080/';
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -22,11 +22,11 @@ export class ProductService {
   }
 
   getProducts(): Observable<any> {
-    return this.http.get(this.inverntoryUrl);
+    return this.http.get(this.inventoryUrl);
   }
 
   getProduct(id: number): Observable<any> {
-    const url = `${this.inverntoryUrl}/${id}`;
+    const url = `${this.inventoryUrl}/${id}`;
     return this.http
       .get(url)
       .pipe(catchError(this.handleError<any>(`getProduct id:${id}`)));
@@ -34,18 +34,18 @@ export class ProductService {
 
   addProduct(product: any): Observable<any> {
     return this.http
-      .post(this.inverntoryUrl, product, this.httpOptions)
+      .post(this.inventoryUrl, product, this.httpOptions)
       .pipe(catchError(this.handleError<any>('addProduct')));
   }
 
   updateProduct(product: any): Observable<any> {
     return this.http
-      .put(this.inverntoryUrl, product, this.httpOptions)
+      .put(this.inventoryUrl, product, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateProduct')));
   }
 
   deleteProduct(id: number): Observable<any> {
-    const url = `${this.inverntoryUrl}/${id}`;
+    const url = `${this.inventoryUrl}/${id}`;
     return this.http
       .delete(url, this.httpOptions)
       .pipe(catchError(this.handleError<any>('deleteProduct')));
@@ -56,7 +56,7 @@ export class ProductService {
       return of([]);
     }
     return this.http
-      .get(`${this.inverntoryUrl}/?name=${term}`)
+      .get(`${this.inventoryUrl}/?name=${term}`)
       .pipe(
         catchError(this.handleError<any>(`searchProducts term:${term}`, []))
       );
