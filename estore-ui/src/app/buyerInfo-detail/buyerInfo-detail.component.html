@@ -1,0 +1,47 @@
+
+
+
+<p>Buyer Information:</p>
+<div class="buyerInfo" *ngIf="buyerInfo">
+    <h2>{{buyerInfo.firstName}} {{buyerInfo.lastName}} Details</h2>
+    <div><span>id: </span>{{buyerInfo.id}}</div>
+    <div><span>userid: </span>{{buyerInfo.userid}}</div>
+
+    <div>
+        <label for="buyerInfo-firstName">First Name: </label>
+        <input id="buyerInfo-firstName" [(ngModel)]="buyerInfo.firstName" placeholder="first name">
+    </div>
+
+    <div>
+        <label for="buyerInfo-lastName">Last Name: </label>
+        <input id="buyerInfo-lastName" [(ngModel)]="buyerInfo.lastName" placeholder="last name">
+    </div>
+
+    <div>
+        <label for="buyerInfo-phoneNumber">Phone Number: </label>
+        <input id="buyerInfo-phoneNUmber" [(ngModel)]="buyerInfo.phoneNumber" placeholder="###-###-####">
+    </div>
+
+    <div>
+        <label for="buyerInfo-lastName">Last Name: </label>
+        <input id="buyerInfo-lastName" [(ngModel)]="buyerInfo.lastName" placeholder="last name">
+    </div>
+
+    <!-- Route to view past orders in product form for this user-->
+    <div><span>Past Order Ids: </span>{{buyerInfo.pastOrderIds}}</div>
+
+    <!-- Credit card and shipping address edit fields-->
+
+    <!-- Route to view items in cart in product form -->
+    <div><span>Cart: </span>{{buyerInfo.cart}}</div>
+
+    <!-- Route to view items in wishlist in product form-->
+    <div><span>Wishlist: </span>{{buyerInfo.wishlist}}</div>
+
+
+
+ </div>
+
+
+ <button type="button" (click)="goBack()">go back</button>
+<button type="button" (click)="save()">save</button>

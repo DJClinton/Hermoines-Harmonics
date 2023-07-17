@@ -23,10 +23,12 @@ export class BuyerInfosComponent {
     });
   }
 
-  addBuyerInfo(userid: number, firstName: string, lastName: string, phoneNumber: string, paymentMethod: CreditCard) {
+  addBuyerInfo(userid: number, firstName: string, lastName: string, phoneNumber: string, 
+    pastOrderIds: Array<number>, creditCards: Array<CreditCard>, shippingAddresses: Array<String>,
+    cart: Array<number>, wishlist: Array<number>) {
 
     const id: number = 0; // Server will handle the actual buyerInfo ID, replacing this temporary value.
-    const newBuyerInfo: BuyerInfo = {id, userid, firstName, lastName, phoneNumber, paymentMethod};
+    const newBuyerInfo: BuyerInfo = {id, userid, firstName, lastName, phoneNumber, pastOrderIds, creditCards, shippingAddresses, cart, wishlist};
     this.buyerInfoService.addBuyerInfo(newBuyerInfo).subscribe((buyerInfo: BuyerInfo) => {
       this.buyerInfos.push(buyerInfo);
       this.getBuyerInfos(); // Refreshes buyerInfo list

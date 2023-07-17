@@ -135,6 +135,7 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
      */
     @Override
     public BuyerInfo getBuyerInfo(int id) {
+        LOG.info("Retrieving buyer by id: " + id);
         synchronized(buyerInfos) {
             if (buyerInfos.containsKey(id))
                 return buyerInfos.get(id);

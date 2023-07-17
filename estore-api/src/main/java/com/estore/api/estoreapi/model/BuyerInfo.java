@@ -33,7 +33,7 @@ public class BuyerInfo {
     @JsonProperty("creditCards")
     private Collection<CreditCard> creditCards;
     @JsonProperty("shippingAddresses")
-    private List<String> shippingAddresses;
+    private Collection<String> shippingAddresses;
     @JsonProperty("cart")
     private Collection<Integer> cart;
     @JsonProperty("wishlist")
@@ -129,7 +129,12 @@ public class BuyerInfo {
         return creditCards;
     }
 
-    public List<String> getShippingAddresses() {
+    /**
+     * Retrieves this buyer's shipping addresses
+     * 
+     * @return list of buyer's shipping addresses
+     */
+    public Collection<String> getShippingAddresses() {
         return shippingAddresses;
     }
 

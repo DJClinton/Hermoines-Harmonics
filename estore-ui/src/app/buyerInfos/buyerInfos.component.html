@@ -1,12 +1,12 @@
-<h2>BuyerInfos</h2>
+<h2>All Buyer Information</h2>
 
 <ul class = "buyerInfos">
     <li *ngFor="let buyerInfo of buyerInfos">
       <div>
-        <!-- <a routerLink="/detail/{{buyerInfo.id}}"> -->
-        <span class="badge">{{buyerInfo.id}}</span> {{buyerInfo.firstName}}
-        <!-- </a> -->
-        <button type="button" class="delete" title="delete buyer info" (click)="deleteBuyerInfo(buyerInfo.id)">Delete BuyerInfo</button>
+        <a routerLink="/account/{{buyerInfo.id}}">
+          <span class="badge">{{buyerInfo.id}}</span> {{buyerInfo.firstName}}
+        </a>
+        <!-- <button type="button" class="delete" title="delete buyer info" (click)="deleteBuyerInfo(buyerInfo.id)">Delete BuyerInfo</button> -->
       </div>
     </li>
 </ul>

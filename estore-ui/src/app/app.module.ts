@@ -16,8 +16,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { BuyerInfosComponent } from './buyerInfos/buyerInfos.component';
+import { BuyerInfoDetailComponent } from './buyerInfo-detail/buyerInfo-detail.component';
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, BuyerInfosComponent],
+  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, BuyerInfosComponent, BuyerInfoDetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
