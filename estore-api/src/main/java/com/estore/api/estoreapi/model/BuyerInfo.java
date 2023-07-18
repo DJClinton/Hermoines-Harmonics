@@ -14,11 +14,11 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * @author Team 2
  */
 public class BuyerInfo {
-    private static final Logger LOG = Logger.getLogger(Product.class.getName());
+    private static final Logger LOG = Logger.getLogger(BuyerInfo.class.getName());
 
     static final String STRING_FORMAT = "Buyer [id=%d, user id=%d, first name=%s, last name=%s, phone number=%s, past orders=%s, credit cards=%s, shipping addresses=%s, cart=%s, wishlist=%s]";
 
-   @JsonProperty("id")
+    @JsonProperty("id")
     private int id;
     @JsonProperty("userid")
     private int userid;
@@ -54,6 +54,7 @@ public class BuyerInfo {
         this.phoneNumber = phoneNumber;
         this.pastOrderIds = pastOrderIds;
         this.creditCards = creditCards;
+        this.shippingAddresses = shippingAddresses;
         this.cart = cart;
         this.wishlist = wishlist;
         LOG.info("Creating buyer info: " + this);
@@ -193,7 +194,7 @@ public class BuyerInfo {
      * 
      * @param shippingAddresses new shipping addresses
      */
-    @JsonSetter("shippingAddresses")
+    //@JsonSetter("shippingAddresses")
     public void setShippingAddresses(List<String> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
     }
@@ -203,7 +204,7 @@ public class BuyerInfo {
      * @return the ids of the items in the cart
      */
 
-    @JsonGetter("cart")
+    //@JsonGetter("cart")
     public Collection<Integer> getCart(){
         return cart;
     }
@@ -231,7 +232,7 @@ public class BuyerInfo {
      * @return the ids of the items in the cart
      */
 
-    @JsonGetter("wishlist")
+    //@JsonGetter("wishlist")
     public Collection<Integer> getWishlist(){
         return wishlist;
     }
@@ -254,22 +255,20 @@ public class BuyerInfo {
         this.wishlist.remove(product.getId());
     }
 
-    /**
-     * Gets the total cost of the buyer's cart
-     * @return the total cost of the cart
-     */
+    // /**
+    //  * Gets the total cost of the buyer's cart
+    //  * @return the total cost of the cart
+    //  */
 
-     @JsonGetter("totalCost")
-     public int getTotalCost(){
-         return this.totalCost;
-     }
+    //  public int getTotalCost(){
+    //      return this.totalCost;
+    //  }
  
      /**
       * Sets the total cost of the cart
       * @param cost
       */
  
-     @JsonSetter("totalCost")
      public void setTotalCost(int cost){
          this.totalCost = cost;
      }

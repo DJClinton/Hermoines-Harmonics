@@ -167,11 +167,12 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
      */
     @Override
     public BuyerInfo createBuyerInfo(BuyerInfo buyerInfo) throws IOException {
+        LOG.info("Create Buyer Info (FILE DAO)");
         synchronized(buyerInfos) {
             BuyerInfo newBuyerInfo = new BuyerInfo(nextId(), buyerInfo.getUserId(),buyerInfo.getFirstName(), buyerInfo.getLastName(), 
                                        buyerInfo.getPhoneNumber(), buyerInfo.getPastOrderIds(), buyerInfo.getCreditCards(), buyerInfo.getShippingAddresses(),
                                        buyerInfo.getCart(), buyerInfo.getWishlist());
-            buyerInfos.put(buyerInfo.getId(), newBuyerInfo);
+            buyerInfos.put(newBuyerInfo.getId(), newBuyerInfo);
             save(); // may throw an IOException
             return buyerInfo;
         }

@@ -14,7 +14,7 @@ export class BuyerInfosComponent {
   constructor(private buyerInfoService: BuyerInfoService) {}
 
   ngOnInit() {
-    this.buyerInfoService.getBuyerInfos();
+    this.getBuyerInfos();
   }
 
   getBuyerInfos() {
@@ -34,6 +34,10 @@ export class BuyerInfosComponent {
       this.getBuyerInfos(); // Refreshes buyerInfo list
       console.log("BuyerInfo created successfully")
     });
+  }
+
+  addNewBuyerInfo(userid: number, firstName: string, lastName: string, phoneNumber: string) {
+    this.addBuyerInfo(userid, firstName, lastName, phoneNumber, [], [], [], [], []);
   }
 
   updateBuyerInfo(buyerInfo: BuyerInfo) {

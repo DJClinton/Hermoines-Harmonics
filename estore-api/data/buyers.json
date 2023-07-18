@@ -1,11 +1,1 @@
-[
-    {
-        "id":1,"userid": 1,"firstName":"John","lastName":"Buyer","phoneNumber":"551-555-5555",
-        "pastOrders":[1, 2],
-        "creditCards":[
-            {"holderName": "John B. Buyer", "cardNumber": 1234}
-        ],
-        "cart": [], 
-        "wishlist": []
-    }
-]
+[{"id":1,"userid":1,"firstName":"John","lastName":"Buyer","phoneNumber":"123-456-7891","pastOrders":[1,2],"creditCards":[{"holderName":"John B. Buyer","cardNumber":1234}],"shippingAddresses":[],"cart":[],"wishlist":[],"userId":1}]

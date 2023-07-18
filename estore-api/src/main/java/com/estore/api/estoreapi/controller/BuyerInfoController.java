@@ -32,7 +32,7 @@ import com.estore.api.estoreapi.model.Product;
 @RestController
 @RequestMapping("account")
 public class BuyerInfoController {
-    private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
+    private static final Logger LOG = Logger.getLogger(BuyerInfoController.class.getName());
     private BuyerInfoDAO buyerInfoDao;
 
     /**
