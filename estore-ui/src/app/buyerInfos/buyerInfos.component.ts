@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { BuyerInfoService } from '../buyerInfo.service';
-import { BuyerInfo } from '../buyerInfo';
-import { CreditCard } from '../CreditCard';
+import { BuyerInfo } from '../type';
 
 @Component({
   selector: 'app-buyerInfos',
@@ -11,10 +10,6 @@ import { CreditCard } from '../CreditCard';
 export class BuyerInfosComponent {
   buyerInfos: BuyerInfo[] = [];
 
-  firstName: string = '';
-  lastName: string = '';
-  phoneNumber: number = 1000000000;
-
   constructor(private buyerInfoService: BuyerInfoService) {}
 
   ngOnInit() {
@@ -22,39 +17,17 @@ export class BuyerInfosComponent {
   }
 
   getBuyerInfos() {
-    this.buyerInfoService.getBuyerInfos().subscribe((buyerInfos) => {
-      this.firstName = buyerInfos[0].firstName;
-      this.lastName = buyerInfos[0].lastName;
-      this.phoneNumber = buyerInfos[0].phoneNumber;
-    });
+    this.buyerInfoService.getBuyerInfos().subscribe(this.setBuyerInfos);
   }
 
-  addBuyerInfo(
-    userid: number,
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
-    pastOrderIds: Array<number>,
-    creditCards: Array<CreditCard>,
-    shippingAddresses: Array<String>,
-    cart: Array<number>,
-    wishlist: Array<number>
-  ) {
+  setBuyerInfos(buyerInfos: BuyerInfo[]) {
+    this.buyerInfos = buyerInfos;
+  }
+
+  addBuyerInfo(buyerInfo: BuyerInfo) {
     const id: number = 0; // Server will handle the actual buyerInfo ID, replacing this temporary value.
-    const newBuyerInfo: BuyerInfo = {
-      id,
-      userid,
-      firstName,
-      lastName,
-      phoneNumber,
-      pastOrderIds,
-      creditCards,
-      shippingAddresses,
-      cart,
-      wishlist,
-    };
     this.buyerInfoService
-      .addBuyerInfo(newBuyerInfo)
+      .addBuyerInfo(buyerInfo)
       .subscribe((buyerInfo: BuyerInfo) => {
         this.buyerInfos.push(buyerInfo);
         this.getBuyerInfos(); // Refreshes buyerInfo list
@@ -68,17 +41,20 @@ export class BuyerInfosComponent {
     lastName: string,
     phoneNumber: string
   ) {
-    this.addBuyerInfo(
+    const newBuyerInfo: BuyerInfo = {
+      id: 0, // temporary value
       userid,
       firstName,
       lastName,
       phoneNumber,
-      [],
-      [],
-      [],
-      [],
-      []
-    );
+      pastOrderIds: [],
+      creditCards: [],
+      shippingAddresses: [],
+      cart: [],
+      wishlist: [],
+    };
+
+    this.addBuyerInfo(newBuyerInfo);
   }
 
   updateBuyerInfo(buyerInfo: BuyerInfo) {
