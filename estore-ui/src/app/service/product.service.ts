@@ -9,7 +9,7 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders().append('Content-Type', 'application/json'),
   };
 
   private inverntoryUrl = 'http://localhost:8080/inventory';

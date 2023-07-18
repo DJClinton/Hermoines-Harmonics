@@ -1,0 +1,14 @@
+<p>Login to estore</p>
+<form>
+  <div class="group">
+    <label>Email</label>
+    <input #email type="text"><span class="highlight"></span><span class="bar"></span>
+  </div>
+  <div class="group">
+    <label>Password</label>
+    <input #password type="email"><span class="highlight"></span><span class="bar"></span>
+  </div>
+  <button (click)="login(email.value, password.value)" type="button" class="button buttonBlue">Login
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </button>
+</form>
