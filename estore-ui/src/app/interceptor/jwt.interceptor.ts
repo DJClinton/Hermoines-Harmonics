@@ -4,9 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpEventType,
 } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -18,10 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (
-      request.url.includes('authenticate') ||
-      request.url.includes('signup')
-    ) {
+    if (request.url.includes('auth')) {
       console.log('auth');
       return next.handle(request);
     }
@@ -32,8 +28,11 @@ export class JwtInterceptor implements HttpInterceptor {
         throw new Error('Unauthorized');
       }
     }
-    request.headers.append('Authorization', this.token);
-    return next.handle(request);
+    const newRequest = request.clone({
+      headers: request.headers.set('Authorization', this.token),
+    });
+    newRequest.headers.append('Authorization', this.token);
+    return next.handle(newRequest);
   }
 
   setToken(token: string | null): void {

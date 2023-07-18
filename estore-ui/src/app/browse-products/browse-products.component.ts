@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product.service'
 import { Product } from '../product';
+import { ProductService } from '../service/product.service';
 
 @Component({
   selector: 'app-browse-products',
   templateUrl: './browse-products.component.html',
-  styleUrls: ['./browse-products.component.scss']
+  styleUrls: ['./browse-products.component.scss'],
 })
 export class BrowseProductsComponent {
   products: Product[] = [];
@@ -17,7 +17,7 @@ export class BrowseProductsComponent {
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe(products => {
+    this.productService.getProducts().subscribe((products) => {
       this.products = products;
     });
   }
