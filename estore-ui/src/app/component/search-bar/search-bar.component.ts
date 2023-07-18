@@ -6,7 +6,7 @@ import {
   distinctUntilChanged,
   switchMap,
 } from 'rxjs';
-import { Product } from '../../product';
+import { Product } from '../../type';
 import { ProductService } from '../../product.service';
 
 @Component({
