@@ -1,13 +1,13 @@
-package com.estore.api.estoreapi.auth;
+// package com.estore.api.estoreapi.auth;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+// import lombok.Getter;
+// import lombok.NoArgsConstructor;
+// import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class AuthenticationRequest {
-  private String email;
-  private String password;
-}
+// @Getter
+// @Setter
+// @NoArgsConstructor
+// public class AuthenticationRequest {
+//   private String email;
+//   private String password;
+// }

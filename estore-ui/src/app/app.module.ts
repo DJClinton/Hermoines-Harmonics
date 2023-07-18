@@ -15,9 +15,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ProductsComponent } from './products/products.component';
+import { InventoryControlComponent } from './inventory-control/inventory-control.component';
+import { BrowseProductsComponent } from './browse-products/browse-products.component';
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, ProductsComponent],
+  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, InventoryControlComponent, BrowseProductsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
