@@ -17,9 +17,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { BuyerInfosComponent } from './buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './buyerInfo-detail/buyerInfo-detail.component';
-import { PastOrderComponent } from './component/past-order/past-order.component';
 @NgModule({
-  declarations: [AppComponent, SearchBarComponent, ProductDetailComponent, BuyerInfosComponent, BuyerInfoDetailComponent, PastOrderComponent],
+  declarations: [
+    AppComponent,
+    SearchBarComponent,
+    ProductDetailComponent,
+    BuyerInfosComponent,
+    BuyerInfoDetailComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
