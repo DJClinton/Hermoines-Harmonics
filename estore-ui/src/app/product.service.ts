@@ -12,7 +12,7 @@ export class ProductService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  private inventoryUrl = 'http://localhost:8080/';
+  private inventoryUrl = 'http://localhost:8080/inventory';
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

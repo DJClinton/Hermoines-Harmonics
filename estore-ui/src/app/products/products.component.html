@@ -14,14 +14,23 @@
   </button>
 </div>
 
-<ul class = "Products">
+<ul class="Products">
   <li *ngFor="let product of products">
     <div>
-      <a routerLink="/detail/{{product.id}}">
-        <span class="badge">{{product.id}}</span> {{product.name}}
-      </a>
-      <button type="button" class="edit" title="edit product information" (click)="updateProduct(product)">Edit Product</button>
-      <button type="button" class="delete" title="delete product" (click)="deleteProduct(product.id)">Delete Product</button>
+      <form (ngSubmit)="updateProduct(product)">
+        <a routerLink="/product/{{product.id}}">
+          <span class="badge">{{product.id}}</span> {{product.name}}
+        </a>
+        <input type="text" [(ngModel)]="product.name" name="name" />
+        <input type="number" [(ngModel)]="product.price" name="price" />
+        <input type="number" [(ngModel)]="product.quantity" name="quantity" />
+        <button type="submit" class="edit" title="edit product information">
+          Update Product
+        </button>
+      </form>
+      <button type="button" class="delete" title="delete product" (click)="deleteProduct(product.id)">
+        Delete Product
+      </button>
     </div>
   </li>
 </ul>

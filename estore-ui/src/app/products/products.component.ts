@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service'
 import { Product } from '../product';
-
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -13,7 +12,7 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.productService.getProducts();
+    this.getProducts();
   }
 
   getProducts() {
@@ -34,14 +33,14 @@ export class ProductsComponent implements OnInit {
 
   updateProduct(product: Product) {
     this.productService.updateProduct(product).subscribe(() => {
-      this.getProducts();
+      this.getProducts(); // Refreshes product list
       console.log("Product updated successfully")
     });
   }
 
   deleteProduct(id: number) {
     this.productService.deleteProduct(id).subscribe(() => {
-      this.getProducts();
+      this.getProducts(); // Refreshes product list
       console.log("Product deleted successfully")
     });
   }
