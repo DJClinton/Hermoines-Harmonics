@@ -1,92 +1,94 @@
-// package com.estore.api.estoreapi.model;
+package com.estore.api.estoreapi.model;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-// import java.util.ArrayList;
-// import java.util.Date;
-// import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Tag;
-// import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-// import com.estore.api.estoreapi.model.Order.OrderStatus;
+import com.estore.api.estoreapi.model.Order.OrderStatus;
 
-// @Tag("Model-tier")
-// public class BuyerTest {
-//     private int expectedId;
-//     private String expectedEmail;
-//     private String expectedPassword;
-//     private String expectedFirstName;
-//     private String expectedLastName;
-//     private String expectedPhoneNumber;
-//     private List<Order> expectedPastOrders;
-//     private List<CreditCard> expectedPaymentMethods;
-//     private Buyer buyer;
-    
-//     @BeforeEach
-//     public void setupBuyerTest() {
-//         expectedId = 1;
-//         expectedEmail = "email";
-//         expectedPassword = "password";
-//         expectedFirstName = "joe";
-//         expectedLastName = "smith";
-//         expectedPhoneNumber = "222-222-2222";
-//         expectedPastOrders = new ArrayList<>();
-//         expectedPastOrders.add(new Order(new int[1], new Date(), OrderStatus.UNPROCESSED));
-//         expectedPaymentMethods = new ArrayList<>();
-//         expectedPaymentMethods.add(new CreditCard("joe smith", 1234, new Date(), 321));
-//         buyer = new Buyer(expectedId, expectedEmail, expectedPassword, expectedFirstName, 
-//                           expectedLastName, expectedPhoneNumber, expectedPastOrders, expectedPaymentMethods);
-//     }
+@Tag("Model-tier")
+public class BuyerTest {
+  @Test
+  public void testConstructor() {
+    int id = 1;
+    String email = "email";
+    String password = "password";
+    String firstName = "firstName";
+    String lastName = "lastName";
+    String phoneNumber = "phoneNumber";
+    List<Order> pastOrders = new ArrayList<Order>();
+    List<CreditCard> paymentMethods = new ArrayList<CreditCard>();
+    Collection<Integer> cart = Collections.emptyList();
+    Collection<Integer> wishlist = Collections.emptyList();
 
+    assertDoesNotThrow(() -> new Buyer(id, email, password, firstName, lastName, phoneNumber, pastOrders,
+        paymentMethods, cart, wishlist), "constructor threw an error");
+  }
 
-//     @Test
-//     public void testID() {
-//         assertEquals(expectedId, buyer.getId());
-//     }
+  @Test
+  public void testSetGet() {
+    int id = 1;
+    String email = "email";
+    String password = "password";
+    String firstName = "firstName";
+    String lastName = "lastName";
+    String phoneNumber = "phoneNumber";
+    List<Order> pastOrders = new ArrayList<Order>();
+    List<CreditCard> paymentMethods = new ArrayList<CreditCard>();
+    Collection<Integer> cart = Collections.emptyList();
+    Collection<Integer> wishlist = Collections.emptyList();
 
-//     @Test
-//     public void testEmail() {
-//         assertEquals(expectedEmail, buyer.getEmail());
-//     }
+    Buyer buyer = new Buyer(id, email, password, firstName, lastName, phoneNumber, pastOrders, paymentMethods, cart,
+        wishlist);
 
-//     @Test
-//     public void testPassword() {
-//         assertEquals(expectedPassword, buyer.getPassword());
-//     }
+    assertEquals("Buyer [id=" + id + ", email=" + email + ", password=" + password + ", first name=" + firstName
+        + ", last name=" + lastName + ", phone number=" + phoneNumber + ", past orders=" + pastOrders
+        + ", payment methods=" + paymentMethods + ", cart=" + cart + ", wishlist=" + wishlist + "]",
+        buyer.toString());
 
-//     @Test
-//     public void testFirstName() {
-//         assertEquals(expectedFirstName, buyer.getFirstName());
-//     }
+    buyer.setEmail("newEmail");
+    buyer.setPassword("newPassword");
+    buyer.setFirstName("newFirstName");
+    buyer.setLastName("newLastName");
+    buyer.setPhoneNumber("newPhoneNumber");
+    Order mockedOrder = mock(Order.class);
+    Order[] mockedOrders = { mockedOrder };
+    buyer.setPastOrders(Arrays.asList(mockedOrders));
+    CreditCard mockCreditCard = mock(CreditCard.class);
+    CreditCard[] mockedCreditCards = { mockCreditCard };
+    buyer.setPaymentMethods(Arrays.asList(mockedCreditCards));
+    Product mockedProduct = mock(Product.class);
+    when(mockedProduct.getId()).thenReturn(1);
+    buyer.addProductCart(mockedProduct);
+    buyer.addProductWishlist(mockedProduct);
 
-//     @Test
-//     public void testLastName() {
-//         assertEquals(expectedLastName, buyer.getLastName());
-//     }
+    assertEquals("newEmail", buyer.getEmail());
+    assertEquals("newPassword", buyer.getPassword());
+    assertEquals("newFirstName", buyer.getFirstName());
+    assertEquals("newLastName", buyer.getLastName());
+    assertEquals("newPhoneNumber", buyer.getPhoneNumber());
+    assertEquals(mockedOrders.length, buyer.getPastOrders().size());
+    assertEquals(mockedCreditCards.length, buyer.getPaymentMethods().size());
+    assertEquals(1, buyer.getCart().size());
+    assertEquals(1, buyer.getWishlist().size());
 
-//     @Test
-//     public void testPhoneNumber() {
-//         assertEquals(expectedPhoneNumber, buyer.getPhoneNumber());
-//     }
+    buyer.removeProductCart(mockedProduct);
+    buyer.removeProductWishlist(mockedProduct);
+    assertEquals(0, buyer.getCart().size());
+    assertEquals(0, buyer.getWishlist().size());
 
-//     @Test
-//     public void testPastOrders() {
-//         assertEquals(expectedPastOrders, buyer.getPastOrders());
-//     }
-
-//     @Test
-//     public void testPaymentMethods() {
-//         assertEquals(expectedPaymentMethods, buyer.getPaymentMethods());
-//     }
-
-//     @Test
-//     public void testToString() {
-//         String expectedString = String.format(Buyer.STRING_FORMAT, expectedId, expectedEmail, expectedPassword, 
-//                                               expectedFirstName, expectedLastName, expectedPhoneNumber, expectedPastOrders,
-//                                               expectedPaymentMethods);
-
-//         assertEquals(expectedString, buyer.toString());
-//     }
-// }
+  }
+}
