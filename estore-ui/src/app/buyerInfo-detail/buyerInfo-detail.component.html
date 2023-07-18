@@ -22,21 +22,25 @@
     <!-- Route to view past orders in product form for this user-->
     <!-- <div><span>Past Order Ids: </span>{{buyerInfo.pastOrderIds}}</div> -->
     <p>Past Order Ids:</p>
-    <!-- <mat-list>
+    <mat-list>
         <mat-list-item *ngFor="let orderId of buyerInfo.pastOrderIds">
             <a>{{ orderId }}</a>
         </mat-list-item>
-    </mat-list> -->
+    </mat-list>
 
     <!-- <ul>
        <li> {{buyerInfo.pastOrderIds}}</li>
-    </ul>
+    </ul> -->
 
     <ul>
         <li *ngFor="let orderid of buyerInfo.pastOrderIds">
-            {{ orderid }}
+            <div> {{ orderid }}</div>
         </li>
-    </ul> -->
+    </ul>
+
+    <!-- <div *ngFor="let orderid of buyerInfo.pastOrderIds">
+        <h2>{{orderid}}</h2>
+    </div> -->
     
 
     <!--

@@ -130,13 +130,7 @@ public class BuyerInfoController {
     public ResponseEntity<BuyerInfo> createBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
         LOG.info("POST /account " + buyerInfo);
 
-        try {
-            // for (BuyerInfo existingBuyerInfo : buyerInfoDao.getBuyerInfos()) {
-            //     if(existingBuyerInfo.getEmail().equals(buyerInfo.getEmail())) {
-            //        return new ResponseEntity<BuyerInfo>(HttpStatus.CONFLICT); 
-            //     }
-            // }
-            
+        try {          
             buyerInfo = buyerInfoDao.createBuyerInfo(buyerInfo);
             return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.CREATED);
 

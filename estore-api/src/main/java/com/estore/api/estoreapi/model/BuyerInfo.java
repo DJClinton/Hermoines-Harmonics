@@ -28,7 +28,7 @@ public class BuyerInfo {
     private String lastName;
     @JsonProperty("phoneNumber") 
     private String phoneNumber;
-    @JsonProperty("pastOrders")
+    @JsonProperty("pastOrdersIds")
     private Collection<Integer> pastOrderIds;
     @JsonProperty("creditCards")
     private Collection<CreditCard> creditCards;
@@ -43,7 +43,7 @@ public class BuyerInfo {
 
     public BuyerInfo(@JsonProperty("id") int id, @JsonProperty("userid") int userid, @JsonProperty("firstName") String firstName, 
                  @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrders") Collection<Integer> pastOrderIds, @JsonProperty("creditCards") Collection<CreditCard> creditCards, 
+                 @JsonProperty("pastOrdersIds") Collection<Integer> pastOrderIds, @JsonProperty("creditCards") Collection<CreditCard> creditCards, 
                  @JsonProperty("shippingAddresses") Collection<String> shippingAddresses, @JsonProperty("cart") Collection<Integer> cart,
                  @JsonProperty ("wishlist") Collection<Integer> wishlist) {
 

@@ -1,1 +1,1 @@
-[{"id":1,"userid":1,"firstName":"John","lastName":"Buyer","phoneNumber":"123-456-7891","pastOrders":[1,2],"creditCards":[{"holderName":"John B. Buyer","cardNumber":1234}],"shippingAddresses":[],"cart":[],"wishlist":[],"userId":1}]
+[{"id":1,"userid":1,"firstName":"John","lastName":"Buyer","phoneNumber":"123-456-7891","pastOrdersIds":[1, 2, 3, 4, 5, 6],"creditCards":[{"holderName":"John B. Buyer","cardNumber":1234}],"shippingAddresses":[],"cart":[],"wishlist":[],"userId":1}]

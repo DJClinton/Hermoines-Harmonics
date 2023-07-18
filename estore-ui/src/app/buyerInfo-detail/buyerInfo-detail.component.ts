@@ -44,10 +44,6 @@ export class BuyerInfoDetailComponent {
     }
   }
 
-  test(): string {
-    return "RAHHHH";
-  }
-
   appendShippingAddress(shippingAddress: string): void {
     this.buyerInfo?.shippingAddresses.push(shippingAddress);
     this.buyerInfoService.updateBuyerInfo(this.buyerInfo);
