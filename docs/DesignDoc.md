@@ -9,20 +9,20 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: Bobby Fanclub (team 2)
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Dakota Fedor
+  * Ryan Symons
+  * Hiro Takeuchi
+  * Caity Kurutz
+  * Sahil Patel
 
 ## Executive Summary
 
-This is a summary of the project.
+We are designing and developing a musical instrument online store, where you can browse and purchase musical instruments of your choice.
 
 ### Purpose
->  _**[Sprint 2 & 4]** Provide a very brief statement about the project and the most
-> important user group and user goals._
+**[Sprint 2 & 4]** For sprint 2, we as a group are providing basic skeleton functionality for the website.
 
 ### Glossary and Acronyms
 > _**[Sprint 2 & 4]** Provide a table of terms and acronyms._
@@ -36,12 +36,8 @@ This is a summary of the project.
 
 This section describes the features of the application.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
-
 ### Definition of MVP
-> _**[Sprint 2 & 4]** Provide a simple description of the Minimum Viable Product._
+**[Sprint 2 & 4]** At a minimum, the website should provide minimal authentication for customers and owners/administrators (logging in an out). Customers should be able to see the products, search for specific products, as well as add or removing these products to a shopping cart. Finally, customers should be able to check out the items in their shopping cart for purchase. Owners should be able to edit the data of their inventory to correctly allign with their current stock. The server should be able to handle requests made by customers and update what is viewed on the website accordingly, such as when an item is purchased, all customers should be able to see the change in stock.
 
 ### MVP Features
 >  _**[Sprint 4]** Provide a list of top-level Epics and/or Stories of the MVP._
@@ -54,11 +50,9 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![Domain Model](domain-model-placeholder.png)
+![Domain Model](domain-model.png)
 
-> _**[Sprint 2 & 4]** Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+**[Sprint 2 & 4]** Given a login, you should be able to sign in as either a customer or an admin(owner). As an admin, you may view the inventory and make changes to it as you see fit. As a customer, you should also be able to view the inventory, search for products using a search bar (which will contain premade sort by components), and add products to your shopping cart or wishlist. Inventory and customer data will be stored in there own separate files, with the customer data file storing account information where you can view past orders, general user information, and payment methods.
 
 
 ## Architecture and Design
