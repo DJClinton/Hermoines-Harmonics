@@ -9,9 +9,6 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.estore.api.estoreapi.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,12 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 public class UserFileDAO {
   private static final Logger LOG = Logger.getLogger(UserFileDAO.class.getName());
 
+  private static final String DEFAULT_AUTHORITIES = "USER";
+
+  private Integer nextId = 0;
   private ObjectMapper objectMapper;
-
-  private ProductFileDAO productDAOCopy;
-
   private String filename;
-
   private Map<Integer, User> users;
 
   public UserFileDAO(@Value("${users.file}") String filename, ObjectMapper objectMapper) throws IOException {
@@ -35,18 +31,27 @@ public class UserFileDAO {
     load();
   }
 
-  public UserDetails getUser(String email) {
+  public User getUser(String email) {
     synchronized (users) {
       return users.values().stream()
           .filter(user -> user.getUsername().equals(email))
           .findFirst()
-          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+          .orElseThrow();
     }
   }
 
-  public UserDetails getUserById(int id) {
+  public User getUserById(int id) {
     synchronized (users) {
       return users.get(id);
+    }
+  }
+
+  public User getUserByEmailPassword(String email, String password) throws Exception {
+    synchronized (users) {
+      return users.values().stream()
+          .filter(user -> user.getUsername().equals(email) && user.getPassword().equals(password))
+          .findFirst()
+          .orElseThrow();
     }
   }
 
@@ -63,10 +68,19 @@ public class UserFileDAO {
   private void load() throws IOException {
     LOG.info("Loading users");
     this.users = new TreeMap<>();
+    User[] userArray;
+    try {
 
-    User[] userArray = objectMapper.readValue(new File(filename), User[].class);
+      userArray = objectMapper.readValue(new File(filename), User[].class);
+    } catch (Exception Exception) {
+      LOG.info("No users found");
+      return;
+    }
     for (User user : userArray) {
       users.put(user.getId(), user);
+      if (user.getId() > nextId)
+        nextId = user.getId();
+      LOG.info("Loaded user: " + user);
     }
 
     save();
@@ -90,19 +104,20 @@ public class UserFileDAO {
     }
   }
 
-  public User createUser(User user) throws IOException {
-    LOG.info("Creating user: " + user);
+  public User createUser(String username, String password) throws IOException {
+    LOG.info("Creating user: " + username + " " + password);
 
     synchronized (users) {
       // checking to see if the user's email is taken
-      if (users.values().stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))) {
+      if (getUser(username) != null) {
         throw new IllegalArgumentException("Email is already taken");
       }
-      user.setId(users.size());
-      users.put(user.getId(), user);
+
+      User newUser = new User(getNextId(), username, password, DEFAULT_AUTHORITIES);
+      users.put(newUser.getId(), newUser);
       save();
+      return newUser;
     }
-    return user;
   }
 
   public User updateUser(User user) throws IOException {
@@ -123,5 +138,9 @@ public class UserFileDAO {
       save();
       return response != null;
     }
+  }
+
+  public Integer getNextId() {
+    return ++nextId;
   }
 }
