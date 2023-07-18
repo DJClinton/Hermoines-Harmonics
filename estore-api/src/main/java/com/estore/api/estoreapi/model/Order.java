@@ -22,6 +22,12 @@ public class Order {
         DELIVERED
     }
 
+    @JsonProperty("orderID")
+    private int id;
+
+    @JsonProperty("userID")
+    private int uid;
+
     @JsonProperty("productId")
     private int[] productIds;
 
@@ -31,6 +37,12 @@ public class Order {
     @JsonProperty("orderStatus")
     private OrderStatus orderStatus;
 
+    @JsonProperty("ccDigits")
+    private int ccDigits;
+
+    @JsonProperty("address")
+    private String address;
+
     /**
      * Create an order with the product sold and the date it was placed
      * 
@@ -39,11 +51,15 @@ public class Order {
      * @param orderStatus   status of the order
      */
 
-    public Order(@JsonProperty("productId") int[] productIds, @JsonProperty("date") Date date, 
-                 @JsonProperty("orderStatus") OrderStatus orderStatus) {
+    public Order(@JsonProperty("productId") int[] productIds, @JsonProperty("date") Date date, @JsonProperty("orderStatus") OrderStatus orderStatus, 
+                @JsonProperty("ccDigits") int ccDigits, @JsonProperty("address") String address, @JsonProperty("orderID") int id, @JsonProperty("userID") int uid) {
         this.productIds = productIds;
         this.date = date;
         this.orderStatus = orderStatus;
+        this.ccDigits = ccDigits;
+        this.address = address;
+        this.id = id;
+        this.uid = uid;
         LOG.info("Creating " + this);
     }
 
@@ -76,6 +92,25 @@ public class Order {
         return orderStatus;
     }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public int getCCDigits(){
+        return ccDigits;
+    }
+
+    public int getUserID(){
+        return uid;
+    }
+
+    public int getOrderID(){
+        return id;
+    }
     /**
      * {@inheritDoc}
      */
