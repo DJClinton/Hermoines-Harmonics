@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.sql.Date;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ import com.estore.api.estoreapi.model.Order.OrderStatus;
 
 @Tag("Model-tier")
 public class OrderTest {
-    
+        
     @Test 
     public void testProductIDS(){
         //Setup
@@ -47,6 +48,16 @@ public class OrderTest {
         
         //Analyze
         assertNotEquals(order1, order2);
+    }
+
+    @Test
+    public void testDate(){
+
+    }
+
+    @Test
+    public void testDate(){
+
     }
 
     @Test
