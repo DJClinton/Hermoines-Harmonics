@@ -15,14 +15,19 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.estore.api.estoreapi.persistence.OrderDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.Order;
+import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
 
 /**
  * Handles the REST API requests for the Product resource
  * <p>
- * {@literal @}RestController Spring annotation identifies this class as a REST API
+ * {@literal @}RestController Spring annotation identifies this class as a REST
+ * API
  * method handler to the Spring framework
  * 
  * @author SWEN Faculty
@@ -33,16 +38,19 @@ import com.estore.api.estoreapi.model.Order.OrderStatus;
 public class OrderController {
     private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
     private OrderDAO orderDao;
+    private UserFileDAO userFileDao;
 
     /**
      * Creates a REST API controller to reponds to requests
      * 
-     * @param orderDAO The {@link OrderDAO Order Data Access Object} to perform CRUD operations
-     * <br>
-     * This dependency is injected by the Spring Framework
+     * @param orderDAO The {@link OrderDAO Order Data Access Object} to perform CRUD
+     *                 operations
+     *                 <br>
+     *                 This dependency is injected by the Spring Framework
      */
-    public OrderController(OrderDAO orderDao) {
+    public OrderController(OrderDAO orderDao, UserFileDAO userFileDao) {
         this.orderDao = orderDao;
+        this.userFileDao = userFileDao;
     }
 
     /**
@@ -50,22 +58,30 @@ public class OrderController {
      * 
      * @param id The id used to locate the {@link Order order}
      * 
-     * @return ResponseEntity with {@link Order order} object and HTTP status of OK if found<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with {@link Order order} object and HTTP status of OK
+     *         if found<br>
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable int id) {
+    public ResponseEntity<Order> getOrder(HttpServletRequest request, @PathVariable int id) {
         LOG.info("GET /orders/" + id);
+
+        User user = getUser(request);
+
+        if (user == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         try {
             Order order = orderDao.getOrder(id);
-            if (order != null)
-                return new ResponseEntity<Order>(order,HttpStatus.OK);
-            else
+            if (order != null) {
+                if (user.getAuthorities() != "ADMIN" && order.getUserID() != user.getId())
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<Order>(order, HttpStatus.OK);
+            } else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -73,18 +89,19 @@ public class OrderController {
     /**
      * Responds to the GET request for all {@linkplain Order order}
      * 
-     * @return ResponseEntity with array of {@link Order order} objects (may be empty) and
-     * HTTP status of OK<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with array of {@link Order order} objects (may be
+     *         empty) and
+     *         HTTP status of OK<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("")
     public ResponseEntity<Order[]> getOrders() {
         LOG.info("GET /orders");
         try {
             Order[] allOrders = orderDao.getAll();
-            return new ResponseEntity<Order[]>(allOrders,HttpStatus.OK);
+            return new ResponseEntity<Order[]>(allOrders, HttpStatus.OK);
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -94,9 +111,11 @@ public class OrderController {
      * 
      * @param product - The {@link Order order} to create
      * 
-     * @return ResponseEntity with created {@link Order order} object and HTTP status of CREATED<br>
-     * ResponseEntity with HTTP status of CONFLICT if {@link Order order} object already exists<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with created {@link Order order} object and HTTP
+     *         status of CREATED<br>
+     *         ResponseEntity with HTTP status of CONFLICT if {@link Order order}
+     *         object already exists<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PostMapping("")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
@@ -104,29 +123,31 @@ public class OrderController {
 
         try {
             for (Order exisitingOrder : orderDao.getAll()) {
-                if(exisitingOrder.getOrderID() == order.getOrderID()) {
-                   return new ResponseEntity<Order>(HttpStatus.CONFLICT); 
+                if (exisitingOrder.getOrderID() == order.getOrderID()) {
+                    return new ResponseEntity<Order>(HttpStatus.CONFLICT);
                 }
             }
-            
+
             order = orderDao.createOrder(order);
-            return new ResponseEntity<Order>(order,HttpStatus.CREATED);
+            return new ResponseEntity<Order>(order, HttpStatus.CREATED);
 
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Updates the {@linkplain Order order} with the provided {@linkplain Order order} object, if it exists
+     * Updates the {@linkplain Order order} with the provided {@linkplain Order
+     * order} object, if it exists
      * 
-     * @param product The {@link Order order} to update
+     * @param product     The {@link Order order} to update
      * @param orderStatus the {@link OrderStatus status} to change
      * 
-     * @return ResponseEntity with updated {@link Order order} object and HTTP status of OK if updated<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with updated {@link Order order} object and HTTP
+     *         status of OK if updated<br>
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PutMapping("")
     public ResponseEntity<Order> updateOrderStatus(@RequestBody Order order, @RequestBody OrderStatus orderStatus) {
@@ -141,7 +162,7 @@ public class OrderController {
             return new ResponseEntity<Order>(order, HttpStatus.OK);
 
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -152,8 +173,8 @@ public class OrderController {
      * @param id The id of the {@link Order order} to deleted
      * 
      * @return ResponseEntity HTTP status of OK if deleted<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Order> deleteOrder(@PathVariable int id) {
@@ -167,8 +188,25 @@ public class OrderController {
             orderDao.deleteOrder(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    private User getUser(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if (auth == null)
+            return null;
+        String[] authParts = auth.split(":");
+        if (authParts.length != 2)
+            return null;
+        String username = authParts[0], password = authParts[1];
+        try {
+            return userFileDao.getUserByEmailPassword(username, password);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
 }

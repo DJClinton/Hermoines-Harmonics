@@ -109,7 +109,13 @@ public class UserFileDAO {
 
     synchronized (users) {
       // checking to see if the user's email is taken
-      if (getUser(username) != null) {
+      User user;
+      try {
+        user = getUser(username);
+      } catch (Exception err) {
+        user = null;
+      }
+      if (user != null) {
         throw new IllegalArgumentException("Email is already taken");
       }
 

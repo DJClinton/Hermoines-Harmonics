@@ -21,15 +21,15 @@ public class Buyer {
 
     @JsonProperty("id")
     private int id;
-    @JsonProperty("email") 
+    @JsonProperty("email")
     private String email;
-    @JsonProperty("password") 
+    @JsonProperty("password")
     private String password;
-    @JsonProperty("firstName") 
+    @JsonProperty("firstName")
     private String firstName;
-    @JsonProperty("lastName") 
+    @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty("phoneNumber") 
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
     @JsonProperty("pastOrders")
     private List<Order> pastOrders;
@@ -43,11 +43,12 @@ public class Buyer {
     private int totalCost;
 
     public Buyer(@JsonProperty("id") int id, @JsonProperty("email") String email,
-                 @JsonProperty("password") String password, @JsonProperty("firstName") String firstName, 
-                 @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrders") List<Order> pastOrders, @JsonProperty("paymentMethods") List<CreditCard> paymentMethods, 
-                 @JsonProperty("cart") Collection<Integer> cart,
-                 @JsonProperty ("wishlist") Collection<Integer> wishlist) {
+            @JsonProperty("password") String password, @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber,
+            @JsonProperty("pastOrders") List<Order> pastOrders,
+            @JsonProperty("paymentMethods") List<CreditCard> paymentMethods,
+            @JsonProperty("cart") Collection<Integer> cart,
+            @JsonProperty("wishlist") Collection<Integer> wishlist) {
 
         LOG.info("Creating buyer account with email: " + email + " and password: " + password);
         this.id = id;
@@ -61,8 +62,6 @@ public class Buyer {
         this.cart = new ArrayList<Integer>();
         this.wishlist = new ArrayList<Integer>();
     }
-
-    
 
     /**
      * Retrieves this buyer's account id
@@ -144,7 +143,7 @@ public class Buyer {
         return paymentMethods;
     }
 
-    /** 
+    /**
      * Sets the buyer's email
      * 
      * @param email new email
@@ -236,88 +235,95 @@ public class Buyer {
 
     /**
      * Grabs the array of the ids in the cart
+     * 
      * @return the ids of the items in the cart
      */
 
     @JsonGetter("cart")
-    public Collection<Integer> getCart(){
+    public Collection<Integer> getCart() {
         return cart;
     }
 
     /**
      * Add a product into the cart
+     * 
      * @param product
      */
 
-    public void addProductCart(Product product){
+    public void addProductCart(Product product) {
         this.cart.add(product.getId());
     }
 
     /**
      * Remove a product from the cart
+     * 
      * @param product
      */
 
-    public void removeProductCart(Product product){
+    public void removeProductCart(Product product) {
         this.cart.remove(product.getId());
     }
 
-        /**
+    /**
      * Grabs the array of the ids in the wishlist
+     * 
      * @return the ids of the items in the cart
      */
 
     @JsonGetter("wishlist")
-    public Collection<Integer> getWishlist(){
+    public Collection<Integer> getWishlist() {
         return wishlist;
     }
 
     /**
      * Add a product into the wishlist
+     * 
      * @param product
      */
 
-    public void addProductWishlist(Product product){
+    public void addProductWishlist(Product product) {
         this.wishlist.add(product.getId());
     }
 
     /**
      * Remove a product from the wishlist
+     * 
      * @param product
      */
 
-    public void removeProductWishlist(Product product){
+    public void removeProductWishlist(Product product) {
         this.wishlist.remove(product.getId());
     }
 
     /**
      * Gets the total cost of the buyer's cart
+     * 
      * @return the total cost of the cart
      */
 
-     @JsonGetter("totalCost")
-     public int getTotalCost(){
-         return this.totalCost;
-     }
- 
-     /**
-      * Sets the total cost of the cart
-      * @param cost
-      */
- 
-     @JsonSetter("totalCost")
-     public void setTotalCost(int cost){
-         this.totalCost = cost;
-     }
+    @JsonGetter("totalCost")
+    public int getTotalCost() {
+        return this.totalCost;
+    }
 
-    
+    /**
+     * Sets the total cost of the cart
+     * 
+     * @param cost
+     */
+
+    @JsonSetter("totalCost")
+    public void setTotalCost(int cost) {
+        this.totalCost = cost;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, email, password, firstName, lastName, 
-                             phoneNumber, pastOrders, paymentMethods, cart, wishlist);
+        return String.format(STRING_FORMAT, id, email, password, firstName, lastName,
+                phoneNumber, pastOrders, paymentMethods, cart, wishlist);
     }
 
 }

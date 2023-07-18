@@ -21,7 +21,8 @@ import org.springframework.stereotype.Component;
 /**
  * Implements the functionality for JSON file-based peristance for Buyers
  * 
- * {@literal @}Component Spring annotation instantiates a single instance of this
+ * {@literal @}Component Spring annotation instantiates a single instance of
+ * this
  * class and injects the instance into other classes as needed
  * 
  * @author Team 2
@@ -29,30 +30,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class BuyerFileDAO implements BuyerDAO {
     private static final Logger LOG = Logger.getLogger(BuyerFileDAO.class.getName());
-    Map<Integer, Buyer> buyers;   // Provides a local cache of the buyer objects
+    Map<Integer, Buyer> buyers; // Provides a local cache of the buyer objects
                                 // so that we don't need to read from the file
                                 // each time
-    private ObjectMapper objectMapper;  // Provides conversion between Buyer
-                                        // objects and JSON text format written
-                                        // to the file
-    private static int nextId;  // The next Id to assign to a new product
-    private String filename;    // Filename to read from and write to
+    private ObjectMapper objectMapper; // Provides conversion between Buyer
+                                       // objects and JSON text format written
+                                       // to the file
+    private static int nextId; // The next Id to assign to a new product
+    private String filename; // Filename to read from and write to
 
     private ProductFileDAO productFileDAOCopy;
 
     /**
      * Creates a Buyer File Data Access Object
      * 
-     * @param filename Filename to read from and write to
-     * @param objectMapper Provides JSON Object to/from Java Object serialization and deserialization
+     * @param filename     Filename to read from and write to
+     * @param objectMapper Provides JSON Object to/from Java Object serialization
+     *                     and deserialization
      * 
      * @throws IOException when file cannot be accessed or read from
      */
     public BuyerFileDAO(@Value("${buyers.file}") String filename, ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
-        load();  // load the buyers from the file
-        productFileDAOCopy = SpringContext.getBean(ProductFileDAO.class);
+        load(); // load the buyers from the file
+        // productFileDAOCopy = SpringContext.getBean(ProductFileDAO.class);
     }
 
     /**
@@ -64,11 +66,10 @@ public class BuyerFileDAO implements BuyerDAO {
         return nextId++;
     }
 
-
     /**
      * Generates an array of {@linkplain Buyer buyers} from the tree map
      * 
-     * @return  The array of {@link Buyer buyers}, may be empty
+     * @return The array of {@link Buyer buyers}, may be empty
      */
     private Buyer[] getBuyersArray() {
         Collection<Buyer> buyersCollection = buyers.values();
@@ -76,7 +77,8 @@ public class BuyerFileDAO implements BuyerDAO {
     }
 
     /**
-     * Saves the {@linkplain Buyer buyers} from the map into the file as an array of JSON objects
+     * Saves the {@linkplain Buyer buyers} from the map into the file as an array of
+     * JSON objects
      * 
      * @return true if the {@link Buyer buyers} were written successfully
      * 
@@ -108,7 +110,7 @@ public class BuyerFileDAO implements BuyerDAO {
         // Deserializes the JSON objects from the file into an array of buyers
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
-        Buyer[] buyerArray = objectMapper.readValue(new File(filename),Buyer[].class);
+        Buyer[] buyerArray = objectMapper.readValue(new File(filename), Buyer[].class);
 
         // Add each product to the tree map and keep track of the greatest id
         for (Buyer buyer : buyerArray) {
@@ -123,21 +125,21 @@ public class BuyerFileDAO implements BuyerDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public Buyer[] getBuyers() {
-        synchronized(buyers) {
+        synchronized (buyers) {
             return getBuyersArray();
         }
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public Buyer getBuyer(int id) {
-        synchronized(buyers) {
+        synchronized (buyers) {
             if (buyers.containsKey(id))
                 return buyers.get(id);
             else
@@ -146,13 +148,15 @@ public class BuyerFileDAO implements BuyerDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public Buyer createBuyer(Buyer buyer) throws IOException {
-        synchronized(buyers) {
-            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(), buyer.getLastName(), 
-                                       buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods(), buyer.getCart(), buyer.getWishlist());
+        synchronized (buyers) {
+            Buyer newBuyer = new Buyer(nextId(), buyer.getEmail(), buyer.getPassword(), buyer.getFirstName(),
+                    buyer.getLastName(),
+                    buyer.getPhoneNumber(), buyer.getPastOrders(), buyer.getPaymentMethods(), buyer.getCart(),
+                    buyer.getWishlist());
             buyers.put(buyer.getId(), newBuyer);
             save(); // may throw an IOException
             return buyer;
@@ -160,13 +164,13 @@ public class BuyerFileDAO implements BuyerDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public Buyer updateBuyer(Buyer buyer) throws IOException {
-        synchronized(buyers) {
+        synchronized (buyers) {
             if (!buyers.containsKey(buyer.getId()))
-                return null;  // buyer does not exist
+                return null; // buyer does not exist
 
             buyers.put(buyer.getId(), buyer);
             save(); // may throw an IOException
@@ -175,35 +179,35 @@ public class BuyerFileDAO implements BuyerDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public boolean deleteBuyer(int id) throws IOException {
-        synchronized(buyers) {
+        synchronized (buyers) {
             if (buyers.containsKey(id)) {
                 buyers.remove(id);
                 return save();
-            }
-            else
+            } else
                 return false;
         }
     }
 
     /**
      * Calculates the total cost of the Buyer's cart based off of the items
+     * 
      * @param items
      * @param buyer
      * @throws IOException
      */
 
-    public void calcTotalCost(Collection<Integer> items, Buyer buyer) throws IOException{
+    public void calcTotalCost(Collection<Integer> items, Buyer buyer) throws IOException {
         int total = 0;
-        for (int id : items){
+        for (int id : items) {
             total += productFileDAOCopy.getProduct(id).getPrice();
         }
 
         buyer.setTotalCost(total);
         updateBuyer(buyer);
-    
-  }
+
+    }
 }

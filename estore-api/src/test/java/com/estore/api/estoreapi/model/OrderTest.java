@@ -1,15 +1,12 @@
 package com.estore.api.estoreapi.model;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-
-import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
 
 import com.estore.api.estoreapi.model.Order.OrderStatus;
 
@@ -23,8 +20,7 @@ public class OrderTest {
     private int expectedCCDigits;
     private String expectedAddress;
     private Order order;
-    
-    
+
     @BeforeEach
     public void setUpOrderTest() {
         expectedId = 1;
@@ -37,8 +33,8 @@ public class OrderTest {
         expectedOrderStatus = OrderStatus.DELIVERED;
         expectedCCDigits = 1234;
         expectedAddress = "stupid town";
-        order = new Order(expectedProductIds, expectedDate, expectedOrderStatus, 
-                          expectedCCDigits, expectedAddress, expectedId, expectedUserId);
+        order = new Order(expectedProductIds, expectedDate, expectedOrderStatus,
+                expectedCCDigits, expectedAddress, expectedId, expectedUserId);
     }
 
     @Test
@@ -82,29 +78,25 @@ public class OrderTest {
         assertEquals(expectedAddress, order.getAddress());
     }
 
-    
-
-
     // @Test
     // public void testToString(){
-    //     //Setup
-    //     Date date = new Date(1688607420);
+    // //Setup
+    // Date date = new Date(1688607420);
 
-    //     int[] ids = new int[3];
-    //     ids[0] = 1;
-    //     ids[1] = 2;
-    //     ids[2] = 3;
+    // int[] ids = new int[3];
+    // ids[0] = 1;
+    // ids[1] = 2;
+    // ids[2] = 3;
 
+    // String expectedString = String.format(Order.STRING_FORMAT,
+    // Arrays.toString(ids), date, OrderStatus.SHIPPED);
 
-    //     String expectedString = String.format(Order.STRING_FORMAT, Arrays.toString(ids), date, OrderStatus.SHIPPED);
+    // //Invoke
+    // Order order = new Order(ids, date, OrderStatus.SHIPPED);
 
-        
-    //     //Invoke
-    //     Order order = new Order(ids, date, OrderStatus.SHIPPED);
+    // String actualString = order.toString();
 
-    //     String actualString = order.toString();
-
-    //     assertEquals(expectedString, actualString);
+    // assertEquals(expectedString, actualString);
 
     // }
 }
