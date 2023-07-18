@@ -1,0 +1,13 @@
+[
+    {
+        "id":1,"email":"user1@user1.com","password":"1234","firstName":"John","lastName":"Buyer","phoneNumber":"551-555-5555",
+        "pastOrders":[
+            {"productIds":[1], "date":16615184739}
+        ],
+        "paymentMethods":[
+            {"holderName": "John B. Buyer", "cardNumber": 1234, "expDate": 1761518473, "securityCode": 123}
+        ],
+        "cart": [], 
+        "totalCost": 0
+    }
+]
