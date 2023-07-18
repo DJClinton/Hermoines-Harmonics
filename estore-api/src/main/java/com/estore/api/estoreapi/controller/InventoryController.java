@@ -16,13 +16,16 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.model.Product;
 
 /**
  * Handles the REST API requests for the Product resource
  * <p>
- * {@literal @}RestController Spring annotation identifies this class as a REST API
+ * {@literal @}RestController Spring annotation identifies this class as a REST
+ * API
  * method handler to the Spring framework
  * 
  * @author SWEN Faculty
@@ -37,22 +40,25 @@ public class InventoryController {
     /**
      * Creates a REST API controller to reponds to requests
      * 
-     * @param productDao The {@link ProductDAO Product Data Access Object} to perform CRUD operations
-     * <br>
-     * This dependency is injected by the Spring Framework
+     * @param productDao The {@link ProductDAO Product Data Access Object} to
+     *                   perform CRUD operations
+     *                   <br>
+     *                   This dependency is injected by the Spring Framework
      */
     public InventoryController(ProductDAO productDao) {
         this.productDao = productDao;
     }
 
     /**
-     * Responds to the GET request for a {@linkplain Product product} for the given id
+     * Responds to the GET request for a {@linkplain Product product} for the given
+     * id
      * 
      * @param id The id used to locate the {@link Product product}
      * 
-     * @return ResponseEntity with {@link Product product} object and HTTP status of OK if found<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with {@link Product product} object and HTTP status of
+     *         OK if found<br>
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
@@ -60,12 +66,11 @@ public class InventoryController {
         try {
             Product product = productDao.getProduct(id);
             if (product != null)
-                return new ResponseEntity<Product>(product,HttpStatus.OK);
+                return new ResponseEntity<Product>(product, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -73,44 +78,48 @@ public class InventoryController {
     /**
      * Responds to the GET request for all {@linkplain Product products}
      * 
-     * @return ResponseEntity with array of {@link Product product} objects (may be empty) and
-     * HTTP status of OK<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with array of {@link Product product} objects (may be
+     *         empty) and
+     *         HTTP status of OK<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("")
     public ResponseEntity<Product[]> getProducts() {
         LOG.info("GET /inventory");
         try {
             Product[] products = productDao.getProducts();
-            return new ResponseEntity<Product[]>(products,HttpStatus.OK);
+            return new ResponseEntity<Product[]>(products, HttpStatus.OK);
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Responds to the GET request for all {@linkplain Product products} whose name contains
+     * Responds to the GET request for all {@linkplain Product products} whose name
+     * contains
      * the text in name
      * 
-     * @param name The name parameter which contains the text used to find the {@link Product products}
+     * @param name The name parameter which contains the text used to find the
+     *             {@link Product products}
      * 
-     * @return ResponseEntity with array of {@link Product product} objects (may be empty) and
-     * HTTP status of OK<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     * <p>
-     * Example: Find all products that contain the text "ma"
-     * GET http://localhost:8080/products/?name=ma
+     * @return ResponseEntity with array of {@link Product product} objects (may be
+     *         empty) and
+     *         HTTP status of OK<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     *         <p>
+     *         Example: Find all products that contain the text "ma"
+     *         GET http://localhost:8080/products/?name=ma
      */
     @GetMapping("/")
     public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
-        LOG.info("GET /inventory/?name="+name);
+        LOG.info("GET /inventory/?name=" + name);
 
         try {
             Product[] products = productDao.findProducts(name);
             return new ResponseEntity<Product[]>(products, HttpStatus.OK);
-        } catch(IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+        } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -120,42 +129,52 @@ public class InventoryController {
      * 
      * @param product - The {@link Product product} to create
      * 
-     * @return ResponseEntity with created {@link Product product} object and HTTP status of CREATED<br>
-     * ResponseEntity with HTTP status of CONFLICT if {@link Product product} object already exists<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with created {@link Product product} object and HTTP
+     *         status of CREATED<br>
+     *         ResponseEntity with HTTP status of CONFLICT if {@link Product
+     *         product} object already exists<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PostMapping("")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(HttpServletRequest request, @RequestBody Product product) {
         LOG.info("POST /inventory " + product);
+
+        if (!isAuthorized(request, "admin"))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         try {
             for (Product existingProduct : productDao.getProducts()) {
-                if(existingProduct.getName().equals(product.getName())) {
-                   return new ResponseEntity<Product>(HttpStatus.CONFLICT); 
+                if (existingProduct.getName().equals(product.getName())) {
+                    return new ResponseEntity<Product>(HttpStatus.CONFLICT);
                 }
             }
-            
+
             product = productDao.createProduct(product);
-            return new ResponseEntity<Product>(product,HttpStatus.CREATED);
+            return new ResponseEntity<Product>(product, HttpStatus.CREATED);
 
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Updates the {@linkplain Product product} with the provided {@linkplain Product product} object, if it exists
+     * Updates the {@linkplain Product product} with the provided
+     * {@linkplain Product product} object, if it exists
      * 
      * @param product The {@link Product product} to update
      * 
-     * @return ResponseEntity with updated {@link Product product} object and HTTP status of OK if updated<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @return ResponseEntity with updated {@link Product product} object and HTTP
+     *         status of OK if updated<br>
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PutMapping("")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(HttpServletRequest request, @RequestBody Product product) {
         LOG.info("PUT /inventory " + product);
+
+        if (!isAuthorized(request, "admin"))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         try {
             if (productDao.getProduct(product.getId()) == null) {
@@ -166,7 +185,7 @@ public class InventoryController {
             return new ResponseEntity<Product>(product, HttpStatus.OK);
 
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -177,12 +196,15 @@ public class InventoryController {
      * @param id The id of the {@link Product product} to deleted
      * 
      * @return ResponseEntity HTTP status of OK if deleted<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
+    public ResponseEntity<Product> deleteProduct(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /inventory/" + id);
+
+        if (!isAuthorized(request, "ADMIN"))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         try {
             if (productDao.getProduct(id) == null) {
@@ -192,8 +214,13 @@ public class InventoryController {
             productDao.deleteProduct(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException ioe) {
-            LOG.log(Level.SEVERE,ioe.getLocalizedMessage());
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean isAuthorized(HttpServletRequest request, String requiredRole) {
+        String auth = request.getHeader("authorization");
+        return auth != null && auth.split(":").length == 2 && auth.split(":")[0].equals(requiredRole);
     }
 }

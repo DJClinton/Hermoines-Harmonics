@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.estore.api.estoreapi.persistence.BuyerDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.Buyer;
+import com.estore.api.estoreapi.model.User;
 
 /**
  * Handles the REST API requests for the Buyer resource
@@ -33,6 +37,7 @@ import com.estore.api.estoreapi.model.Buyer;
 public class BuyerController {
     private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
     private BuyerDAO buyerDao;
+    private UserFileDAO userFileDao;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -42,8 +47,9 @@ public class BuyerController {
      *                 <br>
      *                 This dependency is injected by the Spring Framework
      */
-    public BuyerController(BuyerDAO buyerDao) {
+    public BuyerController(BuyerDAO buyerDao, UserFileDAO userFileDao) {
         this.buyerDao = buyerDao;
+        this.userFileDao = userFileDao;
     }
 
     /**
@@ -74,6 +80,8 @@ public class BuyerController {
     /**
      * Responds to the GET request for all {@linkplain Buyer buyers}
      * 
+     * @authorization The user must be an admin (throws 402 otherwise)
+     * 
      * @return ResponseEntity with array of {@link Buyer buyer} objects (may be
      *         empty) and
      *         HTTP status of OK<br>
@@ -82,8 +90,18 @@ public class BuyerController {
      *         TODO only admin should be able to see full list of buyers
      */
     @GetMapping("")
-    public ResponseEntity<Buyer[]> getBuyers() {
+    public ResponseEntity<Buyer[]> getBuyers(HttpServletRequest request) {
         LOG.info("GET /account");
+
+        try {
+
+            User authedUser = getUserFromHeader(request);
+            if (authedUser.getAuthorities() != "ADMIN")
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             Buyer[] buyers = buyerDao.getBuyers();
             return new ResponseEntity<Buyer[]>(buyers, HttpStatus.OK);
@@ -130,14 +148,25 @@ public class BuyerController {
      * 
      * @param buyer The {@link Buyer buyer} to update
      * 
+     * @authorization The user must be an admin or the requested id's email must
+     *                match the email/username of the user (throws 402 otherwise)
+     * 
      * @return ResponseEntity with updated {@link Buyer buyer} object and HTTP
      *         status of OK if updated<br>
      *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PutMapping("")
-    public ResponseEntity<Buyer> updateBuyer(@RequestBody Buyer buyer) {
+    public ResponseEntity<Buyer> updateBuyer(HttpServletRequest request, @RequestBody Buyer buyer) {
         LOG.info("PUT /account " + buyer);
+        try {
+            User authedUser = getUserFromHeader(request);
+            if (authedUser == null
+                    || (authedUser.getAuthorities() != "ADMIN" && authedUser.getUsername() != buyer.getEmail()))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         try {
             buyer = buyerDao.updateBuyer(buyer);
@@ -159,13 +188,26 @@ public class BuyerController {
      * 
      * @param id The id of the {@link Buyer buyer} to deleted
      * 
+     * @authorization The user must be an admin or the requested id's email must
+     *                match the email/username of the user (throws 402 otherwise)
+     * 
      * @return ResponseEntity HTTP status of OK if deleted<br>
      *         ResponseEntity with HTTP status of NOT_FOUND if not found<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Buyer> deleteBuyer(@PathVariable int id) {
+    public ResponseEntity<Buyer> deleteBuyer(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /account/" + id);
+
+        try {
+            Buyer buyer = buyerDao.getBuyer(id);
+            User authedUser = getUserFromHeader(request);
+            if (authedUser == null
+                    || (authedUser.getAuthorities() != "ADMIN" && authedUser.getUsername() != buyer.getEmail()))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         try {
             if (!buyerDao.deleteBuyer(id)) {
@@ -177,5 +219,29 @@ public class BuyerController {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Gets the user from the Authorization header
+     * 
+     * @param request
+     * @return User object
+     * @throws Exception if the user is not found
+     */
+    private User getUserFromHeader(HttpServletRequest request) throws Exception {
+        String token = request.getHeader("Authorization");
+        if (token == null) {
+            return null;
+        }
+
+        String[] tokenParts = token.split(":");
+        if (tokenParts.length != 2) {
+            return null;
+        }
+
+        String username = tokenParts[0];
+        String password = tokenParts[1];
+
+        return userFileDao.getUserByEmailPassword(username, password);
     }
 }
