@@ -1,1 +1,11 @@
-<p>browse-products works!</p>
+<h2>Products</h2>
+
+<ul class="Products">
+  <li *ngFor="let product of products">
+    <div>
+        <a routerLink="/product/{{product.id}}">
+          <span class="badge">{{product.id}}</span> {{product.name}}
+        </a>
+    </div>
+  </li>
+</ul>
