@@ -44,15 +44,15 @@ public class User {
     return this.password.equals(password);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof User) {
-      User other = (User) o;
-      return (this.id == other.id);
-    } else {
-      return false;
-    }
-  }
+  // @Override
+  // public boolean equals(Object o) {
+  // if (o instanceof User) {
+  // User other = (User) o;
+  // return (this.id == other.id);
+  // } else {
+  // return false;
+  // }
+  // }
 
   @Override
   public String toString() {

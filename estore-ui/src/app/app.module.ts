@@ -15,6 +15,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { InventoryControlComponent } from './inventory-control/inventory-control.component';
+import { BrowseProductsComponent } from './browse-products/browse-products.component';
 import { LoginComponent } from './screen/login/login.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 @NgModule({
@@ -22,6 +24,8 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
     AppComponent,
     SearchBarComponent,
     ProductDetailComponent,
+    InventoryControlComponent,
+    BrowseProductsComponent,
     LoginComponent,
   ],
   imports: [
