@@ -24,8 +24,8 @@ export class JwtInterceptor implements HttpInterceptor {
     if (this.token === null) {
       this.setToken(localStorage.getItem('token'));
       if (this.token === null) {
-        this.router.navigate(['/login']);
-        throw new Error('Unauthorized');
+        console.log('token null');
+        return next.handle(request);
       }
     }
     const newRequest = request.clone({
