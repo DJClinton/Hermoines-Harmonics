@@ -202,9 +202,8 @@ public class BuyerController {
         try {
             Buyer buyer = buyerDao.getBuyer(id);
             User authedUser = getUserFromHeader(request);
-            if (authedUser == null)
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            if (authedUser.getAuthorities() != "ADMIN" && authedUser.getUsername() != buyer.getEmail())
+            if (authedUser == null
+                    || (authedUser.getAuthorities() != "ADMIN" && authedUser.getUsername() != buyer.getEmail()))
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
