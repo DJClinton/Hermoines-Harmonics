@@ -19,8 +19,6 @@ import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.qos.logback.core.subst.Token;
-
 @Tag("Controller-tier")
 public class AuthenticationControllerTest {
   ObjectMapper mockObjectMapper;

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,9 +12,6 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -23,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import com.estore.api.estoreapi.model.Order;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
-import com.estore.api.estoreapi.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Tag("Persistence-tier")
@@ -94,17 +89,12 @@ public class OrderFileDAOTest {
     @Test
     public void testDeleteProduct() {
         // Setup
-        int index0 = 0;
-        int index1 = 1;
-        Order[] expected = { orders[index0], orders[index1] };
 
         // Invoke
         try {
             orderFileDAO.deleteOrder(3);
         } catch (IOException e) {
             /* Squash */}
-
-        Order[] actual = orderFileDAO.getOrders(2);
 
         // Analyze
         // assertArrayEquals(expected,actual);
@@ -113,23 +103,16 @@ public class OrderFileDAOTest {
     @Test
     public void testCreateProduct() {
         // Setup
-        int index0 = 0;
-        int index1 = 1;
-        int index2 = 2;
 
         int productids[] = { 1, 2, 3 };
 
         Order newOrder = new Order(productids, new Date(), OrderStatus.DELIVERED, 1234, "asdas", 4, 2);
-
-        Order[] expected = { orders[index0], orders[index1], orders[index2], newOrder };
 
         // Invoke
         try {
             orderFileDAO.createOrder(newOrder);
         } catch (IOException e) {
             /* Squash */}
-
-        Order[] actual = orderFileDAO.getOrders(2);
 
         // Analyze
         // assertArrayEquals(expected,actual);

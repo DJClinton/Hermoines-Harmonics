@@ -203,7 +203,7 @@ public class InventoryController {
     public ResponseEntity<Product> deleteProduct(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /inventory/" + id);
 
-        if (!isAuthorized(request, "ADMIN"))
+        if (!isAuthorized(request, "admin"))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         try {
