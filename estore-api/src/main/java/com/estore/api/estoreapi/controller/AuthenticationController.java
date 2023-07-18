@@ -16,7 +16,7 @@ import com.estore.api.estoreapi.persistence.UserFileDAO;
 @RestController
 @RequestMapping("auth")
 public class AuthenticationController {
-  private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
+  private static final Logger LOG = Logger.getLogger(AuthenticationController.class.getName());
 
   private final UserFileDAO userDao;
 
@@ -24,9 +24,9 @@ public class AuthenticationController {
     this.userDao = userDao;
   }
 
-  @PostMapping("/authenticate")
+  @PostMapping("")
   public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
-    LOG.info("POST /auth/authenticate");
+    LOG.info("POST /auth");
     try {
       userDao.getUserByEmailPassword(request.getEmail(), request.getPassword());
     } catch (Exception err) {
