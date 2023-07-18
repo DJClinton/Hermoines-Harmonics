@@ -1,5 +1,4 @@
 {
-	"java.configuration.updateBuildConfiguration": "automatic",
-	"livePreview.defaultPreviewPath": "/estore-api/target/site/jacoco/index.html",
-	"java.compile.nullAnalysis.mode": "disabled"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "livePreview.defaultPreviewPath": "/estore-api/target/site/jacoco/index.html"
 }
