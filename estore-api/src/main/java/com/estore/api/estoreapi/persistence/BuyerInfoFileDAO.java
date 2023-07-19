@@ -19,7 +19,8 @@ import org.springframework.stereotype.Component;
 /**
  * Implements the functionality for JSON file-based peristance for BuyerInfos
  * 
- * {@literal @}Component Spring annotation instantiates a single instance of this
+ * {@literal @}Component Spring annotation instantiates a single instance of
+ * this
  * class and injects the instance into other classes as needed
  * 
  * @author Team 2
@@ -27,29 +28,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class BuyerInfoFileDAO implements BuyerInfoDAO {
     private static final Logger LOG = Logger.getLogger(BuyerInfoFileDAO.class.getName());
-    Map<Integer, BuyerInfo> buyerInfos;   // Provides a local cache of the buyerInfo objects
-                                // so that we don't need to read from the file
-                                // each time
-    private ObjectMapper objectMapper;  // Provides conversion between BuyerInfo
-                                        // objects and JSON text format written
-                                        // to the file
-    private static int nextId;  // The next Id to assign to a new product
-    private String filename;    // Filename to read from and write to
+    Map<Integer, BuyerInfo> buyerInfos; // Provides a local cache of the buyerInfo objects
+    // so that we don't need to read from the file
+    // each time
+    private ObjectMapper objectMapper; // Provides conversion between BuyerInfo
+                                       // objects and JSON text format written
+                                       // to the file
+    private static int nextId; // The next Id to assign to a new product
+    private String filename; // Filename to read from and write to
 
     private ProductFileDAO productFileDAOCopy;
 
     /**
      * Creates a BuyerInfo File Data Access Object
      * 
-     * @param filename Filename to read from and write to
-     * @param objectMapper Provides JSON Object to/from Java Object serialization and deserialization
+     * @param filename     Filename to read from and write to
+     * @param objectMapper Provides JSON Object to/from Java Object serialization
+     *                     and deserialization
      * 
      * @throws IOException when file cannot be accessed or read from
      */
-    public BuyerInfoFileDAO(@Value("${buyerInfos.file}") String filename, ObjectMapper objectMapper) throws IOException {
+    public BuyerInfoFileDAO(@Value("${buyerInfos.file}") String filename, ObjectMapper objectMapper)
+            throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
-        load();  // load the buyerInfos from the file
+        load(); // load the buyerInfos from the file
         productFileDAOCopy = SpringContext.getBean(ProductFileDAO.class);
     }
 
@@ -62,11 +65,10 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
         return nextId++;
     }
 
-
     /**
      * Generates an array of {@linkplain BuyerInfo buyerInfos} from the tree map
      * 
-     * @return  The array of {@link BuyerInfo buyerInfos}, may be empty
+     * @return The array of {@link BuyerInfo buyerInfos}, may be empty
      */
     private BuyerInfo[] getBuyerInfosArray() {
         Collection<BuyerInfo> buyerInfosCollection = buyerInfos.values();
@@ -74,7 +76,8 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-     * Saves the {@linkplain BuyerInfo buyerInfos} from the map into the file as an array of JSON objects
+     * Saves the {@linkplain BuyerInfo buyerInfos} from the map into the file as an
+     * array of JSON objects
      * 
      * @return true if the {@link BuyerInfo buyerInfos} were written successfully
      * 
@@ -106,7 +109,7 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
         // Deserializes the JSON objects from the file into an array of buyerInfos
         // readValue will throw an IOException if there's an issue with the file
         // or reading from the file
-        BuyerInfo[] buyerInfoArray = objectMapper.readValue(new File(filename),BuyerInfo[].class);
+        BuyerInfo[] buyerInfoArray = objectMapper.readValue(new File(filename), BuyerInfo[].class);
 
         // Add each product to the tree map and keep track of the greatest id
         for (BuyerInfo buyerInfo : buyerInfoArray) {
@@ -121,22 +124,22 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public BuyerInfo[] getBuyerInfos() {
-        synchronized(buyerInfos) {
+        synchronized (buyerInfos) {
             return getBuyerInfosArray();
         }
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public BuyerInfo getBuyerInfo(int id) {
         LOG.info("Retrieving buyer by id: " + id);
-        synchronized(buyerInfos) {
+        synchronized (buyerInfos) {
             if (buyerInfos.containsKey(id))
                 return buyerInfos.get(id);
             else
@@ -145,15 +148,15 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public BuyerInfo[] getBuyerInfosByUserId(int userid) throws IOException {
-        synchronized(buyerInfos) {
+        synchronized (buyerInfos) {
             ArrayList<BuyerInfo> buyerInfosList = new ArrayList<>();
 
-            for(BuyerInfo buyerInfo : buyerInfos.values()) {
-                if(buyerInfo.getUserId() == userid) {
+            for (BuyerInfo buyerInfo : buyerInfos.values()) {
+                if (buyerInfo.getUserId() == userid) {
                     buyerInfosList.add(buyerInfo);
                 }
             }
@@ -163,15 +166,17 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public BuyerInfo createBuyerInfo(BuyerInfo buyerInfo) throws IOException {
         LOG.info("Create Buyer Info (FILE DAO)");
-        synchronized(buyerInfos) {
-            BuyerInfo newBuyerInfo = new BuyerInfo(nextId(), buyerInfo.getUserId(),buyerInfo.getFirstName(), buyerInfo.getLastName(), 
-                                       buyerInfo.getPhoneNumber(), buyerInfo.getPastOrderIds(), buyerInfo.getCreditCards(), buyerInfo.getShippingAddresses(),
-                                       buyerInfo.getCart(), buyerInfo.getWishlist());
+        synchronized (buyerInfos) {
+            BuyerInfo newBuyerInfo = new BuyerInfo(nextId(), buyerInfo.getUserId(), buyerInfo.getFirstName(),
+                    buyerInfo.getLastName(),
+                    buyerInfo.getPhoneNumber(), buyerInfo.getPastOrderIds(), buyerInfo.getCreditCards(),
+                    buyerInfo.getShippingAddresses(),
+                    buyerInfo.getCart(), buyerInfo.getWishlist());
             buyerInfos.put(newBuyerInfo.getId(), newBuyerInfo);
             save(); // may throw an IOException
             return buyerInfo;
@@ -179,13 +184,13 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public BuyerInfo updateBuyerInfo(BuyerInfo buyerInfo) throws IOException {
-        synchronized(buyerInfos) {
+        synchronized (buyerInfos) {
             if (!buyerInfos.containsKey(buyerInfo.getId()))
-                return null;  // buyerInfo does not exist
+                return null; // buyerInfo does not exist
 
             buyerInfos.put(buyerInfo.getId(), buyerInfo);
             save(); // may throw an IOException
@@ -194,35 +199,32 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     ** {@inheritDoc}
      */
     @Override
     public boolean deleteBuyerInfo(int id) throws IOException {
-        synchronized(buyerInfos) {
+        synchronized (buyerInfos) {
             if (buyerInfos.containsKey(id)) {
                 buyerInfos.remove(id);
                 return save();
-            }
-            else
+            } else
                 return false;
         }
     }
 
     /**
      * Calculates the total cost of the Buyer's cart based off of the items
+     * 
      * @param items
      * @param buyerInfo
      * @throws IOException
      */
 
-    public void calcTotalCost(Collection<Integer> items, BuyerInfo buyerInfo) throws IOException{
+    public int calcTotalCost(Collection<Integer> items, BuyerInfo buyerInfo) throws IOException {
         int total = 0;
-        for (int id : items){
+        for (int id : items) {
             total += productFileDAOCopy.getProduct(id).getPrice();
         }
-
-        buyerInfo.setTotalCost(total);
-        updateBuyerInfo(buyerInfo);
-
+        return total;
     }
 }

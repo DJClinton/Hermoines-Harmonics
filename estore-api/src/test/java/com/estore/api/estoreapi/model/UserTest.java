@@ -1,97 +1,63 @@
-// package com.estore.api.estoreapi.model;
+package com.estore.api.estoreapi.model;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// import java.util.Collection;
-// import java.util.Collections;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-// import org.junit.jupiter.api.Tag;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.security.core.authority.SimpleGrantedAuthority;
+@Tag("Model-tier")
+public class UserTest {
+    private int expectedID;
+    private String expectedUserName;
+    private String expectedPassword;
+    private String expectedAuthorities;
+    private User user;
 
-// /**
-//  * Due to user class extends Spring Security's User class, only the methods that
-//  * are not inherited from the User class are tested.
-//  */
-// @Tag("Model-tier")
-// public class UserTest {
-//   @Test
-//   public void testID() {
-//     // Setup
-//     int id = 4;
-//     String email = "user@email.com";
-//     String password = "password";
-//     Collection<SimpleGrantedAuthority> authorities = Collections
-//         .singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//     User user = new User(id, email, password, authorities);
-//     int expected = 4;
+    @BeforeEach
+    public void setupUserTest() {
+        expectedID = 1;
+        expectedUserName = "john";
+        expectedPassword = "pass";
+        expectedAuthorities = "auth";
+        user = new User(expectedID, expectedUserName, expectedPassword, expectedAuthorities);
+    }
 
-//     // Invoke
-//     int actual = user.getId();
+    @Test
+    public void testID() {
+        assertEquals(expectedID, user.getId());
 
-//     // Analyze
-//     assertEquals(expected, actual);
-//   }
+        user.setId(2);
+        assertEquals(2, user.getId());
+    }
 
-//   @Test
-//   public void testSetID() {
-//     // Setup
-//     int id = 4;
-//     String email = "user@email.com";
-//     String password = "password";
-//     Collection<SimpleGrantedAuthority> authorities = Collections
-//         .singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//     User user = new User(id, email, password, authorities);
-//     int expected = 5;
+    @Test
+    public void testUsername() {
+        assertEquals(expectedUserName, user.getUsername());
 
-//     // Invoke
-//     user.setId(expected);
+        user.setUsername("joe");
+        assertEquals("joe", user.getUsername());
+    }
 
-//     // Analyze
-//     assertEquals(expected, user.getId());
-//   }
+    @Test
+    public void testPassword() {
+        assertEquals(expectedPassword, user.getPassword());
 
-//   /**
-//    * A method for serializing the authorities of a user is needed as the
-//    * authories is a class that extends GrantedAuthority and is not serializable to
-//    * a JSON file.
-//    */
-//   @Test
-//   public void testAuthorities() {
-//     int id = 4;
-//     String email = "user@email.com";
-//     String password = "password";
-//     Collection<SimpleGrantedAuthority> authorities = Collections
-//         .singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//     User user = new User(id, email, password, authorities);
-//     Collection<String> expected = Collections.singletonList("ROLE_ADMIN");
+        user.setPassword("betterpass");
+        assertEquals("betterpass", user.getPassword());
+    }
 
-//     // Invoke
-//     Collection<String> actual = user.getAuthoritiesAsString();
+    @Test
+    public void testAuthorities() {
+        assertEquals(expectedAuthorities, user.getAuthorities());
 
-//     // Analyze
-//     assertEquals(expected, actual);
+        user.setAuthorities("test");
+        assertEquals("test", user.getAuthorities());
+    }
 
-//   }
-
-//   @Test
-//   public void testEquals() {
-//     int id1 = 4;
-//     int id2 = 3;
-//     String email1 = "user@email.com";
-//     String email2 = "user2@email.com";
-//     String password = "password";
-//     Collection<SimpleGrantedAuthority> authorities = Collections
-//         .singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//     User user1 = new User(id1, email1, password, authorities);
-//     User user2 = new User(id1, email2, password, authorities);
-//     User user3 = new User(id2, email1, password, authorities);
-
-//     // Invoke & Analyze
-//     assertEquals(user1, user1, "User is not equal to itself");
-//     assertEquals(user1, user2, "Users are not equal");
-//     assertNotEquals(user1, user3, "Users are equal");
-//     assertNotEquals(user1, "Bobby", "User is equal to a string");
-//   }
-// }
+    @Test
+    public void testCheckPassword() {
+        user.setPassword("password");
+        assertEquals(user.checkPassword("password"), true);
+    }
+}

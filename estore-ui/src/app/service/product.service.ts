@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap } from 'rxjs';
-import { Product } from './type';
+import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +9,10 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders().append('Content-Type', 'application/json'),
   };
 
-  private inverntoryUrl = 'http://localhost:8080/inventory';
+  private inventoryUrl = 'http://localhost:8080/inventory';
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -23,34 +22,32 @@ export class ProductService {
   }
 
   getProducts(): Observable<any> {
-    return this.http
-      .get<Product[]>(this.inverntoryUrl)
-      .pipe(catchError(this.handleError<any>('getProducts')));
+    return this.http.get(this.inventoryUrl);
   }
 
-  getProduct(id: number): Observable<Product> {
-    const url = `${this.inverntoryUrl}/${id}`;
+  getProduct(id: number): Observable<any> {
+    const url = `${this.inventoryUrl}/${id}`;
     return this.http
-      .get<Product>(url)
+      .get(url)
       .pipe(catchError(this.handleError<any>(`getProduct id:${id}`)));
   }
 
-  addProduct(product: Product): Observable<any> {
+  addProduct(product: any): Observable<any> {
     return this.http
-      .post<Product>(this.inverntoryUrl, product, this.httpOptions)
+      .post(this.inventoryUrl, product, this.httpOptions)
       .pipe(catchError(this.handleError<any>('addProduct')));
   }
 
-  updateProduct(product: Product): Observable<Product> {
+  updateProduct(product: any): Observable<any> {
     return this.http
-      .put<Product>(this.inverntoryUrl, product, this.httpOptions)
+      .put(this.inventoryUrl, product, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateProduct')));
   }
 
-  deleteProduct(id: number): Observable<Product> {
-    const url = `${this.inverntoryUrl}/${id}`;
+  deleteProduct(id: number): Observable<any> {
+    const url = `${this.inventoryUrl}/${id}`;
     return this.http
-      .delete<Product>(url, this.httpOptions)
+      .delete(url, this.httpOptions)
       .pipe(catchError(this.handleError<any>('deleteProduct')));
   }
 
@@ -59,7 +56,7 @@ export class ProductService {
       return of([]);
     }
     return this.http
-      .get<Product[]>(`${this.inverntoryUrl}/?name=${term}`)
+      .get(`${this.inventoryUrl}/?name=${term}`)
       .pipe(
         catchError(this.handleError<any>(`searchProducts term:${term}`, []))
       );

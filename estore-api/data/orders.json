@@ -1,0 +1,11 @@
+[
+    {
+        "productId": [1, 2, 3], "date": 1689653389, "orderStatus":"UNPROCESSED", "ccDigits": "4400", "address": "9782 West Bayberry Street Cookeville, TN 38501", "orderID": 0, "userID": 0
+    },
+    {
+        "productId": [3], "date": 1689653370, "orderStatus":"SHIPPED", "ccDigits": "6710", "address": "8622 Marconi St. Brookfield, WI 53045", "orderID": 1, "userID": 1
+    },
+    {
+        "productId": [1, 2], "date": 1689653379, "orderStatus":"SHIPPED", "ccDigits": "4367", "address": "50 Talbot Lane Bellmore, NY 11710, TN 38501", "orderID": 2, "userID": 1
+    }
+]

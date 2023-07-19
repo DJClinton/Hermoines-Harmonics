@@ -182,5 +182,17 @@ public class ProductTest {
         // Analyze
         assertEquals(expected,actual);
     }
+
+    @Test
+    public void testEquals() {
+        Product product1 = new Product(1, "sax", 20, 2);
+        Product product2 = new Product(1, "sax", 20, 2);
+        Product product3 = new Product(2, "trombone", 999, 1);
+        Object o = new Object();
+
+        assertEquals(product1.equals(product2), true);
+        assertEquals(product1.equals(product3), false);
+        assertEquals(product1.equals(o), false);
+    }
     
 }

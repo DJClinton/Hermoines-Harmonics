@@ -7,7 +7,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { Product } from '../../type';
-import { ProductService } from '../../product.service';
+import { ProductService } from '../../service/product.service';
 
 @Component({
   selector: 'app-search-bar',

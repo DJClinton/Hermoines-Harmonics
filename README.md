@@ -71,6 +71,9 @@ To run tests on all the tiers in isolation do this:
 4. ...
 5. ...
 
+## Links
+1. Acceptance test link - [https://docs.google.com/spreadsheets/d/1YjYNWZW_DiSGKiMx0M7f7FcyFlr3p6NV/edit#gid=1976262378](url)
+
 ## License
 
 MIT License

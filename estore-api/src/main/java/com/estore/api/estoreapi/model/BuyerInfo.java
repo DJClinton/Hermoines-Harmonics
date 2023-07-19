@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Represents the information for a buyer
@@ -20,13 +18,13 @@ public class BuyerInfo {
 
     @JsonProperty("id")
     private int id;
-    @JsonProperty("userid")
+    @JsonProperty("userId")
     private int userid;
-    @JsonProperty("firstName") 
+    @JsonProperty("firstName")
     private String firstName;
-    @JsonProperty("lastName") 
+    @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty("phoneNumber") 
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
     @JsonProperty("pastOrdersIds")
     private Collection<Integer> pastOrderIds;
@@ -39,13 +37,17 @@ public class BuyerInfo {
     @JsonProperty("wishlist")
     private Collection<Integer> wishlist;
 
-    private int totalCost;
-
-    public BuyerInfo(@JsonProperty("id") int id, @JsonProperty("userid") int userid, @JsonProperty("firstName") String firstName, 
-                 @JsonProperty("lastName") String lastName, @JsonProperty("phoneNumber") String phoneNumber, 
-                 @JsonProperty("pastOrdersIds") Collection<Integer> pastOrderIds, @JsonProperty("creditCards") Collection<CreditCard> creditCards, 
-                 @JsonProperty("shippingAddresses") Collection<String> shippingAddresses, @JsonProperty("cart") Collection<Integer> cart,
-                 @JsonProperty ("wishlist") Collection<Integer> wishlist) {
+    public BuyerInfo(
+            @JsonProperty("id") int id,
+            @JsonProperty("userId") int userid,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("phoneNumber") String phoneNumber,
+            @JsonProperty("pastOrdersIds") Collection<Integer> pastOrderIds,
+            @JsonProperty("creditCards") Collection<CreditCard> creditCards,
+            @JsonProperty("shippingAddresses") Collection<String> shippingAddresses,
+            @JsonProperty("cart") Collection<Integer> cart,
+            @JsonProperty("wishlist") Collection<Integer> wishlist) {
 
         this.id = id;
         this.userid = userid;
@@ -194,93 +196,80 @@ public class BuyerInfo {
      * 
      * @param shippingAddresses new shipping addresses
      */
-    //@JsonSetter("shippingAddresses")
+    // @JsonSetter("shippingAddresses")
     public void setShippingAddresses(List<String> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
     }
 
     /**
      * Grabs the array of the ids in the cart
+     * 
      * @return the ids of the items in the cart
      */
 
-    //@JsonGetter("cart")
-    public Collection<Integer> getCart(){
+    // @JsonGetter("cart")
+    public Collection<Integer> getCart() {
         return cart;
     }
 
     /**
      * Add a product into the cart
+     * 
      * @param product
      */
 
-    public void addProductCart(Product product){
+    public void addProductCart(Product product) {
         this.cart.add(product.getId());
     }
 
     /**
      * Remove a product from the cart
+     * 
      * @param product
      */
 
-    public void removeProductCart(Product product){
+    public void removeProductCart(Product product) {
         this.cart.remove(product.getId());
     }
 
     /**
      * Grabs the array of the ids in the wishlist
+     * 
      * @return the ids of the items in the cart
      */
 
-    //@JsonGetter("wishlist")
-    public Collection<Integer> getWishlist(){
+    // @JsonGetter("wishlist")
+    public Collection<Integer> getWishlist() {
         return wishlist;
     }
 
     /**
      * Add a product into the wishlist
+     * 
      * @param product
      */
 
-    public void addProductWishlist(Product product){
+    public void addProductWishlist(Product product) {
         this.wishlist.add(product.getId());
     }
 
     /**
      * Remove a product from the wishlist
+     * 
      * @param product
      */
 
-    public void removeProductWishlist(Product product){
+    public void removeProductWishlist(Product product) {
         this.wishlist.remove(product.getId());
     }
 
-    // /**
-    //  * Gets the total cost of the buyer's cart
-    //  * @return the total cost of the cart
-    //  */
-
-    //  public int getTotalCost(){
-    //      return this.totalCost;
-    //  }
- 
-     /**
-      * Sets the total cost of the cart
-      * @param cost
-      */
- 
-     public void setTotalCost(int cost){
-         this.totalCost = cost;
-     }
-
-    
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, userid, firstName, lastName, 
-                             phoneNumber, pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
+        return String.format(STRING_FORMAT, id, userid, firstName, lastName,
+                phoneNumber, pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
     }
 
 }
