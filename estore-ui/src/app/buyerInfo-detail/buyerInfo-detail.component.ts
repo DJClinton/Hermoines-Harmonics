@@ -23,7 +23,7 @@ export class BuyerInfoDetailComponent {
       this.getBuyerInfo(params['id']);
     });
     console.log(
-      'ngonit buyer info: ' + this.buyerInfo + 'with id: ' + this.buyerInfo?.id
+      'ngonit buyer info: ' + this.buyerInfo + ' with id: ' + this.buyerInfo?.id
     );
   }
 
@@ -31,9 +31,6 @@ export class BuyerInfoDetailComponent {
     this.buyerInfoService
       .getBuyerInfo(id)
       .subscribe((buyerInfo) => (this.buyerInfo = buyerInfo));
-    console.log(
-      'Getting buyer info: ' + this.buyerInfo + 'with id: ' + this.buyerInfo?.id
-    );
   }
 
   goBack(): void {

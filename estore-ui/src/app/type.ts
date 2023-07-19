@@ -11,7 +11,7 @@ export interface BuyerInfo {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  pastOrderIds: Array<number>;
+  pastOrdersIds: Array<number>;
   creditCards: Array<CreditCard>;
   shippingAddresses: Array<String>;
   cart: Array<number>;

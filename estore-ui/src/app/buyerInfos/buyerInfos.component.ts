@@ -47,7 +47,7 @@ export class BuyerInfosComponent {
       firstName,
       lastName,
       phoneNumber,
-      pastOrderIds: [],
+      pastOrdersIds: [],
       creditCards: [],
       shippingAddresses: [],
       cart: [],
