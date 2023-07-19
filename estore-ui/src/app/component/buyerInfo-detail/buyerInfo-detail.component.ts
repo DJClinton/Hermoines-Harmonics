@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { BuyerInfoService } from '../buyerInfo.service';
+import { BuyerInfoService } from '../../buyerInfo.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { BuyerInfo } from '../type';
+import { BuyerInfo } from '../../type';
 
 @Component({
   selector: 'app-buyerInfo-detail',

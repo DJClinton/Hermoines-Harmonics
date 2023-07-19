@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BuyerInfoService } from '../buyerInfo.service';
-import { BuyerInfo } from '../type';
+import { BuyerInfoService } from '../../buyerInfo.service';
+import { BuyerInfo } from '../../type';
 
 @Component({
   selector: 'app-buyerInfos',

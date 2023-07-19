@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductDetailComponent } from './screen/product-detail/product-detail.component';
 import { InventoryControlComponent } from './inventory-control/inventory-control.component';
-import { BrowseProductsComponent } from './browse-products/browse-products.component';
+import { BrowseProductsComponent } from './component/browse-products/browse-products.component';
 import { LoginComponent } from './screen/login/login.component';
-import { BuyerInfosComponent } from './buyerInfos/buyerInfos.component';
-import { BuyerInfoDetailComponent } from './buyerInfo-detail/buyerInfo-detail.component';
+import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
+import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
