@@ -179,7 +179,7 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
                     buyerInfo.getCart(), buyerInfo.getWishlist());
             buyerInfos.put(newBuyerInfo.getId(), newBuyerInfo);
             save(); // may throw an IOException
-            return buyerInfo;
+            return newBuyerInfo;
         }
     }
 
