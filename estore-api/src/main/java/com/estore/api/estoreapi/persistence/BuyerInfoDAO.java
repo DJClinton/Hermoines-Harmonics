@@ -25,20 +25,19 @@ public interface BuyerInfoDAO {
      * @param id The id of the {@link BuyerInfo buyerInfo} to get
      * 
      * @return a {@link BuyerInfo buyerInfo} object with the matching id
-     * <br>
-     * null if no {@link BuyerInfo buyerInfo} with a matching id is found
+     *         <br>
+     *         null if no {@link BuyerInfo buyerInfo} with a matching id is found
      * 
      * @throws IOException if an issue with underlying storage
      */
     BuyerInfo getBuyerInfo(int id) throws IOException;
 
-
     /**
-     * Retrieves all {@linkplain BuyerInfo buyerInfo} belonging to 
+     * Retrieves all {@linkplain BuyerInfo buyerInfo} belonging to
      * the user with the given id
      * 
      * @param userid The user id of the {@link User user} whose buyers
-     * will be fetched
+     *               will be fetched
      * 
      * @return an array of {@link BuyerInfo buyerInfo} objects
      * 
@@ -49,11 +48,13 @@ public interface BuyerInfoDAO {
     /**
      * Creates and saves a {@linkplain BuyerInfo buyerInfo}
      * 
-     * @param buyerInfo {@linkplain BuyerInfo buyerInfo} object to be created and saved
-     * <br>
-     * The id of the buyerInfo object is ignored and a new uniqe id is assigned
+     * @param buyerInfo {@linkplain BuyerInfo buyerInfo} object to be created and
+     *                  saved
+     *                  <br>
+     *                  The id of the buyerInfo object is ignored and a new uniqe id
+     *                  is assigned
      *
-     * @return new {@link BuyerInfo buyerInfo} if successful, false otherwise 
+     * @return new {@link BuyerInfo buyerInfo} if successful, false otherwise
      * 
      * @throws IOException if an issue with underlying storage
      */
@@ -65,7 +66,7 @@ public interface BuyerInfoDAO {
      * @param {@link BuyerInfo buyerInfo} object to be updated and saved
      * 
      * @return updated {@link BuyerInfo buyerInfo} if successful, null if
-     * {@link BuyerInfo buyerInfo} could not be found
+     *         {@link BuyerInfo buyerInfo} could not be found
      * 
      * @throws IOException if underlying storage cannot be accessed
      */
@@ -77,10 +78,10 @@ public interface BuyerInfoDAO {
      * @param id The id of the {@link BuyerInfo buyerInfo}
      * 
      * @return true if the {@link BuyerInfo buyerInfo} was deleted
-     * <br>
-     * false if buyerInfo with the given id does not exist
+     *         <br>
+     *         false if buyerInfo with the given id does not exist
      * 
      * @throws IOException if underlying storage cannot be accessed
      */
-    boolean deleteBuyerInfo(int id) throws IOException;
+    BuyerInfo deleteBuyerInfo(int id) throws IOException;
 }

@@ -1,6 +1,5 @@
 package com.estore.api.estoreapi.model;
 
-import java.util.Date;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +14,7 @@ public class CreditCard {
 
     static final String STRING_FORMAT = "Credit Card [holdername=%s, cardNumber=%d]";
 
-    @JsonProperty("holderName") 
+    @JsonProperty("holderName")
     private String holderName;
     @JsonProperty("cardNumber")
     private int cardNumber;
@@ -23,8 +22,8 @@ public class CreditCard {
     /**
      * Create a credit card for buyer use
      * 
-     * @param holderName        name of the holder of the card
-     * @param cardNumber        credit card number
+     * @param holderName name of the holder of the card
+     * @param cardNumber credit card number
      */
     public CreditCard(@JsonProperty("holderName") String holderName, @JsonProperty("cardNumber") int cardNumber) {
 
@@ -80,5 +79,5 @@ public class CreditCard {
     public String toString() {
         return String.format(STRING_FORMAT, holderName, cardNumber);
     }
-    
+
 }

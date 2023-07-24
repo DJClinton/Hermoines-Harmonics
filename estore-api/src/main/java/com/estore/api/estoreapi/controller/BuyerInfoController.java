@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
-import com.estore.api.estoreapi.model.Product;
 
 /**
  * Handles the REST API requests for the BuyerInfo resource
@@ -192,11 +191,12 @@ public class BuyerInfoController {
         LOG.info("DELETE /account/" + id);
 
         try {
-            if (!buyerInfoDao.deleteBuyerInfo(id)) {
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            if (buyer == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(buyer, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

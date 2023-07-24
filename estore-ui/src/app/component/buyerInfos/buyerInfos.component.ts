@@ -10,18 +10,24 @@ import { BuyerInfo } from '../../type';
 export class BuyerInfosComponent {
   buyerInfos: BuyerInfo[] = [];
 
-  constructor(private buyerInfoService: BuyerInfoService) {}
+  constructor(private buyerInfoService: BuyerInfoService) {
+    buyerInfoService.getBuyerInfos().subscribe((data) => {
+      this.buyerInfos = data ? data : [];
+    });
+  }
 
-  ngOnInit() {
-    this.getBuyerInfos();
+  setBuyerInfosList(buyerInfos: BuyerInfo[]): void {
+    if (!buyerInfos) {
+      this.buyerInfos = [];
+      return console.error(
+        'BuyerInfosComponent.setBuyerInfos(): buyerInfos is null'
+      );
+    }
+    this.buyerInfos = buyerInfos;
   }
 
   getBuyerInfos() {
-    this.buyerInfoService.getBuyerInfos().subscribe(this.setBuyerInfos);
-  }
-
-  setBuyerInfos(buyerInfos: BuyerInfo[]) {
-    this.buyerInfos = buyerInfos;
+    this.buyerInfoService.getBuyerInfos().subscribe(this.setBuyerInfosList);
   }
 
   addBuyerInfo(buyerInfo: BuyerInfo) {
@@ -30,7 +36,7 @@ export class BuyerInfosComponent {
       .addBuyerInfo(buyerInfo)
       .subscribe((buyerInfo: BuyerInfo) => {
         this.buyerInfos.push(buyerInfo);
-        this.getBuyerInfos(); // Refreshes buyerInfo list
+        // this.getBuyerInfos(); // Refreshes buyerInfo list
         console.log('BuyerInfo created successfully');
       });
   }
@@ -58,15 +64,19 @@ export class BuyerInfosComponent {
   }
 
   updateBuyerInfo(buyerInfo: BuyerInfo) {
-    this.buyerInfoService.updateBuyerInfo(buyerInfo).subscribe(() => {
-      this.getBuyerInfos();
+    this.buyerInfoService.updateBuyerInfo(buyerInfo).subscribe((buyerInfo) => {
+      this.buyerInfos = this.buyerInfos.map((b) =>
+        b.id === buyerInfo.id ? buyerInfo : b
+      );
+      // this.getBuyerInfos();
       console.log('BuyerInfo updated successfully');
     });
   }
 
   deleteBuyerInfo(id: number) {
-    this.buyerInfoService.deleteBuyerInfo(id).subscribe(() => {
-      this.getBuyerInfos();
+    this.buyerInfoService.deleteBuyerInfo(id).subscribe((buyerInfo) => {
+      this.buyerInfos = this.buyerInfos.filter((b) => b.id !== buyerInfo.id);
+      // this.getBuyerInfos();
       console.log('BuyerInfo deleted successfully');
     });
   }

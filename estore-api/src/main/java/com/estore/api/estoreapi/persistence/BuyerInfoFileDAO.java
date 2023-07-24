@@ -202,13 +202,14 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
      ** {@inheritDoc}
      */
     @Override
-    public boolean deleteBuyerInfo(int id) throws IOException {
+    public BuyerInfo deleteBuyerInfo(int id) throws IOException {
         synchronized (buyerInfos) {
             if (buyerInfos.containsKey(id)) {
-                buyerInfos.remove(id);
-                return save();
+                BuyerInfo buyer = buyerInfos.remove(id);
+                save();
+                return buyer;
             } else
-                return false;
+                return null;
         }
     }
 
