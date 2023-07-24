@@ -16,14 +16,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { InventoryControlComponent } from './inventory-control/inventory-control.component';
-import { BrowseProductsComponent } from './browse-products/browse-products.component';
+import { BrowseProductsComponent } from './component/browse-products/browse-products.component';
 import { LoginComponent } from './screen/login/login.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
+import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
     SearchBarComponent,
     ProductDetailComponent,
+    BuyerInfosComponent,
+    BuyerInfoDetailComponent,
     InventoryControlComponent,
     BrowseProductsComponent,
     LoginComponent,

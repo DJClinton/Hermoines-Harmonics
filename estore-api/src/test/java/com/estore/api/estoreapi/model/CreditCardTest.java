@@ -3,120 +3,83 @@ package com.estore.api.estoreapi.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.sql.Date;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag("Model-tier")
 public class CreditCardTest {
-    @Test
-    public void testCtor() {
-        // Setup
+        @Test
+        public void testCtor() {
+                // Setup
 
-        String holderName1 = "Parappa the Rapper";
-        int cardNum1 = 55555555;
-        Date exprDate1 = new Date(1688607420);
-        int secCode1 = 123;
+                String holderName1 = "Parappa the Rapper";
+                int cardNum1 = 55555555;
 
-        // Invoke
+                // Invoke
+                CreditCard card1 = new CreditCard(holderName1, cardNum1);
 
-        CreditCard card1 = new CreditCard(holderName1, cardNum1, exprDate1, secCode1);
+                // Analyze
+                assertEquals(card1.getHolderName(), holderName1);
+                assertEquals(card1.getCardNumber(), cardNum1);
+        }
 
-        // Analyze
-        assertEquals(holderName1, holderName1);
-        assertEquals(card1.getExpirationDate(), exprDate1);
-        assertEquals(card1.getCardNumber(), cardNum1);
-        assertEquals(card1.getSecurityCode(), secCode1);
-    }
+        @Test
+        public void testNotEquals() {
+                // Setup
 
-    @Test
-    public void testNotEquals() {
-        // Setup
+                String holderName1 = "Parappa the Rapper";
+                int cardNum1 = 55555555;
 
-        String holderName1 = "Parappa the Rapper";
-        int cardNum1 = 55555555;
-        Date exprDate1 = new Date(1688607420);
-        int secCode1 = 123;
+                // Invoke
+                CreditCard card1 = new CreditCard(holderName1, cardNum1);
 
-        // Invoke
+                // Setup
+                String holderName2 = "Legoshi";
+                int cardNum2 = 4444444;
 
-        CreditCard card1 = new CreditCard(holderName1, cardNum1, exprDate1, secCode1);
+                // Invoke
+                CreditCard card2 = new CreditCard(holderName2, cardNum2);
 
-        // Setup
-        String holderName2 = "Legoshi";
-        int cardNum2 = 4444444;
-        Date exprDate2 = new Date(1688607420);
-        int secCode2 = 333;
+                // Analyze
 
-        // Invoke
+                assertNotEquals(card1, card2);
+        }
 
-        CreditCard card2 = new CreditCard(holderName2, cardNum2, exprDate2, secCode2);
+        public void testEquals() {
+                // Setup
 
-        // Analyze
+                String holderName1 = "Parappa the Rapper";
+                int cardNum1 = 55555555;
 
-        assertNotEquals(card1, card2);
-    }
+                // Invoke
+                CreditCard card1 = new CreditCard(holderName1, cardNum1);
 
-    public void testEquals() {
-        // Setup
+                // Setup
+                String holderName2 = "Parappa the Rapper";
+                int cardNum2 = 55555555;
 
-        String holderName1 = "Parappa the Rapper";
-        int cardNum1 = 55555555;
-        Date exprDate1 = new Date(1688607420);
-        int secCode1 = 123;
+                // Invoke
+                CreditCard card2 = new CreditCard(holderName2, cardNum2);
 
-        // Invoke
+                // Analyze
 
-        CreditCard card1 = new CreditCard(holderName1, cardNum1, exprDate1, secCode1);
+                assertEquals(card1, card2);
+        }
 
-        // Setup
-        String holderName2 = "Parappa the Rapper";
-        int cardNum2 = 55555555;
-        Date exprDate2 = new Date(1688607420);
-        int secCode2 = 123;
+        @Test
+        public void testToString() {
+                // Setup
+                String holderName = "Parappa the Rapper";
+                int cardNum = 55555555;
 
-        // Invoke
+                String expectedString = String.format(CreditCard.STRING_FORMAT, holderName, cardNum);
 
-        CreditCard card2 = new CreditCard(holderName2, cardNum2, exprDate2, secCode2);
+                // Invoke
+                CreditCard newCard = new CreditCard(holderName, cardNum);
+                String actualString = newCard.toString();
 
-        // Analyze
+                // Analyze
+                assertEquals(expectedString, actualString);
 
-        assertEquals(card1, card2);
-    }
-
-    @Test
-    public void testToString() {
-        // Setup
-        String holderName = "Parappa the Rapper";
-        int cardNum = 55555555;
-        Date exprDate = new Date(1688607420);
-        int secCode = 123;
-
-        String expectedString = String.format(CreditCard.STRING_FORMAT, holderName, cardNum, exprDate, secCode);
-
-        // Invoke
-        CreditCard newCard = new CreditCard(holderName, cardNum, exprDate, secCode);
-        String actualString = newCard.toString();
-
-        // Analyze
-        assertEquals(expectedString, actualString);
-
-    }
-
-    @Test
-    public void setTest() {
-        CreditCard card = new CreditCard("Parappa the Rapper", 55555555, new Date(1688607420), 123);
-        card.setCardNumber(44444444);
-        card.setExpirationDate(new Date(1688607420));
-        card.setHolderName("Parappa the Rapper");
-        card.setSecurityCode(123);
-
-        // anaylize
-        assertEquals(44444444, card.getCardNumber());
-        assertEquals(new Date(1688607420), card.getExpirationDate());
-        assertEquals("Parappa the Rapper", card.getHolderName());
-        assertEquals(123, card.getSecurityCode());
-
-    }
+        }
 }
