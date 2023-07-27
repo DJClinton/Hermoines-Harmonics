@@ -47,11 +47,13 @@ export class BuyerInfoDetailComponent {
 
   appendShippingAddress(shippingAddress: string): void {
     this.buyerInfo?.shippingAddresses.push(shippingAddress);
-    this.buyerInfoService.updateBuyerInfo(this.buyerInfo);
+  }
+
+  deleteShippingAddress(shippingAddressIndex: number): void {
+    this.buyerInfo?.shippingAddresses.splice(shippingAddressIndex, 1);
   }
 
   appendCreditCard(holderName: string, cardNumber: number): void {
     this.buyerInfo?.creditCards.push({ holderName, cardNumber });
-    this.buyerInfoService.updateBuyerInfo(this.buyerInfo);
   }
 }

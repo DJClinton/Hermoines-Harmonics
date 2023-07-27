@@ -2,7 +2,7 @@
 <div class="buyerInfo" *ngIf="buyerInfo">
     <h2>{{buyerInfo.firstName}} {{buyerInfo.lastName}} Information</h2>
     <div><span>id: </span>{{buyerInfo.id}}</div>
-    <div><span>userid: </span>{{buyerInfo.userid}}</div>
+    <div><span>userid: </span>{{buyerInfo.userId}}</div>
 
     <div>
         <label for="buyerInfo-firstName">First Name: </label>
@@ -19,43 +19,31 @@
         <input id="buyerInfo-phoneNumber" [(ngModel)]="buyerInfo.phoneNumber" placeholder="###-###-####">
     </div>
 
-    <!-- Route to view past orders in product form for this user-->
-    <!-- <div><span>Past Order Ids: </span>{{buyerInfo.pastOrderIds}}</div> -->
-    <p>Past Order Ids:</p>
-    <mat-list>
-        <mat-list-item *ngFor="let orderId of buyerInfo.pastOrdersIds">
-            Id: <a>{{ orderId }}</a>
-        </mat-list-item>
-    </mat-list>
-    <!-- <ul>
-       <li> {{buyerInfo.pastOrderIds}}</li>
-    </ul> -->
 
-    <!-- <div *ngFor="let orderid of buyerInfo.pastOrderIds">
-        <h2>{{orderid}}</h2>
-    </div> -->
-    
-
-    <!--
-    <p>Shipping Addresses: </p>
-    <li *ngFor="let address of buyerInfo.shippingAddresses; let i = index">
-        
-        <div>
-            <label for="buyerInfo-shippingAddress"> Address {{i}}: </label>
-            <input id="buyerInfo-shippingAddress" [(ngModel)]="address" placeholder="address">
-        </div>
-    </li>
+    <h4>Saved Shipping Addresses: </h4>
 
     <div>
         <label for="new-address">New Shipping Address: </label>
         <input id="new-address" #newShippingAddress />
 
         <button type="button" class="add-button" (click)="appendShippingAddress(newShippingAddress.value); newShippingAddress.value=''">
-            Add Shipping Address
-          </button>
+            +
+        </button>
     </div>
 
-    <p>Credit Cards: </p>
+    <mat-list>
+        <li *ngFor="let address of buyerInfo.shippingAddresses; let i = index">
+            <div>
+                <input id="shipping-address" [(ngModel)]="buyerInfo.shippingAddresses[i]" placeholder="shipping address">
+                <button type="button" class="delete" title="delete address" (click)="deleteShippingAddress(i)">
+                    x
+                </button>
+            </div>
+        </li>
+    </mat-list>
+
+    
+    <!-- <h4>Credit Cards: </h4>
     <li *ngFor="let creditCard of buyerInfo.creditCards; let i = index">
         <div><span>Credit Card </span>{{i}}</div>
         <div>
@@ -73,22 +61,44 @@
         <label for="new-holderName">New Holder Name: </label>
         <input id="new-holderName" #newHolderName />
         <label for="new-cardNum">New CC Number: </label>
-        <input id="new-cardNum" #newCCNum />
+        <input id="new-cardNum" type="number" #newCCNum />
 
         <button type="button" class="add-button" (click)="appendCreditCard(newHolderName.value, newCCNum.value); newHolderName.value=''; newCCNum.value=''">
             Add Credit Card
           </button>
-    </div>
+    </div> -->
 
-    -->
+    
+
+
+
+
+    <!-- Route to view past orders in product form for this user-->
+    <!-- Remove this temporary list of ids when route is added-->
+    <h4>Past Order Ids:</h4>
+    <mat-list>
+        <li *ngFor="let orderId of buyerInfo.pastOrdersIds">
+            Id: <a>{{ orderId }}</a>
+        </li>
+    </mat-list>
 
     <!-- Route to view items in cart in product form -->
-    <div><span>Cart: </span>{{buyerInfo.cart}}</div>
+    <!-- Remove this temporary list of ids when route is added-->
+    <h4>Cart:</h4>
+    <mat-list>
+        <li *ngFor="let cartId of buyerInfo.cart">
+            Id: <a>{{ cartId }}</a>
+        </li>
+    </mat-list>
 
     <!-- Route to view items in wishlist in product form-->
-    <div><span>Wishlist: </span>{{buyerInfo.wishlist}}</div>
-
-
+    <!-- Remove this temporary list of ids when route is added-->
+    <h4>Wishlist:</h4>
+    <mat-list>
+        <li *ngFor="let productId of buyerInfo.wishlist">
+            Id: <a>{{ productId }}</a>
+        </li>
+    </mat-list>
 
  </div>
 

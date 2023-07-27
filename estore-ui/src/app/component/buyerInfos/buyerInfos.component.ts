@@ -42,14 +42,14 @@ export class BuyerInfosComponent {
   }
 
   addNewBuyerInfo(
-    userid: number,
+    userId: number,
     firstName: string,
     lastName: string,
     phoneNumber: string
   ) {
     const newBuyerInfo: BuyerInfo = {
       id: 0, // temporary value
-      userid,
+      userId,
       firstName,
       lastName,
       phoneNumber,

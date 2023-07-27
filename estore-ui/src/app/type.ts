@@ -7,7 +7,7 @@ export interface Product {
 
 export interface BuyerInfo {
   id: number;
-  userid: number;
+  userId: number;
   firstName: string;
   lastName: string;
   phoneNumber: string;
