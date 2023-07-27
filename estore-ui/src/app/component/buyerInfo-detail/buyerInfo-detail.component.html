@@ -24,7 +24,7 @@
 
     <div>
         <label for="new-address">New Shipping Address: </label>
-        <input id="new-address" #newShippingAddress />
+        <input id="new-address" #newShippingAddress placeholder="address" />
 
         <button type="button" class="add-button" (click)="appendShippingAddress(newShippingAddress.value); newShippingAddress.value=''">
             +
@@ -34,6 +34,7 @@
     <mat-list>
         <li *ngFor="let address of buyerInfo.shippingAddresses; let i = index">
             <div>
+                Address {{i + 1}}:
                 <input id="shipping-address" [(ngModel)]="buyerInfo.shippingAddresses[i]" placeholder="shipping address">
                 <button type="button" class="delete" title="delete address" (click)="deleteShippingAddress(i)">
                     x
@@ -43,30 +44,32 @@
     </mat-list>
 
     
-    <!-- <h4>Credit Cards: </h4>
-    <li *ngFor="let creditCard of buyerInfo.creditCards; let i = index">
-        <div><span>Credit Card </span>{{i}}</div>
-        <div>
-            <label for="buyerInfo-cardName"> Card's Holder Name: </label>
-            <input id="buyerInfo-cardName" [(ngModel)]="creditCard.holderName" placeholder="holder name">
-        </div>
-        <div>
-            <label for="buyerInfo-cardNum"> Card's Number: </label>
-            <input id="buyerInfo-cardNum" [(ngModel)]="creditCard.cardNumber" placeholder="cc number">
-        </div>
-    </li>   
-
+    <h4>Saved Credit Cards: </h4>
+      
     <div>
-        <p>New Credit Card: </p>
-        <label for="new-holderName">New Holder Name: </label>
-        <input id="new-holderName" #newHolderName />
-        <label for="new-cardNum">New CC Number: </label>
-        <input id="new-cardNum" type="number" #newCCNum />
+        New Credit Card:
+        <!-- <label for="new-holderName">New Holder Name: </label> -->
+        <input id="new-holderName" #newHolderName placeholder="holder name"/>
+        <!-- <label for="new-cardNum">New CC Number: </label> -->
+        <input id="new-cardNum" type="number" #newCCNum placeholder="card number"/>
 
-        <button type="button" class="add-button" (click)="appendCreditCard(newHolderName.value, newCCNum.value); newHolderName.value=''; newCCNum.value=''">
-            Add Credit Card
-          </button>
-    </div> -->
+        <button type="button" class="add-button" (click)="appendCreditCard(newHolderName.value, +newCCNum.value); newHolderName.value=''; newCCNum.value=''">
+            +
+        </button>
+    </div>
+
+    <mat-list>
+        <li *ngFor="let creditCard of buyerInfo.creditCards; let i = index">
+            <div>
+                Credit Card {{i + 1}}:
+                <input id="buyerInfo-cardName" [(ngModel)]="creditCard.holderName" placeholder="holder name">
+                <input id="buyerInfo-cardNum" [(ngModel)]="creditCard.cardNumber" placeholder="cc number">
+                <button type="button" class="delete" title="delete credit card" (click)="deleteCreditCard(i)">
+                    x
+                </button>
+            </div>
+        </li> 
+    </mat-list>
 
     
 

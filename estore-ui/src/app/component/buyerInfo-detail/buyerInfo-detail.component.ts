@@ -56,4 +56,8 @@ export class BuyerInfoDetailComponent {
   appendCreditCard(holderName: string, cardNumber: number): void {
     this.buyerInfo?.creditCards.push({ holderName, cardNumber });
   }
+
+  deleteCreditCard(creditCardIndex: number): void {
+    this.buyerInfo?.creditCards.splice(creditCardIndex, 1);
+  }
 }
