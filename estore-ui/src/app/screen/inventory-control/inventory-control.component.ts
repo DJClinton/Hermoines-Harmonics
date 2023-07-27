@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../service/product.service';
-import { Product } from '../type';
+import { ProductService } from '../../service/product.service';
+import { Product } from '../../type';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-products',
@@ -10,7 +11,15 @@ import { Product } from '../type';
 export class InventoryControlComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private location: Location
+  ) {
+    const token = localStorage.getItem('token');
+    if (!token && token !== 'admin:admin') {
+      this.location.go('/');
+    }
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -24,7 +33,14 @@ export class InventoryControlComponent implements OnInit {
 
   addProduct(name: string, price: number, quantity: number) {
     const id: number = 0; // Server will handle the actual product ID, replacing this temporary value.
-    const newProduct: Product = { id, name, price, quantity };
+    const newProduct: Product = {
+      id,
+      name,
+      description: '',
+      tags: [],
+      price,
+      quantity,
+    };
     this.productService.addProduct(newProduct).subscribe((product: Product) => {
       this.products.push(product);
       this.getProducts(); // Refreshes product list

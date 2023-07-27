@@ -2,9 +2,11 @@ package com.estore.api.estoreapi.persistence;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.estore.api.estoreapi.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ProductFileDAO implements ProductDAO {
+    private static final Logger LOG = Logger.getLogger(ProductFileDAO.class.getName());
     Map<Integer, Product> products; // Provides a local cache of the product objects
     // so that we don't need to read from the file
     // each time
@@ -79,17 +82,37 @@ public class ProductFileDAO implements ProductDAO {
      * @return The array of {@link Product products}, may be empty
      */
     private Product[] getProductsArray(String containsText) { // if containsText == null, no filter
-        ArrayList<Product> productArrayList = new ArrayList<>();
+        if (containsText == null)
+            return products.values().toArray(new Product[0]);
+        LOG.info("Getting products that contain: " + containsText);
+        Map<Integer, Integer> productsRelavanceMap = new TreeMap<>();
 
-        for (Product product : products.values()) {
+        for (Product product : this.products.values()) {
+            Integer relavance = 0;
             if (containsText == null || product.getName().contains(containsText)) {
-                productArrayList.add(product);
+                relavance += 1;
+            }
+            if (containsText == null || product.getDescription().contains(containsText)) {
+                relavance += 1;
+            }
+            for (String tag : product.getTags()) {
+                if (containsText == null || tag.contains(containsText)) {
+                    relavance += 1;
+                }
+            }
+            if (relavance > 0) {
+                productsRelavanceMap.put(product.getId(), relavance);
             }
         }
 
-        Product[] productArray = new Product[productArrayList.size()];
-        productArrayList.toArray(productArray);
-        return productArray;
+        List<Integer> productIdList = productsRelavanceMap.keySet().stream().collect(Collectors.toList());
+        productIdList.sort((p1, p2) -> {
+            return productsRelavanceMap.get(p2) - productsRelavanceMap.get(p1);
+        });
+        List<Product> productList = productIdList.stream().map(id -> {
+            return this.products.get(id);
+        }).collect(Collectors.toList());
+        return productList.toArray(new Product[0]);
     }
 
     /**
@@ -180,10 +203,10 @@ public class ProductFileDAO implements ProductDAO {
         synchronized (products) {
             // We create a new product object because the id field is immutable
             // and we need to assign the next unique id
-            Product newProduct = new Product(nextId(), product.getName(), product.getPrice(), product.getQuantity());
-            products.put(newProduct.getId(), newProduct);
+            product.setId(nextId());
+            products.put(product.getId(), product);
             save(); // may throw an IOException
-            return newProduct;
+            return product;
         }
     }
 

@@ -8,6 +8,15 @@
 </mat-form-field>
 <mat-nav-list>
   <mat-list-item *ngFor="let product of products$ | async">
-     <a matListItemTitle routerLink="/product/{{product.id}}">{{ product.name }}</a>
+     <a routerLink="/product/{{product.id}}">
+      <div>
+        <div class="name-tags">
+          <span class="name" matListItemTitle>{{ product.name }}</span>
+          <tags-list [tags]="product.tags"></tags-list>
+        </div>
+        <span class="description" matListItemLine>{{product.description}}</span>
+      </div>
+      <span class="price">${{ product.price }}</span>
+     </a>
   </mat-list-item>
 </mat-nav-list>
