@@ -8,13 +8,6 @@
     <a class="login-btn" *ngIf="this.url !== '/login' && !isLoggedIn"  href="/login">
       <p>Login</p>
     </a>
-    <div class="user-profile">
-      <a class="profile-btn" *ngIf="this.url !== '/login' && this.url !== '/logout' && isLoggedIn" href="/logout">
-        <img src="assets/user-profile-icon.jpg" alt="user profile">
-      </a>
-      <p class="tool-tip">
-        Logout
-      </p>
-    </div>
+    <app-dropdown *ngIf="this.url !== '/login' && this.url !== '/logout' && isLoggedIn"></app-dropdown>
   </div>
 </div>

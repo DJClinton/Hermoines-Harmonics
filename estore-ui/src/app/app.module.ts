@@ -28,6 +28,9 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 import { BrowseProductsComponent } from './screen/browse-products/browse-products.component';
+import { DropdownComponent } from './component/dropdown/dropdown.component';
+import { MatMenuModule } from '@angular/material/menu';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +46,7 @@ import { BrowseProductsComponent } from './screen/browse-products/browse-product
     LoginButtonComponent,
     TagsListComponent,
     LogoutComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,7 @@ import { BrowseProductsComponent } from './screen/browse-products/browse-product
     MatButtonModule,
     MatChipsModule,
     ChipEditorComponent,
+    MatMenuModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

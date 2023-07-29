@@ -1,0 +1,13 @@
+<div class = "menu-button">
+<button mat-button [matMenuTriggerFor]="menu">
+    <img src="assets/user-profile-icon.jpg" alt="user profile" class="menu-icon"></button>
+
+
+<div class="menu-items-wrapper">
+    <mat-menu #menu="matMenu">
+
+    <button mat-menu-item (click)=redirectToAccount()>Account</button>
+    <button mat-menu-item (click)=redirectToLogout()>Logout</button>
+    
+    </mat-menu>
+</div>
