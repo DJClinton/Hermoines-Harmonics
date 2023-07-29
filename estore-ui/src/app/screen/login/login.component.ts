@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import { AuthorizationService } from '../../service/authorization.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { AuthorizationService } from '../../service/authorization.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  emailInputClass = '';
+  passwordInputClass = '';
+
   constructor(private authorizationService: AuthorizationService) {}
 
   login(email: string, password: string): void {

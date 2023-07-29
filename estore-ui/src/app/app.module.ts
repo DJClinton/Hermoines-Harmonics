@@ -15,12 +15,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { InventoryControlComponent } from './inventory-control/inventory-control.component';
-import { BrowseProductsComponent } from './component/browse-products/browse-products.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { HeaderComponent } from './component/header/header.component';
+import { SearchProductsComponent } from './screen/search-products/search-products.component';
+import { LoginButtonComponent } from './component/login-button/login-button.component';
+import { TagsListComponent } from './component/tags-list/tags-list.component';
+import { LogoutComponent } from './screen/logout/logout.component';
+import { ChipEditorComponent } from './component/chip-editor/chip-editor.component';
+import { InventoryControlComponent } from './screen/inventory-control/inventory-control.component';
 import { LoginComponent } from './screen/login/login.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
+import { BrowseProductsComponent } from './screen/browse-products/browse-products.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +38,11 @@ import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo
     InventoryControlComponent,
     BrowseProductsComponent,
     LoginComponent,
+    HeaderComponent,
+    SearchProductsComponent,
+    LoginButtonComponent,
+    TagsListComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +57,8 @@ import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo
     MatListModule,
     MatCardModule,
     MatButtonModule,
+    MatChipsModule,
+    ChipEditorComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -96,12 +96,11 @@ public class InventoryController {
     }
 
     /**
-     * Responds to the GET request for all {@linkplain Product products} whose name
-     * contains
-     * the text in name
+     * Responds to the GET request for all {@linkplain Product products} whose any
+     * attribute contains the text
      * 
-     * @param name The name parameter which contains the text used to find the
-     *             {@link Product products}
+     * @param search The search parameter which contains the text used to find the
+     *               {@link Product products}
      * 
      * @return ResponseEntity with array of {@link Product product} objects (may be
      *         empty) and
@@ -109,14 +108,14 @@ public class InventoryController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      *         <p>
      *         Example: Find all products that contain the text "ma"
-     *         GET http://localhost:8080/products/?name=ma
+     *         GET http://localhost:8080/products/?search=ma
      */
     @GetMapping("/")
-    public ResponseEntity<Product[]> searchProducts(@RequestParam String name) {
-        LOG.info("GET /inventory/?name=" + name);
+    public ResponseEntity<Product[]> searchProducts(@RequestParam String search) {
+        LOG.info("GET /inventory/?search=" + search);
 
         try {
-            Product[] products = productDao.findProducts(name);
+            Product[] products = productDao.findProducts(search);
             return new ResponseEntity<Product[]>(products, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());

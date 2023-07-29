@@ -56,7 +56,7 @@ export class ProductService {
       return of([]);
     }
     return this.http
-      .get(`${this.inventoryUrl}/?name=${term}`)
+      .get(`${this.inventoryUrl}/?search=${term}`)
       .pipe(
         catchError(this.handleError<any>(`searchProducts term:${term}`, []))
       );

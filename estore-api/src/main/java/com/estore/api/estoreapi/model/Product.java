@@ -1,14 +1,20 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a Product entity
  * 
  * @author Team 2
  */
+@Setter
+@Getter
 public class Product {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
@@ -19,6 +25,10 @@ public class Product {
     private int id;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("tags")
+    private String[] tags;
+    @JsonProperty("description")
+    private String description;
     @JsonProperty("price")
     private double price;
     @JsonProperty("quantity")
@@ -40,73 +50,19 @@ public class Product {
      *                 default Java
      *                 value, i.e. 0 for int
      */
-    public Product(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price,
+    public Product(
+            @JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("tags") String[] tags,
+            @JsonProperty("description") String description,
+            @JsonProperty("price") double price,
             @JsonProperty("quantity") int quantity) {
         LOG.info("Creating Product with id: " + id + " and name: " + name);
         this.id = id;
         this.name = name;
+        this.tags = tags;
+        this.description = description;
         this.price = price;
-        this.quantity = quantity;
-    }
-
-    /**
-     * Retrieves the id of the product
-     * 
-     * @return The id of the product
-     */
-    public int getId() {
-        LOG.info("Retrieving Product by id of " + id);
-        return id;
-    }
-
-    /**
-     * Sets the name of the product - necessary for JSON object to Java object
-     * deserialization
-     * 
-     * @param name The new name of the product
-     */
-    public void setName(String name) {
-        LOG.info("Setting Product name to " + name);
-        this.name = name;
-    }
-
-    /**
-     * Retrieves the name of the product
-     * 
-     * @return The name of the product
-     */
-    public String getName() {
-        LOG.info("Retrieving Product by the name of " + name);
-        return name;
-    }
-
-    /**
-     * Sets the price of the product
-     * 
-     * @param price The new price of the product
-     */
-    public void setPrice(double price) {
-        LOG.info("Setting Product price to " + price);
-        this.price = price;
-    }
-
-    /**
-     * Retrieves the price of the product
-     * 
-     * @return The price of the product
-     */
-    public double getPrice() {
-        LOG.info("Retrieving Product by the price of " + price);
-        return price;
-    }
-
-    /**
-     * Sets the quantity of the product
-     * 
-     * @param quantity The new quantity of the product
-     */
-    public void setQuantity(int quantity) {
-        LOG.info("Setting Product quantity to " + quantity);
         this.quantity = quantity;
     }
 
@@ -126,20 +82,10 @@ public class Product {
         this.quantity--;
     }
 
-    /**
-     * Retrieves the quantity of the product
-     * 
-     * @return The quantity of the product
-     */
-    public int getQuantity() {
-        LOG.info("Retrieving Product by the quantity of " + quantity);
-        return quantity;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof Product) {
-            Product other = (Product)o;
+            Product other = (Product) o;
             return (this.id == other.id);
         } else {
             return false;
@@ -152,5 +98,9 @@ public class Product {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT, id, name);
+    }
+
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
