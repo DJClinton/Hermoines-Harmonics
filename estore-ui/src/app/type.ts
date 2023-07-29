@@ -24,3 +24,9 @@ export interface CreditCard {
   holderName: string;
   cardNumber: number;
 }
+
+export interface Order{
+  id: number;
+  buyerInfo: BuyerInfo;
+  products: Product[];
+}

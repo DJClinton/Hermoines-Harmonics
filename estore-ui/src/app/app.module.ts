@@ -28,6 +28,7 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 import { BrowseProductsComponent } from './screen/browse-products/browse-products.component';
+import { PastOrdersComponent } from './screen/past-orders/past-orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { BrowseProductsComponent } from './screen/browse-products/browse-product
     LoginButtonComponent,
     TagsListComponent,
     LogoutComponent,
+    PastOrdersComponent,
   ],
   imports: [
     BrowserModule,
