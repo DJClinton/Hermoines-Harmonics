@@ -16,8 +16,8 @@ export class InventoryControlComponent implements OnInit {
     private location: Location
   ) {
     const token = localStorage.getItem('token');
-    if (!token && token !== 'admin:admin') {
-      this.location.go('/');
+    if (token == null || token !== 'admin:admin') {
+      this.location.back();
     }
   }
 
