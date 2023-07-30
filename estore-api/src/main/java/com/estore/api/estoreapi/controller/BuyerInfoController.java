@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
@@ -36,6 +38,7 @@ import com.estore.api.estoreapi.model.User;
  */
 
 @RestController
+@RequestMapping("buyerInformation")
 @RequestMapping("buyerInformation")
 public class BuyerInfoController {
     private static final Logger LOG = Logger.getLogger(BuyerInfoController.class.getName());
@@ -70,6 +73,7 @@ public class BuyerInfoController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BuyerInfo> getBuyerInfo(@PathVariable int id) {
+        LOG.info("GET /buyerInformation/" + id);
         LOG.info("GET /buyerInformation/" + id);
         try {
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfo(id);
@@ -120,6 +124,7 @@ public class BuyerInfoController {
      *         <p>
      *         Example: Find all buyerinfos belonging to user with id 1
      *         GET http://localhost:8080/buyerInformation/?userid=1
+     *         GET http://localhost:8080/buyerInformation/?userid=1
      */
     @GetMapping("/")
     public ResponseEntity<BuyerInfo> getBuyerInfo(HttpServletRequest request) {
@@ -131,6 +136,8 @@ public class BuyerInfoController {
         LOG.info("GET /buyerInformation/?userid=" + userid);
 
         try {
+            BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
+            return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.OK);
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
             return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.OK);
         } catch (IOException ioe) {
@@ -182,6 +189,7 @@ public class BuyerInfoController {
      */
     @PutMapping("")
     public ResponseEntity<BuyerInfo> updateBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
+        LOG.info("PUT /buyerInformation " + buyerInfo);
         LOG.info("PUT /buyerInformation " + buyerInfo);
 
         try {
