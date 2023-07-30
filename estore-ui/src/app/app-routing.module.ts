@@ -9,6 +9,7 @@ import { LogoutComponent } from './screen/logout/logout.component';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 import { SignupComponent } from './screen/signup/signup.component';
+import { CartInfoComponent } from './component/cart-info/cart-info.component';
 
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'accounts', component: BuyerInfosComponent },
   { path: 'account/:id', component: BuyerInfoDetailComponent },
+  { path: 'cart', component: CartInfoComponent}
 ];
 
 @NgModule({

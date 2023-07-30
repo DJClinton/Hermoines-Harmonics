@@ -23,7 +23,7 @@ export class DropdownComponent {
     this.router.navigateByUrl('/account');
   }
   redirectToCart(){
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/cart')
   }
 }
 
