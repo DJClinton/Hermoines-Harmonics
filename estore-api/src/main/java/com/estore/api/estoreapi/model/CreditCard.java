@@ -12,12 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreditCard {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
-    static final String STRING_FORMAT = "Credit Card [holdername=%s, cardNumber=%d]";
+    static final String STRING_FORMAT = "Credit Card [holdername=%s, cardNumber=%s]";
 
     @JsonProperty("holderName")
     private String holderName;
     @JsonProperty("cardNumber")
-    private int cardNumber;
+    private String cardNumber;
 
     /**
      * Create a credit card for buyer use
@@ -25,7 +25,7 @@ public class CreditCard {
      * @param holderName name of the holder of the card
      * @param cardNumber credit card number
      */
-    public CreditCard(@JsonProperty("holderName") String holderName, @JsonProperty("cardNumber") int cardNumber) {
+    public CreditCard(@JsonProperty("holderName") String holderName, @JsonProperty("cardNumber") String cardNumber) {
 
         this.holderName = holderName;
         this.cardNumber = cardNumber;
@@ -47,7 +47,7 @@ public class CreditCard {
      * 
      * @param cardNumber new credit card number
      */
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(String cardNumber) {
         LOG.info("Setting credit card number to: " + cardNumber);
         this.cardNumber = cardNumber;
     }
@@ -67,7 +67,7 @@ public class CreditCard {
      * 
      * @return card number
      */
-    public int getCardNumber() {
+    public String getCardNumber() {
         LOG.info("Retrieving credit card number: " + cardNumber);
         return cardNumber;
     }

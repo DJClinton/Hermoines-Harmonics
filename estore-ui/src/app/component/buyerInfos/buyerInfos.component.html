@@ -1,29 +1,19 @@
-<h2>All Buyer Information</h2>
-
-<div>
-  
-  <label for="new-user-id">User ID:</label>
-  <input id="new-user-id" type="number" #newUserId/>
-  <label for="new-first-name">First Name:</label>
-  <input id="new-first-name" #newFirstName/>
-  <label for="new-last-name">Last Name:</label>
-  <input id="new-last-name" #newLastName/>
-  <label for="new-phone-number">Phone Number:</label>
-  <input id="new-phone-number" #newPhoneNumber/>
-
-  <button type="button" class="add-button" (click)="addNewBuyerInfo(+newUserId.value, newFirstName.value, newLastName.value, newPhoneNumber.value); newUserId.value=''; newFirstName.value=''; newLastName.value=''; newPhoneNumber.value=''">
-    Add Buyer Information
-  </button> 
+<div class="banner">
+  <h1>All Buyer Accounts</h1>
 </div>
 
+<hr>
 
-<ul class = "buyerInfos">
+<ul class="buyerInfos">
+  <mat-list>
     <li *ngFor="let buyerInfo of buyerInfos">
-      <div>
+      <mat-card class="account-card">
         <a routerLink="/account/{{buyerInfo.id}}">
-          <span class="badge">{{buyerInfo.id}}</span> {{buyerInfo.firstName}}
+          User ID: {{buyerInfo.id}} | Name: {{buyerInfo.name}}
         </a>
-        <button type="button" class="delete" title="delete buyer info" (click)="deleteBuyerInfo(buyerInfo.id)">Delete BuyerInfo</button>
-      </div>
+      </mat-card>
+      <br>
     </li>
+  </mat-list>
 </ul>
+

@@ -13,7 +13,7 @@ public class CreditCardTest {
                 // Setup
 
                 String holderName1 = "Parappa the Rapper";
-                int cardNum1 = 55555555;
+                String cardNum1 = "55555555";
 
                 // Invoke
                 CreditCard card1 = new CreditCard(holderName1, cardNum1);
@@ -28,14 +28,14 @@ public class CreditCardTest {
                 // Setup
 
                 String holderName1 = "Parappa the Rapper";
-                int cardNum1 = 55555555;
+                String cardNum1 = "55555555";
 
                 // Invoke
                 CreditCard card1 = new CreditCard(holderName1, cardNum1);
 
                 // Setup
                 String holderName2 = "Legoshi";
-                int cardNum2 = 4444444;
+                String cardNum2 = "44444444";
 
                 // Invoke
                 CreditCard card2 = new CreditCard(holderName2, cardNum2);
@@ -49,14 +49,14 @@ public class CreditCardTest {
                 // Setup
 
                 String holderName1 = "Parappa the Rapper";
-                int cardNum1 = 55555555;
+                String cardNum1 = "55555555";
 
                 // Invoke
                 CreditCard card1 = new CreditCard(holderName1, cardNum1);
 
                 // Setup
                 String holderName2 = "Parappa the Rapper";
-                int cardNum2 = 55555555;
+                String cardNum2 = "44444444";
 
                 // Invoke
                 CreditCard card2 = new CreditCard(holderName2, cardNum2);
@@ -70,7 +70,7 @@ public class CreditCardTest {
         public void testToString() {
                 // Setup
                 String holderName = "Parappa the Rapper";
-                int cardNum = 55555555;
+                String cardNum = "55555555";
 
                 String expectedString = String.format(CreditCard.STRING_FORMAT, holderName, cardNum);
 

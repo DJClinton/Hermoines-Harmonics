@@ -36,17 +36,17 @@ public interface BuyerInfoDAO {
     BuyerInfo getBuyerInfo(int id) throws IOException;
 
     /**
-     * Retrieves all {@linkplain BuyerInfo buyerInfo} belonging to
+     * Retrieves the {@linkplain BuyerInfo buyerInfo} belonging to
      * the user with the given id
      * 
      * @param userid The user id of the {@link User user} whose buyers
      *               will be fetched
      * 
-     * @return an array of {@link BuyerInfo buyerInfo} objects
+     * @return {@link BuyerInfo buyerInfo} object associated with the user id
      * 
      * @throws IOException if an issue with underlying storage
      */
-    BuyerInfo[] getBuyerInfosByUserId(int userid) throws IOException;
+    BuyerInfo getBuyerInfoByUserId(int userid) throws IOException;
 
     /**
      * Creates and saves a {@linkplain BuyerInfo buyerInfo}
@@ -80,9 +80,9 @@ public interface BuyerInfoDAO {
      * 
      * @param id The id of the {@link BuyerInfo buyerInfo}
      * 
-     * @return true if the {@link BuyerInfo buyerInfo} was deleted
+     * @return the {@link BuyerInfo buyerInfo} that was deleted
      *         <br>
-     *         false if buyerInfo with the given id does not exist
+     *         null if buyerInfo with the given id does not exist
      * 
      * @throws IOException if underlying storage cannot be accessed
      */
