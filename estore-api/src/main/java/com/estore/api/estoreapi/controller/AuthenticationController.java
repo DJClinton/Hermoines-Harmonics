@@ -35,7 +35,7 @@ public class AuthenticationController {
       return ResponseEntity.status(400).body(null);
     }
     final TokenResponse token = new TokenResponse(
-        request.getEmail() + ":" + request.getPassword() + ":" + request.getID());
+        request.getEmail() + ":" + request.getPassword());
     return ResponseEntity.ok(token);
   }
 
@@ -44,7 +44,7 @@ public class AuthenticationController {
     LOG.info("PUT /auth/register");
     try {
       User user = userDao.createUser(request.getEmail(), request.getPassword());
-      final TokenResponse token = new TokenResponse(user.getUsername() + ":" + user.getPassword() + ":" + user.getId());
+      final TokenResponse token = new TokenResponse(user.getUsername() + ":" + user.getPassword());
       return ResponseEntity.ok(token);
     } catch (Exception err) {
       return ResponseEntity.status(400).body(null);
