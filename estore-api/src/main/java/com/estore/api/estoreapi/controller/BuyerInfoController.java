@@ -211,12 +211,9 @@ public class BuyerInfoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<BuyerInfo> deleteBuyerInfo(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /buyerInformation/" + id);
-        User user = getUser(request);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        String role = user.getAuthorities();
-        if (!role.equals("ADMIN")) {
+        boolean isAuthorized = isAuthorized(request, "ADMIN");
+
+        if (!isAuthorized) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -263,8 +260,10 @@ public class BuyerInfoController {
     // TODO these methods should be moved to their own class
 
     private boolean isAuthorized(HttpServletRequest request, String requiredRole) {
-        String auth = request.getHeader("authorization");
-        return auth != null && auth.split(":").length == 2 && auth.split(":")[0].equals(requiredRole);
+        User user = getUser(request);
+        if (user == null)
+            return false;
+        return user.getAuthorities().equals(requiredRole);
     }
 
     private User getUser(HttpServletRequest request) {
