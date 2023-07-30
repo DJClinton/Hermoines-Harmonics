@@ -14,6 +14,7 @@ export class CartInfoComponent {
   user: any
   buyerInfo: any
   buyerID: any
+  totalPrice: any
   constructor(private infoService: BuyerInfoService){}
 
   ngOnInit(): void {
@@ -43,9 +44,10 @@ export class CartInfoComponent {
     const token = localStorage.getItem('token');
     if(token!=null && this.buyerInfo){
       console.log(this.buyerInfo.id)
-      this.infoService.getBuyerCart(this.buyerInfo.id).subscribe(
+      this.infoService.getBuyerCart().subscribe(
         (cartData: any) => {
           this.cart = cartData;
+          this.getCartTotal();
         },
         (error) => {
           console.error('Error getting cart:', error);
@@ -54,5 +56,11 @@ export class CartInfoComponent {
     } else {
       console.error('User not authenticated');
     }
+  }
+  getCartTotal(): void{
+    this.totalPrice = 0;
+    this.cart.forEach(product => {
+      this.totalPrice+=product.price;
+    });
   }
 }

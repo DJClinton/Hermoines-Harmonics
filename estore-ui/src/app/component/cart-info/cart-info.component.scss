@@ -1,4 +1,47 @@
 .img{
     width: 100px; 
-    height: 100px; 
+    height: auto; 
+    float: left;
+}
+.list{
+    list-style: none;
+    padding: 0;
+}
+.header{
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+.cartTotal{
+    margin-top: 25px; 
+    margin-left: 50px;
+    display: grid;
+    grid-template-columns: 100px 50px;
+    grid-gap: 10px; 
+    align-items: center; 
+}
+
+.problemchild{
+    display: grid;
+    grid-template-rows: 25px 25px;
+    grid-gap: 10px;
+    align-items: center;
+}
+.description{
+    grid-row: 1;
+}
+.price{
+    grid-row: 2;
+}
+.totalLabel {
+    grid-column: 1; 
+  }
+
+.totalValue {
+    grid-column: 2;
+    font-weight: bold;
+  }
+
+ mat-card {
+  max-width: 600px; 
+  margin-left: 50px;
 }
