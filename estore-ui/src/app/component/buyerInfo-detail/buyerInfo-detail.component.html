@@ -16,7 +16,7 @@
             </mat-card-header>
                 
             <mat-card-actions align="end">
-                <button mat-icon-button type="button" (click)="isEditingName=true">
+                <button mat-icon-button type="button" (click)="isEditingName=true" title="Edit">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-card-actions>
@@ -29,7 +29,7 @@
                 <input matInput type="text" #newName value={{buyerInfo.name}}>
             </mat-form-field>
             <mat-card-actions align="end">
-                <button mat-icon-button type="button" (click)="saveName(newName.value)">
+                <button mat-icon-button type="button" (click)="saveName(newName.value)" title="Save">
                     <mat-icon>save</mat-icon>
                 </button>
             </mat-card-actions>   
@@ -47,7 +47,7 @@
                 <mat-card-subtitle>Phone Number: {{buyerInfo.phoneNumber}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-actions align="end">
-                <button  mat-icon-button type="button" (click)="isEditingContactDetails=true">
+                <button  mat-icon-button type="button" (click)="isEditingContactDetails=true" title="Edit">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-card-actions>
@@ -60,7 +60,7 @@
                 <input type="tel" matInput #newPhoneNumber value={{buyerInfo.phoneNumber}}>
             </mat-form-field>
             <mat-card-actions align="end">
-                <button mat-icon-button type="button" (click)="saveContactDetails(newPhoneNumber.value)">
+                <button mat-icon-button type="button" (click)="saveContactDetails(newPhoneNumber.value)" title="Save">
                     <mat-icon>save</mat-icon>
                 </button>
             </mat-card-actions>
@@ -82,7 +82,7 @@
                 </li>
             </mat-list>
             <mat-card-actions align="end">
-                <button  mat-icon-button type="button" (click)="isEditingShippingAddresses=true">
+                <button  mat-icon-button type="button" (click)="isEditingShippingAddresses=true" title="Edit">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-card-actions>
@@ -94,10 +94,10 @@
                     <mat-form-field class="input-field">
                         <input matInput type="text" #thisAddress value={{address}}>
                     </mat-form-field>
-                    <button mat-icon-button type="button" (click)="updateShippingAddress(i, thisAddress.value)">
+                    <button mat-icon-button type="button" (click)="updateShippingAddress(i, thisAddress.value)" title="Update">
                         <mat-icon>save</mat-icon>
                     </button> 
-                    <button mat-icon-button type="button" (click)="deleteShippingAddress(i)">
+                    <button mat-icon-button type="button" (click)="deleteShippingAddress(i)" title="Delete">
                         <mat-icon>delete</mat-icon>
                     </button> 
                 </li>
@@ -108,13 +108,13 @@
                     <mat-label>New Shipping Address</mat-label>
                     <input matInput type="text" #newAddress>
                 </mat-form-field>
-                <button mat-icon-button type="button" (click)="appendShippingAddress(newAddress.value); newAddress.value = ''">
+                <button [disabled]="(newAddress.value == '')" mat-icon-button type="button"  title="Add new address" (click)="appendShippingAddress(newAddress.value); newAddress.value = ''">
                     <mat-icon>add</mat-icon>
                 </button> 
             </div>
 
             <mat-card-actions align="end">
-                <button mat-icon-button type="button" (click)="isEditingShippingAddresses=false">
+                <button mat-icon-button type="button" (click)="isEditingShippingAddresses=false" title="Done">
                     <mat-icon>done</mat-icon>
                 </button>
             </mat-card-actions>
@@ -134,7 +134,7 @@
                 </li>
             </mat-list>
             <mat-card-actions align="end">
-                <button  mat-icon-button type="button" (click)="isEditingCreditCards=true">
+                <button  mat-icon-button type="button" (click)="isEditingCreditCards=true" title="Edit">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-card-actions>
@@ -149,10 +149,10 @@
                     <mat-form-field>
                         <input matInput type="text" #thisCardNumber value={{card.cardNumber}}>
                     </mat-form-field>
-                    <button mat-icon-button type="button" (click)="updateCreditCard(i, thisHolderName.value, thisCardNumber.value)">
+                    <button mat-icon-button type="button" (click)="updateCreditCard(i, thisHolderName.value, thisCardNumber.value)" title="Update">
                         <mat-icon>save</mat-icon>
                     </button> 
-                    <button mat-icon-button type="button" (click)="deleteCreditCard(i)">
+                    <button mat-icon-button type="button" (click)="deleteCreditCard(i)" title="Delete">
                         <mat-icon>delete</mat-icon>
                     </button> 
                 </li>
@@ -167,126 +167,22 @@
                     <mat-label>Credit Card</mat-label>
                     <input matInput type="text" #newCardNumber>
                 </mat-form-field>
-                <button mat-icon-button type="button" (click)="appendCreditCard(newHolderName.value, newCardNumber.value); newHolderName.value = ''; newCardNumber.value = ''">
+                <button [disabled]="newHolderName.value == '' || newCardNumber.value == ''" mat-icon-button type="button" title="Add new credit card" (click)="appendCreditCard(newHolderName.value, newCardNumber.value); newHolderName.value = ''; newCardNumber.value = ''">
                     <mat-icon>add</mat-icon>
                 </button> 
             </div>
 
             <mat-card-actions align="end">
-                <button mat-icon-button type="button" (click)="isEditingShippingAddresses=false">
+                <button mat-icon-button type="button" (click)="isEditingShippingAddresses=false" title="Done">
                     <mat-icon>done</mat-icon>
                 </button>
             </mat-card-actions>
         </ng-container>
-
-        
-        
     </mat-card>
 
-    
-    <!-- <h2>{{buyerInfo.firstName}} {{buyerInfo.lastName}} Information</h2>
-    <div><span>id: </span>{{buyerInfo.id}}</div>
-    <div><span>userid: </span>{{buyerInfo.userId}}</div>
-
-    <div>
-        <label for="buyerInfo-firstName">First Name: </label>
-        <input id="buyerInfo-firstName" [(ngModel)]="buyerInfo.firstName" placeholder="First Name">
-    </div>
-
-    <div>
-        <label for="buyerInfo-lastName">Last Name: </label>
-        <input id="buyerInfo-lastName" [(ngModel)]="buyerInfo.lastName" placeholder="Last Name">
-    </div>
-
-    <div>
-        <label for="buyerInfo-phoneNumber">Phone Number: </label>
-        <input id="buyerInfo-phoneNumber" [(ngModel)]="buyerInfo.phoneNumber" placeholder="Phone Number">
-    </div> -->
-
-
-    <!-- <h4>Saved Shipping Addresses: </h4>
-
-    <div>
-        <label for="new-address">New Shipping Address: </label>
-        <input id="new-address" #newShippingAddress placeholder="Address" />
-
-        <button type="button" class="add-button" (click)="appendShippingAddress(newShippingAddress.value); newShippingAddress.value=''">
-            +
-        </button>
-    </div>
-
-    <mat-list>
-        <li *ngFor="let address of buyerInfo.shippingAddresses; let i = index">
-            <div>
-                Address {{i + 1}}:
-                <input id="shipping-address" [(ngModel)]="buyerInfo.shippingAddresses[i]" placeholder="Address">
-                <button type="button" class="delete" title="delete address" (click)="deleteShippingAddress(i)">
-                    x
-                </button>
-            </div>
-        </li>
-    </mat-list> -->
-
-    
-    <!-- <h4>Saved Credit Cards: </h4>
-      
-    <div>
-        New Credit Card:
-        <input id="new-holderName" #newHolderName placeholder="Holder Name"/>
-        <input id="new-cardNum" type="number" #newCCNum placeholder="Card Number"/>
-
-        <button type="button" class="add-button" (click)="appendCreditCard(newHolderName.value, +newCCNum.value); newHolderName.value=''; newCCNum.value=''">
-            +
-        </button>
-    </div>
-
-    <mat-list>
-        <li *ngFor="let creditCard of buyerInfo.creditCards; let i = index">
-            <div>
-                Credit Card {{i + 1}}:
-                <input id="buyerInfo-cardName" [(ngModel)]="creditCard.holderName" placeholder="holder name">
-                <input id="buyerInfo-cardNum" [(ngModel)]="creditCard.cardNumber" placeholder="cc number">
-                <button type="button" class="delete" title="delete credit card" (click)="deleteCreditCard(i)">
-                    x
-                </button>
-            </div>
-        </li> 
-    </mat-list> -->
-
-    
-
-
-
-
-    <!-- Route to view past orders in product form for this user-->
-    <!-- Remove this temporary list of ids when route is added-->
-    <!-- <h4>Past Order Ids:</h4>
-    <mat-list>
-        <li *ngFor="let orderId of buyerInfo.pastOrdersIds">
-            Id: <a>{{ orderId }}</a>
-        </li>
-    </mat-list> -->
-
-    <!-- Route to view items in cart in product form -->
-    <!-- Remove this temporary list of ids when route is added-->
-    <!-- <h4>Cart:</h4>
-    <mat-list>
-        <li *ngFor="let cartId of buyerInfo.cart">
-            Id: <a>{{ cartId }}</a>
-        </li>
-    </mat-list> -->
-
-    <!-- Route to view items in wishlist in product form-->
-    <!-- Remove this temporary list of ids when route is added-->
-    <!-- <h4>Wishlist:</h4>
-    <mat-list>
-        <li *ngFor="let productId of buyerInfo.wishlist">
-            Id: <a>{{ productId }}</a>
-        </li>
-    </mat-list> -->
-    
  </div>
 
+<button mat-icon-button type="button" (click)="goBack()">
+    <mat-icon matPrefix>keyboard_backspace</mat-icon>
+</button>
 
- <!-- <button type="button" (click)="goBack()">go back</button>
-<button type="button" (click)="save()">save</button> -->
