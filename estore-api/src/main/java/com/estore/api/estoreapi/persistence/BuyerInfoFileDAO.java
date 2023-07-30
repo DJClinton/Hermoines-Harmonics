@@ -214,13 +214,9 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
     }
 
     /**
-     * Calculates the total cost of the Buyer's cart based off of the items
-     * 
-     * @param items
-     * @param buyerInfo
-     * @throws IOException
+     ** {@inheritDoc}
      */
-
+    @Override
     public int calcTotalCost(Collection<Integer> items, BuyerInfo buyerInfo) throws IOException {
         int total = 0;
         for (int id : items) {
@@ -228,4 +224,35 @@ public class BuyerInfoFileDAO implements BuyerInfoDAO {
         }
         return total;
     }
+
+    /**
+     ** {@inheritDoc}
+     */
+    @Override
+    public ArrayList<Product> fetchProducts(BuyerInfo buyerInfo) throws IOException{
+        ArrayList<Product> productList = new ArrayList<Product>();
+        ArrayList<Integer> idList = (ArrayList<Integer>) buyerInfo.getCart();
+        
+        for (int id : idList){
+            productList.add(productFileDAOCopy.getProduct(id));
+        }
+        return productList;
+        
+    }
+
+    /**
+     ** {@inheritDoc}
+     */
+    @Override
+    public ArrayList<Product> fetchWL(BuyerInfo buyerInfo) throws IOException{
+        ArrayList<Product> WLList = new ArrayList<Product>();
+        ArrayList<Integer> idList = (ArrayList<Integer>) buyerInfo.getWishlist();
+
+        for (int id : idList){
+            WLList.add(productFileDAOCopy.getProduct(id));
+        }
+        return WLList;
+        
+    }
+
 }

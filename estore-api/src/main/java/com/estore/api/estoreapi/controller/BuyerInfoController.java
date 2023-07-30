@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
+import com.estore.api.estoreapi.model.Product;
 
 /**
  * Handles the REST API requests for the BuyerInfo resource
@@ -198,6 +200,43 @@ public class BuyerInfoController {
 
             return new ResponseEntity<>(buyer, HttpStatus.OK);
         } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("{id}/cart")
+    public ResponseEntity<ArrayList<Product>> getCartInfo(@PathVariable int id){
+        LOG.info("GET /cart/" + id);
+        try{
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            if (buyer == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            else{
+                ArrayList<Product> productList = buyerInfoDao.fetchProducts(buyer);
+                return new ResponseEntity<>(productList, HttpStatus.OK);
+
+            }
+        }catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{id}/wishlist")
+    public ResponseEntity<ArrayList<Product>> getWLInfo(@PathVariable int id){
+        LOG.info("GET /wishlist/" + id);
+        try{
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            if (buyer == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            else{
+                ArrayList<Product> productList = buyerInfoDao.fetchWL(buyer);
+                return new ResponseEntity<>(productList, HttpStatus.OK);
+
+            }
+        }catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

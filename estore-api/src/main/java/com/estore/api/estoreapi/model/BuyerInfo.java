@@ -1,5 +1,6 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,9 +34,9 @@ public class BuyerInfo {
     @JsonProperty("shippingAddresses")
     private Collection<String> shippingAddresses;
     @JsonProperty("cart")
-    private Collection<Integer> cart;
+    private ArrayList<Integer> cart;
     @JsonProperty("wishlist")
-    private Collection<Integer> wishlist;
+    private ArrayList<Integer> wishlist;
 
     public BuyerInfo(
             @JsonProperty("id") int id,
@@ -46,8 +47,8 @@ public class BuyerInfo {
             @JsonProperty("pastOrdersIds") Collection<Integer> pastOrderIds,
             @JsonProperty("creditCards") Collection<CreditCard> creditCards,
             @JsonProperty("shippingAddresses") Collection<String> shippingAddresses,
-            @JsonProperty("cart") Collection<Integer> cart,
-            @JsonProperty("wishlist") Collection<Integer> wishlist) {
+            @JsonProperty("cart") ArrayList<Integer> cart,
+            @JsonProperty("wishlist") ArrayList<Integer> wishlist) {
 
         this.id = id;
         this.userid = userid;
@@ -208,7 +209,7 @@ public class BuyerInfo {
      */
 
     // @JsonGetter("cart")
-    public Collection<Integer> getCart() {
+    public ArrayList<Integer> getCart() {
         return cart;
     }
 
@@ -239,7 +240,7 @@ public class BuyerInfo {
      */
 
     // @JsonGetter("wishlist")
-    public Collection<Integer> getWishlist() {
+    public ArrayList<Integer> getWishlist() {
         return wishlist;
     }
 
