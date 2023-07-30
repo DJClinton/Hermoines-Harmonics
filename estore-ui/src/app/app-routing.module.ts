@@ -8,12 +8,14 @@ import { SearchProductsComponent } from './screen/search-products/search-product
 import { LogoutComponent } from './screen/logout/logout.component';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
+import { SignupComponent } from './screen/signup/signup.component';
 
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'inventory', component: InventoryControlComponent },
   { path: 'products', component: BrowseProductsComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'search', component: SearchProductsComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'accounts', component: BuyerInfosComponent },

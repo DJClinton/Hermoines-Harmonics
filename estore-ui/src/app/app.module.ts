@@ -31,6 +31,7 @@ import { BrowseProductsComponent } from './screen/browse-products/browse-product
 import { DropdownComponent } from './component/dropdown/dropdown.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
+import { SignupComponent } from './screen/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { CartInfoComponent } from './component/cart-info/cart-info.component';
     LogoutComponent,
     DropdownComponent,
     CartInfoComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

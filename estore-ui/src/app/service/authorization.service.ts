@@ -44,6 +44,7 @@ export class AuthorizationService {
       .subscribe((data: any) => {
         localStorage.setItem('token', data.token);
         console.log(data.token);
+        // TODO: Redirect to create profile page
         this.router.navigate(['/']);
       });
   }
