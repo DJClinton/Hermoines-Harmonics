@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { BuyerInfo } from '.././type';
+import { BuyerInfo, Cart } from '.././type';
 
 @Injectable({
   providedIn: 'root',
@@ -60,5 +60,11 @@ export class BuyerInfoService {
     return this.http
       .delete<BuyerInfo>(url, this.httpOptions)
       .pipe(catchError(this.handleError<any>('deleteBuyerInfo')));
+  }
+  getBuyerCart(id: number): Observable<Cart> {
+    const url = `${this.buyerInformationURL}/${id}/cart`;
+    return this.http
+      .get<Cart>(url)
+      .pipe(catchError(this.handleError<any>(`getBuyerCart id:${id}`)));
   }
 }
