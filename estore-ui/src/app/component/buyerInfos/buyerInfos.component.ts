@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BuyerInfoService } from '../../service/buyerInfo.service';
 import { BuyerInfo } from '../../type';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-buyerInfos',
@@ -10,7 +11,12 @@ import { BuyerInfo } from '../../type';
 export class BuyerInfosComponent {
   buyerInfos: BuyerInfo[] = [];
 
-  constructor(private buyerInfoService: BuyerInfoService) {
+  constructor(private buyerInfoService: BuyerInfoService, private location: Location) {
+    const token = localStorage.getItem('token');
+    if (token == null || token !== 'admin:admin') {
+      this.location.back();
+    }
+    
     buyerInfoService.getBuyerInfos().subscribe((data) => {
       this.buyerInfos = data ? data : [];
     });
