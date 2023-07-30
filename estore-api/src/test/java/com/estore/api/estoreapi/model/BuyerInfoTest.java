@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 public class BuyerInfoTest {
     private int expectedId;
     private int expectedUserId;
-    private String expectedFirstName;
-    private String expectedLastName;
+    private String expectedName;
     private String expectedPhoneNumber;
     private Collection<Integer> expectedPastOrderIds;
     private Collection<CreditCard> expectedCreditCards;
@@ -27,15 +26,14 @@ public class BuyerInfoTest {
     public void setupBuyerInfoTest() {
         expectedId = 1;
         expectedUserId = 2;
-        expectedFirstName = "joe";
-        expectedLastName = "smith";
+        expectedName = "joe smith";
         expectedPhoneNumber = "222-222-2222";
 
         expectedPastOrderIds = new ArrayList<>();
         expectedPastOrderIds.add(1);
         expectedPastOrderIds.add(2);
 
-        CreditCard card = new CreditCard("joe smith", 1234);
+        CreditCard card = new CreditCard("joe smith", "1234");
         expectedCreditCards = new ArrayList<>();
         expectedCreditCards.add(card);
 
@@ -49,8 +47,7 @@ public class BuyerInfoTest {
         expectedWishlist.add(5);
 
 
-        buyerInfo = new BuyerInfo(expectedId, expectedUserId, expectedFirstName, 
-                          expectedLastName, expectedPhoneNumber, expectedPastOrderIds, expectedCreditCards, 
+        buyerInfo = new BuyerInfo(expectedId, expectedUserId, expectedName, expectedPhoneNumber, expectedPastOrderIds, expectedCreditCards, 
                           expectedShippingAddresses, expectedCart, expectedWishlist);
     }
 
@@ -66,13 +63,8 @@ public class BuyerInfoTest {
     }
 
     @Test
-    public void testFirstName() {
-        assertEquals(expectedFirstName, buyerInfo.getFirstName());
-    }
-
-    @Test
-    public void testLastName() {
-        assertEquals(expectedLastName, buyerInfo.getLastName());
+    public void testName() {
+        assertEquals(expectedName, buyerInfo.getName());
     }
 
     @Test
@@ -108,7 +100,7 @@ public class BuyerInfoTest {
     @Test
     public void testToString() {
         String expectedString = String.format(BuyerInfo.STRING_FORMAT, expectedId, expectedUserId, 
-                                              expectedFirstName, expectedLastName, expectedPhoneNumber,
+                                              expectedName, expectedPhoneNumber,
                                               expectedPastOrderIds, expectedCreditCards, 
                                               expectedShippingAddresses, expectedCart, expectedWishlist);
 
