@@ -62,7 +62,7 @@ export class BuyerInfoService {
       .pipe(catchError(this.handleError<any>('deleteBuyerInfo')));
   }
   getBuyerCart(id: number): Observable<Cart> {
-    const url = `${this.buyerInformationURL}/${id}/cart`;
+    const url = `${this.buyerInformationURL}/cart`;
     return this.http
       .get<Cart>(url)
       .pipe(catchError(this.handleError<any>(`getBuyerCart id:${id}`)));
