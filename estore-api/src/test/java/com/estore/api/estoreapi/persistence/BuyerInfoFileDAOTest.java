@@ -45,7 +45,7 @@ public class BuyerInfoFileDAOTest {
         pastOrderIds.add(1);
         pastOrderIds.add(2);
 
-        CreditCard card = new CreditCard("John B. Buyer", 1234);
+        CreditCard card = new CreditCard("John B. Buyer", "1234");
         Collection<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(card);
 
@@ -58,7 +58,7 @@ public class BuyerInfoFileDAOTest {
         Collection<Integer> wishlist = new ArrayList<>();
         wishlist.add(5);
 
-        testBuyerInfos[0] = new BuyerInfo(1, 2, "John", "Buyer", "555-123-4567", 
+        testBuyerInfos[0] = new BuyerInfo(1, 2, "John Buyer", "555-123-4567", 
                                           pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
         
 
@@ -96,7 +96,7 @@ public class BuyerInfoFileDAOTest {
         pastOrderIds.add(6);
         pastOrderIds.add(7);
 
-        CreditCard card = new CreditCard("Joe Setup", 1234);
+        CreditCard card = new CreditCard("Joe Setup", "1234");
         Collection<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(card);
 
@@ -107,7 +107,7 @@ public class BuyerInfoFileDAOTest {
 
         Collection<Integer> wishlist = new ArrayList<>();
         wishlist.add(2);
-        BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe", "setup", 
+        BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe setup", 
                                 "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
 
         // Invoke
@@ -119,8 +119,7 @@ public class BuyerInfoFileDAOTest {
         BuyerInfo actual = buyerInfoFileDAO.getBuyerInfo(buyerInfo.getId());
         assertEquals(actual.getId(), buyerInfo.getId());
         assertEquals(actual.getUserId(), buyerInfo.getUserId());
-        assertEquals(actual.getFirstName(), buyerInfo.getFirstName());
-        assertEquals(actual.getLastName(), buyerInfo.getLastName());
+        assertEquals(actual.getName(), buyerInfo.getName());
         assertEquals(actual.getPhoneNumber(), buyerInfo.getPhoneNumber());
         assertEquals(actual.getPastOrderIds(), buyerInfo.getPastOrderIds());
         assertEquals(actual.getCreditCards(), buyerInfo.getCreditCards());
@@ -136,7 +135,7 @@ public class BuyerInfoFileDAOTest {
         pastOrderIds.add(6);
         pastOrderIds.add(7);
 
-        CreditCard card = new CreditCard("Joe Setup", 1234);
+        CreditCard card = new CreditCard("Joe Setup", "1234");
         Collection<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(card);
 
@@ -147,7 +146,7 @@ public class BuyerInfoFileDAOTest {
 
         Collection<Integer> wishlist = new ArrayList<>();
         wishlist.add(2);
-        BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe", "setup", 
+        BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe setup", 
                                 "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
 
         // Invoke
@@ -163,16 +162,22 @@ public class BuyerInfoFileDAOTest {
     @Test
     public void testDeleteBuyerInfo() {
         // Invoke
-        boolean result = assertDoesNotThrow(() -> buyerInfoFileDAO.deleteBuyerInfo(1),
+        BuyerInfo result1 = assertDoesNotThrow(() -> buyerInfoFileDAO.deleteBuyerInfo(999),
                             "Unexpected exception thrown");
-
         // Analzye
-        assertEquals(result, true);
+        assertEquals(result1, null);
+
+
+        BuyerInfo result2 = assertDoesNotThrow(() -> buyerInfoFileDAO.deleteBuyerInfo(1),
+                            "Unexpected exception thrown");
+        assertEquals(result2, testBuyerInfos[0]);
         // We check the internal tree map size against the length
         // of the test buyerInfos array - 1 (because of the delete)
         // Because buyerInfos attribute of BuyerInfoFileDAO is package private
         // we can access it directly
         assertEquals(buyerInfoFileDAO.buyerInfos.size(), testBuyerInfos.length - 1);
+
+
     }
 
 }

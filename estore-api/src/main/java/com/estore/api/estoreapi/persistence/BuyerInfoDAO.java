@@ -77,9 +77,9 @@ public interface BuyerInfoDAO {
      * 
      * @param id The id of the {@link BuyerInfo buyerInfo}
      * 
-     * @return true if the {@link BuyerInfo buyerInfo} was deleted
+     * @return the {@link BuyerInfo buyerInfo} that was deleted
      *         <br>
-     *         false if buyerInfo with the given id does not exist
+     *         null if buyerInfo with the given id does not exist
      * 
      * @throws IOException if underlying storage cannot be accessed
      */
