@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estore.api.estoreapi.auth.AuthenticationRequest;
 import com.estore.api.estoreapi.auth.TokenResponse;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 @RestController
@@ -33,7 +34,8 @@ public class AuthenticationController {
     } catch (Exception err) {
       return ResponseEntity.status(400).body(null);
     }
-    final TokenResponse token = new TokenResponse(request.getEmail() + ":" + request.getPassword() + ":" + request.getID());
+    final TokenResponse token = new TokenResponse(
+        request.getEmail() + ":" + request.getPassword() + ":" + request.getID());
     return ResponseEntity.ok(token);
   }
 

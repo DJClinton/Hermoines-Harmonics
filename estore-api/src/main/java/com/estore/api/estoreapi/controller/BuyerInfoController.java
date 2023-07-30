@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -20,7 +19,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
-import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
@@ -99,8 +97,6 @@ public class BuyerInfoController {
     public ResponseEntity<BuyerInfo[]> getBuyerInfos(HttpServletRequest request) {
         LOG.info("GET /buyerInformation");
 
-
-
         try {
             BuyerInfo[] buyerInfos = buyerInfoDao.getBuyerInfos();
             return new ResponseEntity<BuyerInfo[]>(buyerInfos, HttpStatus.OK);
@@ -126,7 +122,12 @@ public class BuyerInfoController {
      *         GET http://localhost:8080/buyerInformation/?userid=1
      */
     @GetMapping("/")
-    public ResponseEntity<BuyerInfo> getBuyerInfoByUserId(@RequestParam int userid) {
+    public ResponseEntity<BuyerInfo> getBuyerInfo(HttpServletRequest request) {
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int userid = user.getId();
         LOG.info("GET /buyerInformation/?userid=" + userid);
 
         try {
@@ -149,8 +150,14 @@ public class BuyerInfoController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PostMapping("")
-    public ResponseEntity<BuyerInfo> createBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
+    public ResponseEntity<BuyerInfo> createBuyerInfo(HttpServletRequest request, @RequestBody BuyerInfo buyerInfo) {
         LOG.info("POST /buyerInformation " + buyerInfo);
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int userid = user.getId();
+        buyerInfo.setUserID(userid);
 
         try {
             buyerInfo = buyerInfoDao.createBuyerInfo(buyerInfo);
@@ -202,8 +209,16 @@ public class BuyerInfoController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<BuyerInfo> deleteBuyerInfo(@PathVariable int id) {
+    public ResponseEntity<BuyerInfo> deleteBuyerInfo(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /buyerInformation/" + id);
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String role = user.getAuthorities();
+        if (!role.equals("ADMIN")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
@@ -218,17 +233,23 @@ public class BuyerInfoController {
         }
     }
 
-    @GetMapping("/{id}/cart")
-    public ResponseEntity<ArrayList<Product>> getCart(@PathVariable int id){
-        LOG.info("GET /cart/" + id);
-        try{
+    @GetMapping("/cart")
+    public ResponseEntity<ArrayList<Product>> getCart(HttpServletRequest request) {
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int id = user.getId();
+        LOG.info("GET /buyerInformation/" + id + "/cart");
+
+        try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
             if (buyer == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             ArrayList<Integer> cart = buyer.getCart();
             ArrayList<Product> newCart = new ArrayList<Product>();
-            for(int num: cart){
+            for (int num : cart) {
                 newCart.add(productDAO.getProduct(num));
             }
             LOG.info(newCart.toString());
@@ -259,6 +280,5 @@ public class BuyerInfoController {
         } catch (Exception e) {
             return null;
         }
-
     }
 }
