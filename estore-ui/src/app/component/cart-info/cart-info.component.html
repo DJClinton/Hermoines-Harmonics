@@ -1,0 +1,13 @@
+<div *ngIf="cart">
+    <h2>Cart Information</h2>
+    <p><strong>User ID:</strong> {{ cart.userId }}</p>
+    <p><strong>Cart Items:</strong></p>
+    <ul>
+      <li *ngFor="let item of cart.items">{{ item.name }} - ${{ item.price }}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!cart">
+    <p>Loading cart information...</p>
+  </div>
+  

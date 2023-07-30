@@ -12,9 +12,12 @@ public class AuthenticationRequest {
   private String email;
   @JsonProperty("password")
   private String password;
+  @JsonProperty("ID")
+  private int ID;
 
-  public AuthenticationRequest(@JsonProperty("email") String email, @JsonProperty("password") String password) {
+  public AuthenticationRequest(@JsonProperty("email") String email, @JsonProperty("password") String password, @JsonProperty("ID") int ID) {
     this.email = email;
     this.password = password;
+    this.ID = ID;
   }
 }
