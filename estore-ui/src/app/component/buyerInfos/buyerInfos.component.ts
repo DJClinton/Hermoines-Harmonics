@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BuyerInfoService } from '../../buyerInfo.service';
+import { BuyerInfoService } from '../../service/buyerInfo.service';
 import { BuyerInfo } from '../../type';
 
 @Component({
@@ -43,15 +43,13 @@ export class BuyerInfosComponent {
 
   addNewBuyerInfo(
     userId: number,
-    firstName: string,
-    lastName: string,
+    name: string,
     phoneNumber: string
   ) {
     const newBuyerInfo: BuyerInfo = {
       id: 0, // temporary value
       userId,
-      firstName,
-      lastName,
+      name,
       phoneNumber,
       pastOrdersIds: [],
       creditCards: [],

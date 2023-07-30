@@ -10,17 +10,11 @@ export interface Product {
 export interface BuyerInfo {
   id: number;
   userId: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   phoneNumber: string;
   pastOrdersIds: Array<number>;
-  creditCards: Array<CreditCard>;
+  creditCards: Array<{ holderName: string, cardNumber: string }>;
   shippingAddresses: Array<String>;
   cart: Array<number>;
   wishlist: Array<number>;
-}
-
-export interface CreditCard {
-  holderName: string;
-  cardNumber: number;
 }

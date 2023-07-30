@@ -16,8 +16,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
+import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
+import com.estore.api.estoreapi.model.User;
 
 /**
  * Handles the REST API requests for the BuyerInfo resource
@@ -30,10 +34,11 @@ import com.estore.api.estoreapi.model.BuyerInfo;
  */
 
 @RestController
-@RequestMapping("account")
+@RequestMapping("buyerInformation")
 public class BuyerInfoController {
     private static final Logger LOG = Logger.getLogger(BuyerInfoController.class.getName());
     private BuyerInfoDAO buyerInfoDao;
+    private UserFileDAO userFileDao;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -43,8 +48,9 @@ public class BuyerInfoController {
      *                     <br>
      *                     This dependency is injected by the Spring Framework
      */
-    public BuyerInfoController(BuyerInfoDAO buyerInfoDao) {
+    public BuyerInfoController(BuyerInfoDAO buyerInfoDao, UserFileDAO userFileDao) {
         this.buyerInfoDao = buyerInfoDao;
+        this.userFileDao = userFileDao;
     }
 
     /**
@@ -60,7 +66,7 @@ public class BuyerInfoController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BuyerInfo> getBuyerInfo(@PathVariable int id) {
-        LOG.info("GET /account/" + id);
+        LOG.info("GET /buyerInformation/" + id);
         try {
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfo(id);
             if (buyerInfo == null)
@@ -84,8 +90,11 @@ public class BuyerInfoController {
      *         TODO only admin should be able to see full list of buyerInfos
      */
     @GetMapping("")
-    public ResponseEntity<BuyerInfo[]> getBuyerInfos() {
-        LOG.info("GET /account");
+    public ResponseEntity<BuyerInfo[]> getBuyerInfos(HttpServletRequest request) {
+        LOG.info("GET /buyerInformation");
+
+
+
         try {
             BuyerInfo[] buyerInfos = buyerInfoDao.getBuyerInfos();
             return new ResponseEntity<BuyerInfo[]>(buyerInfos, HttpStatus.OK);
@@ -108,15 +117,15 @@ public class BuyerInfoController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      *         <p>
      *         Example: Find all buyerinfos belonging to user with id 1
-     *         GET http://localhost:8080/account/?userid=1
+     *         GET http://localhost:8080/buyerInformation/?userid=1
      */
     @GetMapping("/")
-    public ResponseEntity<BuyerInfo[]> getBuyerInfosByUserId(@RequestParam int userid) {
-        LOG.info("GET /account/?userid=" + userid);
+    public ResponseEntity<BuyerInfo> getBuyerInfoByUserId(@RequestParam int userid) {
+        LOG.info("GET /buyerInformation/?userid=" + userid);
 
         try {
-            BuyerInfo[] buyerInfos = buyerInfoDao.getBuyerInfosByUserId(userid);
-            return new ResponseEntity<BuyerInfo[]>(buyerInfos, HttpStatus.OK);
+            BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
+            return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -135,7 +144,7 @@ public class BuyerInfoController {
      */
     @PostMapping("")
     public ResponseEntity<BuyerInfo> createBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
-        LOG.info("POST /account " + buyerInfo);
+        LOG.info("POST /buyerInformation " + buyerInfo);
 
         try {
             buyerInfo = buyerInfoDao.createBuyerInfo(buyerInfo);
@@ -160,7 +169,7 @@ public class BuyerInfoController {
      */
     @PutMapping("")
     public ResponseEntity<BuyerInfo> updateBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
-        LOG.info("PUT /account " + buyerInfo);
+        LOG.info("PUT /buyerInformation " + buyerInfo);
 
         try {
             buyerInfo = buyerInfoDao.updateBuyerInfo(buyerInfo);
@@ -188,7 +197,7 @@ public class BuyerInfoController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<BuyerInfo> deleteBuyerInfo(@PathVariable int id) {
-        LOG.info("DELETE /account/" + id);
+        LOG.info("DELETE /buyerInformation/" + id);
 
         try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
@@ -201,5 +210,28 @@ public class BuyerInfoController {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    // TODO these methods should be moved to their own class
+
+    private boolean isAuthorized(HttpServletRequest request, String requiredRole) {
+        String auth = request.getHeader("authorization");
+        return auth != null && auth.split(":").length == 2 && auth.split(":")[0].equals(requiredRole);
+    }
+
+    private User getUser(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if (auth == null)
+            return null;
+        String[] authParts = auth.split(":");
+        if (authParts.length != 2)
+            return null;
+        String username = authParts[0], password = authParts[1];
+        try {
+            return userFileDao.getUserByEmailPassword(username, password);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }
