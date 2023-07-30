@@ -237,7 +237,7 @@ public class BuyerInfoController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         int id = user.getId();
-        LOG.info("GET /buyerInformation/" + id + "/cart");
+        LOG.info("GET /buyerInformation/cart");
 
         try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);

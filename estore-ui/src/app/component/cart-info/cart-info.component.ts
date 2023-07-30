@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BuyerInfoService } from 'src/app/service/buyerInfo.service';
+import { Product } from 'src/app/type';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { BuyerInfoService } from 'src/app/service/buyerInfo.service';
   styleUrls: ['./cart-info.component.scss']
 })
 export class CartInfoComponent {
-  cart : any
+  cart : Product[] = [];
   userID : any
   user: any
   buyerInfo: any

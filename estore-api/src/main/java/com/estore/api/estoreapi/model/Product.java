@@ -33,6 +33,8 @@ public class Product {
     private double price;
     @JsonProperty("quantity")
     private int quantity;
+    @JsonProperty("image")
+    private String image;
 
     /**
      * Create a product with the given id and name
@@ -41,6 +43,7 @@ public class Product {
      * @param name     The name of the product
      * @param price    The price of the product
      * @param quantity How many products are in stock
+     * @param image    File path to the product image
      * 
      *                 {@literal @}JsonProperty is used in serialization and
      *                 deserialization
@@ -56,7 +59,8 @@ public class Product {
             @JsonProperty("tags") String[] tags,
             @JsonProperty("description") String description,
             @JsonProperty("price") double price,
-            @JsonProperty("quantity") int quantity) {
+            @JsonProperty("quantity") int quantity,
+            @JsonProperty("image") String image) {
         LOG.info("Creating Product with id: " + id + " and name: " + name);
         this.id = id;
         this.name = name;
@@ -64,6 +68,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+        this.image = image;
     }
 
     /**

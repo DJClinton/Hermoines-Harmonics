@@ -1,14 +1,8 @@
-<div *ngIf="user">
-  <h2>Cart Information</h2>
-  <p><strong>User ID:</strong> {{ user.userId }}</p>
-  <p><strong>Buyer ID:</strong> {{buyerID}} </p> 
-</div>
-
 <div *ngIf="cart && cart.length > 0">
-  <h2>Cart Items</h2>
+  <h2>Your Cart</h2>
   <ul>
     <li *ngFor="let item of cart">
-      <!-- Display product information here -->
+      <img [src]="item.image" class="img">
       {{ item.name }} - {{ item.price }}
     </li>
   </ul>
