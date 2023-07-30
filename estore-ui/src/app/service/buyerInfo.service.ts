@@ -14,7 +14,6 @@ export class BuyerInfoService {
   };
 
   private buyerInformationURL = 'http://localhost:8080/buyerInformation';
-  private buyerInformationURL = 'http://localhost:8080/buyerInformation';
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -25,11 +24,9 @@ export class BuyerInfoService {
 
   getBuyerInfos(): Observable<Array<BuyerInfo>> {
     return this.http.get<Array<BuyerInfo>>(this.buyerInformationURL);
-    return this.http.get<Array<BuyerInfo>>(this.buyerInformationURL);
   }
 
   getBuyerInfo(id: number): Observable<BuyerInfo> {
-    const url = `${this.buyerInformationURL}/${id}`;
     const url = `${this.buyerInformationURL}/${id}`;
     return this.http
       .get<BuyerInfo>(url)
@@ -37,13 +34,10 @@ export class BuyerInfoService {
   }
 
   getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
-  getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
     return this.http
-      .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
       .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
       .pipe(
         catchError(
-          this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
           this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
         )
       );
@@ -52,19 +46,16 @@ export class BuyerInfoService {
   addBuyerInfo(buyerInfo: any): Observable<BuyerInfo> {
     return this.http
       .post<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
-      .post<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
       .pipe(catchError(this.handleError<any>('addBuyerInfo')));
   }
 
   updateBuyerInfo(buyerInfo: any): Observable<BuyerInfo> {
     return this.http
       .put<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
-      .put<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateBuyerInfo')));
   }
 
   deleteBuyerInfo(id: number): Observable<BuyerInfo> {
-    const url = `${this.buyerInformationURL}/${id}`;
     const url = `${this.buyerInformationURL}/${id}`;
     return this.http
       .delete<BuyerInfo>(url, this.httpOptions)

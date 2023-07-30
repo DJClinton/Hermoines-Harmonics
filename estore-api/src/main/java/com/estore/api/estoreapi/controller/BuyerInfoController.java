@@ -39,7 +39,6 @@ import com.estore.api.estoreapi.model.User;
 
 @RestController
 @RequestMapping("buyerInformation")
-@RequestMapping("buyerInformation")
 public class BuyerInfoController {
     private static final Logger LOG = Logger.getLogger(BuyerInfoController.class.getName());
     private BuyerInfoDAO buyerInfoDao;
@@ -136,8 +135,6 @@ public class BuyerInfoController {
         LOG.info("GET /buyerInformation/?userid=" + userid);
 
         try {
-            BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
-            return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.OK);
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
             return new ResponseEntity<BuyerInfo>(buyerInfo, HttpStatus.OK);
         } catch (IOException ioe) {

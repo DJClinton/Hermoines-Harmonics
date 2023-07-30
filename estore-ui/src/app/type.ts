@@ -12,11 +12,8 @@ export interface BuyerInfo {
   id: number;
   userId: number;
   name: string;
-  userId: number;
-  name: string;
   phoneNumber: string;
   pastOrdersIds: Array<number>;
-  creditCards: Array<{ holderName: string, cardNumber: string }>;
   creditCards: Array<{ holderName: string, cardNumber: string }>;
   shippingAddresses: Array<String>;
   cart: Array<number>;
