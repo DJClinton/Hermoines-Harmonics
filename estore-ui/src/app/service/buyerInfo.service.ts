@@ -84,4 +84,10 @@ export class BuyerInfoService {
       .get<Cart>(url)
       .pipe(catchError(this.handleError<any>(`getBuyerCart`)));
   }
+  getBuyerInfoByUser(): Observable<BuyerInfo> {
+    const url = `${this.buyerInformationURL}/this_user`;
+    return this.http
+        .get<BuyerInfo>(url, this.httpOptions)
+        .pipe(catchError(this.handleError<any>('getBuyerInfoByUser')));  
+  }
 }

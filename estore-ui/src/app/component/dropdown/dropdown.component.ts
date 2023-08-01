@@ -25,6 +25,9 @@ export class DropdownComponent {
       }
     });
   }
+  redirectToLogout(){
+    this.router.navigateByUrl("/logout")
+  }
   redirectTo(path: string) {
     this.router.navigateByUrl('/' + path);
   }

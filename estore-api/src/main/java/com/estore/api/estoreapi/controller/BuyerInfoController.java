@@ -13,20 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
-import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
-import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
@@ -47,7 +43,6 @@ public class BuyerInfoController {
     private BuyerInfoDAO buyerInfoDao;
     private UserFileDAO userFileDao;
     private ProductFileDAO productDAO;
-    private ProductFileDAO productDAO;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -57,7 +52,6 @@ public class BuyerInfoController {
      *                     <br>
      *                     This dependency is injected by the Spring Framework
      */
-    public BuyerInfoController(BuyerInfoDAO buyerInfoDao, UserFileDAO userFileDao, ProductFileDAO productDAO) {
     public BuyerInfoController(BuyerInfoDAO buyerInfoDao, UserFileDAO userFileDao, ProductFileDAO productDAO) {
         this.buyerInfoDao = buyerInfoDao;
         this.userFileDao = userFileDao;
@@ -161,14 +155,7 @@ public class BuyerInfoController {
      */
     @PostMapping("")
     public ResponseEntity<BuyerInfo> createBuyerInfo(HttpServletRequest request, @RequestBody BuyerInfo buyerInfo) {
-    public ResponseEntity<BuyerInfo> createBuyerInfo(HttpServletRequest request, @RequestBody BuyerInfo buyerInfo) {
         LOG.info("POST /buyerInformation " + buyerInfo);
-        User user = getUser(request);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        int userid = user.getId();
-        buyerInfo.setUserID(userid);
         User user = getUser(request);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -228,13 +215,7 @@ public class BuyerInfoController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<BuyerInfo> deleteBuyerInfo(HttpServletRequest request, @PathVariable int id) {
-    public ResponseEntity<BuyerInfo> deleteBuyerInfo(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /buyerInformation/" + id);
-        boolean isAuthorized = isAuthorized(request, "ADMIN");
-
-        if (!isAuthorized) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         boolean isAuthorized = isAuthorized(request, "ADMIN");
 
         if (!isAuthorized) {
@@ -284,10 +265,6 @@ public class BuyerInfoController {
     // TODO these methods should be moved to their own class
 
     private boolean isAuthorized(HttpServletRequest request, String requiredRole) {
-        User user = getUser(request);
-        if (user == null)
-            return false;
-        return user.getAuthorities().equals(requiredRole);
         User user = getUser(request);
         if (user == null)
             return false;
