@@ -18,9 +18,12 @@ export class DropdownComponent {
     this.trigger.openMenu();
   }
 
+  //TODO: RYAN FIX REDIRECTTOMYACCOUNT
+
   redirectToMyAccount() {
     this.buyerInfoService.getBuyerInfoByUser().subscribe((data: BuyerInfo) => {
       if(data != null) {
+        console.log(data.id);
         this.router.navigateByUrl('/account/' + data.id);
       }
     });
