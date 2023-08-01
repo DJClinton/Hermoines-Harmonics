@@ -41,6 +41,19 @@ a:hover {
 a:active {
   background-color: rgb(57, 57, 57);
 }
+a.home {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  color: white;
+  text-decoration: none;
+  border: none;
+}
+a.home:hover {
+  background-color: rgb(57, 57, 57);
+}
 img {
   height: 32px;
   width: 32px;

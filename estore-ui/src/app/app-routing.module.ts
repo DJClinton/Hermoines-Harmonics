@@ -14,7 +14,7 @@ import { CartInfoComponent } from './component/cart-info/cart-info.component';
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'inventory', component: InventoryControlComponent },
-  { path: 'products', component: BrowseProductsComponent },
+  { path: '', component: BrowseProductsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'search', component: SearchProductsComponent },

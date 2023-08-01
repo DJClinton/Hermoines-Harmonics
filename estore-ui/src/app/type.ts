@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   price: number;
   quantity: number;
+  numClicks: number; // Used by popularity sort
   image?: string;
 }
 

@@ -9,7 +9,7 @@
     <li *ngFor="let buyerInfo of buyerInfos">
       <mat-card class="account-card">
         <a routerLink="/account/{{buyerInfo.id}}">
-          User ID: {{buyerInfo.id}} | Name: {{buyerInfo.name}}
+          User ID: {{buyerInfo.userId}} | Unique ID: {{buyerInfo.id}} | Name: {{buyerInfo.name}}
         </a>
       </mat-card>
       <br>

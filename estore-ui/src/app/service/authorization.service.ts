@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { throwError, Observable } from 'rxjs';
+import { BuyerInfoService } from './buyerInfo.service';
+import { BuyerInfo } from '../type';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,8 @@ export class AuthorizationService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private buyerInfoService: BuyerInfoService
   ) {}
 
   httpOptions = {
@@ -44,8 +47,9 @@ export class AuthorizationService {
       .subscribe((data: any) => {
         localStorage.setItem('token', data.token);
         console.log(data.token);
-        // TODO: Redirect to create profile page instead of home page
-        this.router.navigate(['/']);
+        this.buyerInfoService.createNewBuyerInfo().subscribe((buyerInfo: BuyerInfo) => {
+          this.router.navigate(['/account/' + buyerInfo.id]);
+        });
       });
   }
 }
