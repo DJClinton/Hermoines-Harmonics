@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +26,6 @@ export class OrderService {
       .put(this.orderUrl, order, this.httpOptions)
       .pipe(catchError(this.handleError(`updateOrder`)));
   } 
-  
-  getUser(): string | null{
-    const token = localStorage.getItem('token');
-    const username = token ? token.split(`:`)[0] : null;
-    return username;
-  }
 
   getOrder(id: number): Observable<any>{
     const url = `${this.orderUrl}/${id}`;
@@ -40,8 +34,15 @@ export class OrderService {
     .pipe(catchError(this.handleError(`getProduct id:${id}`)));
   }
 
-  getOrders(): Observable<any>{
+  getAllOrders(): Observable<any>{
     return this.http.get(this.orderUrl);
+  }
+
+  getOrdersofUser(): Observable<any>{
+    const url = `${this.orderUrl}/user`
+    return this.http
+      .get(url)
+      .pipe(catchError(this.handleError(`getOrdersofUser`)));
   }
 
   createOrder(order: any): Observable<any>{

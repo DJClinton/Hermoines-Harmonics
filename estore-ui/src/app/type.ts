@@ -27,6 +27,17 @@ export interface CreditCard {
 
 export interface Order{
   id: number;
-  buyerInfo: BuyerInfo;
-  products: Product[];
+  uid: number;
+  productIds: number[];
+  date: Date;
+  orderStatus: OrderStatus;
+  ccDigits: number;
+  address: string;
+}
+
+enum OrderStatus{
+    UNPROCESSED,
+    SHIPPED,
+    DELIVERD,
+    CANCELLED
 }

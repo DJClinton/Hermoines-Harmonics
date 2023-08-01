@@ -1,5 +1,7 @@
 package com.estore.api.estoreapi.persistence;
 import java.io.IOException;
+
+import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.Order;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
 import com.estore.api.estoreapi.model.Product;
@@ -45,17 +47,6 @@ public interface OrderDAO {
      * @throws IOException if an issue with underlying storage
      */
     Order getOrder(int id) throws IOException;
-
-    /**
-     * Retrieves all {@linkplain Order order}
-     * 
-     * @param uid the user id of the {@link Buyer buyer}
-     * 
-     * @return An array of {@link Product products} objects, may be empty
-     * 
-     * @throws IOException if an issue with underlying storage
-     */
-    Order[] getOrders(int uid) throws IOException;
 
     /**
      * Deletes a {@linkplain Order order} with the given id

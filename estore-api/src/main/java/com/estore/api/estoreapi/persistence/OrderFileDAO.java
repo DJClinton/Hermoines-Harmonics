@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Collection;
 
+import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.Order;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,6 @@ public class OrderFileDAO implements OrderDAO {
                                        // to the file
     private static int nextId; // The next Id to assign to a new order
     private String filename; // Filename to read from and write to
-
     /**
      * Creates a Order File Data Access Object
      * 
@@ -67,7 +67,7 @@ public class OrderFileDAO implements OrderDAO {
      * 
      * @return The array of {@link Order orders}, may be empty
      */
-    private Order[] getOrderArray() {
+    private Order[] getAllOrders() {
 
         Collection<Order> values = orders.values();
         Order[] array = values.toArray(new Order[0]);   
@@ -75,25 +75,6 @@ public class OrderFileDAO implements OrderDAO {
 
     }
 
-    /**
-     * Overload of {@linkplain #getOrderArray} using a {@param uid user id} to get specific <br>
-     * {@linkplain Order orders}
-     * 
-     * @param uid     The identifier to get specific {@linkplain Order orders}  
-     * 
-     * @return The array of {@link Order orders}, can be empty 
-     * 
-     */
-    private Order[] getOrderArray(int uid){
-        ArrayList<Order> orderList = new ArrayList<Order>();
-        for(Integer id: orders.keySet()){
-            if(id == uid){
-                orderList.add(orders.get(id));
-            }
-        }
-        Order[] array = orderList.toArray(new Order[0]);
-        return array;
-    }
 
     /**
      * Loads {@linkplain Order orders} from the JSON file into the map
@@ -133,7 +114,7 @@ public class OrderFileDAO implements OrderDAO {
      * @throws IOException when file cannot be accessed or written to
      */
     private boolean save() throws IOException {
-        Order[] orderArray = getOrderArray();
+        Order[] orderArray = getAllOrders();
 
         // Serializes the Java Objects to JSON objects into the file
         // writeValue will thrown an IOException if there is an issue
@@ -148,7 +129,7 @@ public class OrderFileDAO implements OrderDAO {
     @Override
     public Order[] getAll() {
         synchronized (orders) {
-            return getOrderArray();
+            return getAllOrders();
         }
     }
 
@@ -164,16 +145,6 @@ public class OrderFileDAO implements OrderDAO {
                 }
             }
             return null;
-        }
-    }
-
-    /**
-     ** {@inheritDoc}
-     */
-    @Override
-    public Order[] getOrders(int uid) {
-        synchronized (orders) {
-            return getOrderArray(uid);
         }
     }
     
