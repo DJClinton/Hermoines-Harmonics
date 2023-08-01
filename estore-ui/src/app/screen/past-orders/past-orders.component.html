@@ -1,1 +1,7 @@
-<p>past-orders works!</p>
+<div>
+  <ol>
+    <li *ngFor="let order of pastOrders">
+      <app-order [order]="order"></app-order>
+    </li>
+  </ol>
+</div>

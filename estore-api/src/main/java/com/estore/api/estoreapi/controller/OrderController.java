@@ -99,7 +99,7 @@ public class OrderController {
      *         HTTP status of OK<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
-    @GetMapping("/orders")
+    @GetMapping("")
     public ResponseEntity<Order[]> getAllOrders(HttpServletRequest request) {
         LOG.info("GET /orders");
         User user = getUser(request);
@@ -125,7 +125,7 @@ public class OrderController {
      *         HTTP status of OK<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
-    @GetMapping("/orders/user")
+    @GetMapping("/user")
     public ResponseEntity<ArrayList<Order>> getOrders(HttpServletRequest request) {
         User user = getUser(request);
         if(user == null){

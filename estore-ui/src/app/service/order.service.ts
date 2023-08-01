@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, forkJoin, of } from 'rxjs';
+import { Order, Product } from '../type';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class OrderService {
   }
 
   getOrdersofUser(): Observable<any>{
-    const url = `${this.orderUrl}/user`
+    const url = `${this.orderUrl}/user`;
     return this.http
       .get(url)
       .pipe(catchError(this.handleError(`getOrdersofUser`)));
@@ -51,4 +52,3 @@ export class OrderService {
     .pipe(catchError(this.handleError(`createOrder`)));
   }
 }
-

@@ -25,18 +25,18 @@ export interface Cart{
 }
 
 export interface Order{
-  id: number;
-  uid: number;
-  productIds: number[];
-  date: Date;
-  orderStatus: OrderStatus;
+  productId: number[];
+  date: number;
+  orderStatus: keyof typeof OrderStatus;
   ccDigits: number;
   address: string;
+  orderID: number;
+  userID: number;
 }
 
-enum OrderStatus{
+export enum OrderStatus{
     UNPROCESSED,
     SHIPPED,
-    DELIVERD,
+    DELIVERED,
     CANCELLED
 }

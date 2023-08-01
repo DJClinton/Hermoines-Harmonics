@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 })
 export class PastOrdersComponent {
   pastOrders: Order[] = [];
+  order: any;
   constructor(
     private orderService: OrderService, 
     private location: Location
@@ -20,9 +21,10 @@ export class PastOrdersComponent {
   }
 
   getPastOrders() : void{
-    const token = localStorage.getItem('token');
       this.orderService.getOrdersofUser().subscribe((pastOrders) => {
-        this.pastOrders = pastOrders})
+        this.pastOrders = pastOrders
+        console.log(this.pastOrders);
+      })
   }
 
 

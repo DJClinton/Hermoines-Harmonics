@@ -25,6 +25,15 @@ export class ProductService {
     return this.http.get(this.inventoryUrl);
   }
 
+  getProductsByIds(ids: number[]): Observable<any> {
+    if (ids.length === 0) {
+      return of([]);
+    }
+    return this.http
+      .get(`${this.inventoryUrl}/products/?ids=${ids.join(',')}`)
+      .pipe(catchError(this.handleError<any>('getProductsByIds', [])));
+  }
+
   getProduct(id: number): Observable<any> {
     const url = `${this.inventoryUrl}/${id}`;
     return this.http
