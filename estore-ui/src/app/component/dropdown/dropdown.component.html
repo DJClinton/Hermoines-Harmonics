@@ -8,6 +8,7 @@
 
     <button mat-menu-item (click)='redirectTo("cart")'>My Cart</button>
     <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("accounts")'>Accounts</button>
+    <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("inventory")'>Inventory</button>
     <button *ngIf="!isAdmin()" mat-menu-item (click)='redirectToMyAccount()'>My Account</button>
     <button mat-menu-item (click)='redirectTo("logout")'>Logout</button>
 
