@@ -237,7 +237,7 @@ public class BuyerInfoController {
         LOG.info("GET /buyerInformation/" + id + "/cart");
 
         try {
-            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfoByUserId(id);
             if (buyer == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

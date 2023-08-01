@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { BuyerInfoService } from 'src/app/service/buyerInfo.service';
+import { BuyerInfo } from 'src/app/type';
+import { Product } from 'src/app/type';
 
 
 @Component({
@@ -8,11 +10,11 @@ import { BuyerInfoService } from 'src/app/service/buyerInfo.service';
   styleUrls: ['./cart-info.component.scss']
 })
 export class CartInfoComponent {
-  cart : any
-  userID : any
-  user: any
+  cart : Product[] = [];
+  userId : any
   buyerInfo: any
-  buyerID: any
+  buyerId: any
+  totalPrice: any
   constructor(private infoService: BuyerInfoService){}
 
   ngOnInit(): void {
@@ -20,31 +22,15 @@ export class CartInfoComponent {
   }
 
   getUser(): void{
-    // const token = localStorage.getItem('token')
-    // if(token!=null){
-    //   this.userID = token.split(':')[2];
-    //   this.infoService.getBuyerInfoByUserId(this.userID).subscribe(
-    //     (userData: any) => {
-    //       this.user = userData;
-    //       this.buyerInfo = userData;
-    //       this.buyerID = this.buyerInfo.id;
-    //       this.getCart();
-    //     },
-    //     (error) => {
-    //       console.error('Error getting cart:', error);
-    //     }
-    //   );
-    // } else {
-    //   console.error('User not authenticated');
-    // }
-  }
-  getCart(): void{
-    const token = localStorage.getItem('token');
-    if(token!=null && this.buyerInfo){
-      console.log(this.buyerInfo.id)
-      this.infoService.getBuyerCart(this.buyerInfo.id).subscribe(
-        (cartData: any) => {
-          this.cart = cartData;
+    const token = localStorage.getItem('token')
+    if(token!=null){
+      this.userId = token.split(':')[2];
+      this.infoService.getBuyerInfoByUser().subscribe(
+        (data: BuyerInfo) => {
+          this.buyerInfo = data;
+          this.buyerId = this.buyerInfo.id;
+          this.userId = this.buyerInfo.userId;
+          this.getCart();
         },
         (error) => {
           console.error('Error getting cart:', error);
@@ -53,5 +39,29 @@ export class CartInfoComponent {
     } else {
       console.error('User not authenticated');
     }
+  }
+  
+  getCart(): void{
+    const token = localStorage.getItem('token');
+    if(token!=null && this.buyerInfo){
+      console.log(this.buyerInfo.id)
+      this.infoService.getBuyerCart().subscribe(
+        (cartData: any) => {
+          this.cart = cartData;
+          this.getCartTotal();
+        },
+        (error) => {
+          console.error('Error getting cart:', error);
+        }
+      );
+    } else {
+      console.error('User not authenticated');
+    }
+  }
+  getCartTotal(): void{
+    this.totalPrice = 0;
+    this.cart.forEach(product => {
+      this.totalPrice+=product.price;
+    });
   }
 }

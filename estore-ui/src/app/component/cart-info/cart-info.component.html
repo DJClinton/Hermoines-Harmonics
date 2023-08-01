@@ -1,19 +1,26 @@
-<div *ngIf="user">
-  <h2>Cart Information</h2>
-  <p><strong>User ID:</strong> {{ user.userId }}</p>
-  <p><strong>Buyer ID:</strong> {{buyerID}} </p> 
-</div>
-
 <div *ngIf="cart && cart.length > 0">
-  <h2>Cart Items</h2>
-  <ul>
+  <div class="header">
+    <h2>Your Cart</h2>
+  </div>
+  
+  <mat-card><ul>
+    <div class="list">
     <li *ngFor="let item of cart">
-      <!-- Display product information here -->
-      {{ item.name }} - {{ item.price }}
+        <img [src]="item.image" class="img">
+        <div class="name-tags">
+          <span class="name" matListItemTitle>{{ item.name }}</span>
+          <tags-list [tags]="item.tags"></tags-list>
+        </div>
+        <div class="problemchild">
+        <div class="description" matListItemLine>{{item.description}}</div>
+      <div class="price">${{ item.price }}</div>
+      </div>
     </li>
-  </ul>
+  </div>
+  </ul></mat-card>
+<div class="cartTotal">
+  <div class="totalLabel">Cart Total:</div>
+  <div class="totalValue">${{ totalPrice }}</div>
 </div>
 
 <div *ngIf="cart && cart.length === 0">
-  <p>The cart is empty.</p>
-</div>
