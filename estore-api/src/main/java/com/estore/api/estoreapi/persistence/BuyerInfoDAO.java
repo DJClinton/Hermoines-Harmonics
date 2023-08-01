@@ -1,8 +1,11 @@
 package com.estore.api.estoreapi.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import com.estore.api.estoreapi.model.BuyerInfo;
+import com.estore.api.estoreapi.model.Product;
 
 /**
  * Defines the interface for BuyerInfo object persistence
@@ -84,4 +87,32 @@ public interface BuyerInfoDAO {
      * @throws IOException if underlying storage cannot be accessed
      */
     BuyerInfo deleteBuyerInfo(int id) throws IOException;
+
+        /**
+     * Calculates the total cost of the Buyer's cart based off of the items
+     * 
+     * @param items
+     * @param buyerInfo
+     * @throws IOException
+     */
+
+    int calcTotalCost(Collection<Integer> items, BuyerInfo buyerInfo) throws IOException;
+
+    /**
+     * Fetches all of the product objects from the list of IDs in the cart
+     * @param buyerInfo
+     * @return the product objects in an arraylist
+     * @throws IOException
+     */
+
+    public ArrayList<Product> fetchProducts(BuyerInfo buyerInfo) throws IOException;
+    
+    /**
+     * Fetches all of the product objects from the list of IDs in the WL
+     * @param buyerInfo
+     * @return the product objects in an arraylist
+     * @throws IOException
+     */
+
+    public ArrayList<Product> fetchWL(BuyerInfo buyerInfo) throws IOException;
 }

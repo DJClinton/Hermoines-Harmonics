@@ -19,3 +19,7 @@ export interface BuyerInfo {
   cart: Array<number>;
   wishlist: Array<number>;
 }
+
+export interface Cart{
+  cart: Array<Product>;
+}

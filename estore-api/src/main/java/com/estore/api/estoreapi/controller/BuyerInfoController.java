@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
+import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -39,6 +41,7 @@ public class BuyerInfoController {
     private static final Logger LOG = Logger.getLogger(BuyerInfoController.class.getName());
     private BuyerInfoDAO buyerInfoDao;
     private UserFileDAO userFileDao;
+    private ProductFileDAO productDAO;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -48,9 +51,10 @@ public class BuyerInfoController {
      *                     <br>
      *                     This dependency is injected by the Spring Framework
      */
-    public BuyerInfoController(BuyerInfoDAO buyerInfoDao, UserFileDAO userFileDao) {
+    public BuyerInfoController(BuyerInfoDAO buyerInfoDao, UserFileDAO userFileDao, ProductFileDAO productDAO) {
         this.buyerInfoDao = buyerInfoDao;
         this.userFileDao = userFileDao;
+        this.productDAO = productDAO;
     }
 
     /**
@@ -93,8 +97,6 @@ public class BuyerInfoController {
     public ResponseEntity<BuyerInfo[]> getBuyerInfos(HttpServletRequest request) {
         LOG.info("GET /buyerInformation");
 
-
-
         try {
             BuyerInfo[] buyerInfos = buyerInfoDao.getBuyerInfos();
             return new ResponseEntity<BuyerInfo[]>(buyerInfos, HttpStatus.OK);
@@ -116,12 +118,14 @@ public class BuyerInfoController {
      *         HTTP status of OK<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      *         <p>
-     *         Example: Find all buyerinfos belonging to user with id 1
-     *         GET http://localhost:8080/buyerInformation/?userid=1
      */
-    @GetMapping("/")
-    public ResponseEntity<BuyerInfo> getBuyerInfoByUserId(@RequestParam int userid) {
-        LOG.info("GET /buyerInformation/?userid=" + userid);
+    @GetMapping("/this_user")
+    public ResponseEntity<BuyerInfo> getBuyerInfoByUser(HttpServletRequest request) {
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int userid = user.getId();
 
         try {
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
@@ -143,8 +147,14 @@ public class BuyerInfoController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PostMapping("")
-    public ResponseEntity<BuyerInfo> createBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
+    public ResponseEntity<BuyerInfo> createBuyerInfo(HttpServletRequest request, @RequestBody BuyerInfo buyerInfo) {
         LOG.info("POST /buyerInformation " + buyerInfo);
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int userid = user.getId();
+        buyerInfo.setUserID(userid);
 
         try {
             buyerInfo = buyerInfoDao.createBuyerInfo(buyerInfo);
@@ -196,8 +206,13 @@ public class BuyerInfoController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<BuyerInfo> deleteBuyerInfo(@PathVariable int id) {
+    public ResponseEntity<BuyerInfo> deleteBuyerInfo(HttpServletRequest request, @PathVariable int id) {
         LOG.info("DELETE /buyerInformation/" + id);
+        boolean isAuthorized = isAuthorized(request, "ADMIN");
+
+        if (!isAuthorized) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
@@ -212,11 +227,40 @@ public class BuyerInfoController {
         }
     }
 
+    @GetMapping("/cart")
+    public ResponseEntity<ArrayList<Product>> getCart(HttpServletRequest request) {
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int id = user.getId();
+        LOG.info("GET /buyerInformation/" + id + "/cart");
+
+        try {
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            if (buyer == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            ArrayList<Integer> cart = buyer.getCart();
+            ArrayList<Product> newCart = new ArrayList<Product>();
+            for (int num : cart) {
+                newCart.add(productDAO.getProduct(num));
+            }
+            LOG.info(newCart.toString());
+            return new ResponseEntity<>(newCart, HttpStatus.OK);
+        } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // TODO these methods should be moved to their own class
 
     private boolean isAuthorized(HttpServletRequest request, String requiredRole) {
-        String auth = request.getHeader("authorization");
-        return auth != null && auth.split(":").length == 2 && auth.split(":")[0].equals(requiredRole);
+        User user = getUser(request);
+        if (user == null)
+            return false;
+        return user.getAuthorities().equals(requiredRole);
     }
 
     private User getUser(HttpServletRequest request) {
@@ -232,6 +276,5 @@ public class BuyerInfoController {
         } catch (Exception e) {
             return null;
         }
-
     }
 }

@@ -16,7 +16,19 @@ export class BuyerInfoDetailComponent {
     private route: ActivatedRoute,
     private buyerInfoService: BuyerInfoService,
     private location: Location
-  ) {}
+  ) {
+    const token = localStorage.getItem('token');
+    const thisPath = this.location.path()
+    const thisID = thisPath.split("/")[2]
+    if(token != 'admin:admin') {
+      this.buyerInfoService.getBuyerInfoByUser()
+        .subscribe((buyerInfo: BuyerInfo) => {
+          if(buyerInfo == null || buyerInfo.id.toString() != thisID) {
+            this.location.back();
+          }
+        });
+    }
+  }
 
   buyerInfo!: BuyerInfo;
   public isEditingName: boolean = false;

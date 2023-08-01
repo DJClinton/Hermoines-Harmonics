@@ -33,7 +33,8 @@ public class AuthenticationController {
     } catch (Exception err) {
       return ResponseEntity.status(400).body(null);
     }
-    final TokenResponse token = new TokenResponse(request.getEmail() + ":" + request.getPassword());
+    final TokenResponse token = new TokenResponse(
+        request.getEmail() + ":" + request.getPassword());
     return ResponseEntity.ok(token);
   }
 

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { BuyerInfo } from '.././type';
+import { BuyerInfo, Cart } from '.././type';
 
 @Injectable({
   providedIn: 'root',
@@ -33,19 +33,36 @@ export class BuyerInfoService {
       .pipe(catchError(this.handleError<any>(`getBuyerInfo id:${id}`)));
   }
 
-  getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
-    return this.http
-      .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
-      .pipe(
-        catchError(
-          this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
-        )
-      );
+  // getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
+  //   return this.http
+  //     .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
+  //     .pipe(
+  //       catchError(
+  //         this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
+  //       )
+  //     );
+  // }
+
+  createNewBuyerInfo(): Observable<BuyerInfo> {
+    const buyerInfo: BuyerInfo = {
+      id: 0, // temporary value
+      userId: -1, // will be overwritten
+      name: "",
+      phoneNumber: "",
+      pastOrdersIds: [],
+      creditCards: [],
+      shippingAddresses: [],
+      cart: [],
+      wishlist: [],
+    };
+
+    return this.addBuyerInfo(buyerInfo);
   }
 
-  addBuyerInfo(buyerInfo: any): Observable<BuyerInfo> {
+  addBuyerInfo(buyerInfo: any): Observable<any> {
+    console.log("adding buyer info")
     return this.http
-      .post<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
+      .post(this.buyerInformationURL, buyerInfo, this.httpOptions)
       .pipe(catchError(this.handleError<any>('addBuyerInfo')));
   }
 
@@ -60,5 +77,19 @@ export class BuyerInfoService {
     return this.http
       .delete<BuyerInfo>(url, this.httpOptions)
       .pipe(catchError(this.handleError<any>('deleteBuyerInfo')));
+  }
+
+  getBuyerCart(id: number): Observable<Cart> {
+    const url = `${this.buyerInformationURL}/cart`;
+    return this.http
+      .get<Cart>(url)
+      .pipe(catchError(this.handleError<any>(`getBuyerCart id:${id}`)));
+  }
+
+  getBuyerInfoByUser(): Observable<BuyerInfo> {
+    const url = `${this.buyerInformationURL}/this_user`;
+    return this.http
+        .get<BuyerInfo>(url, this.httpOptions)
+        .pipe(catchError(this.handleError<any>('getBuyerInfoByUser')));  
   }
 }

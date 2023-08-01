@@ -30,6 +30,8 @@ import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo
 import { BrowseProductsComponent } from './screen/browse-products/browse-products.component';
 import { DropdownComponent } from './component/dropdown/dropdown.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { CartInfoComponent } from './component/cart-info/cart-info.component';
+import { SignupComponent } from './screen/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { MatMenuModule } from '@angular/material/menu';
     TagsListComponent,
     LogoutComponent,
     DropdownComponent,
+    CartInfoComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
