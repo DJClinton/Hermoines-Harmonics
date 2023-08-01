@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import com.estore.api.estoreapi.persistence.BuyerInfoDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
@@ -56,7 +55,6 @@ public class BuyerInfoController {
         this.buyerInfoDao = buyerInfoDao;
         this.userFileDao = userFileDao;
         this.productDAO = productDAO;
-        this.productDAO = productDAO;
     }
 
     /**
@@ -72,7 +70,6 @@ public class BuyerInfoController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BuyerInfo> getBuyerInfo(@PathVariable int id) {
-        LOG.info("GET /buyerInformation/" + id);
         LOG.info("GET /buyerInformation/" + id);
         try {
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfo(id);
@@ -121,18 +118,14 @@ public class BuyerInfoController {
      *         HTTP status of OK<br>
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      *         <p>
-     *         Example: Find all buyerinfos belonging to user with id 1
-     *         GET http://localhost:8080/buyerInformation/?userid=1
-     *         GET http://localhost:8080/buyerInformation/?userid=1
      */
-    @GetMapping("/")
-    public ResponseEntity<BuyerInfo> getBuyerInfo(HttpServletRequest request) {
+    @GetMapping("/this_user")
+    public ResponseEntity<BuyerInfo> getBuyerInfoByUser(HttpServletRequest request) {
         User user = getUser(request);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         int userid = user.getId();
-        LOG.info("GET /buyerInformation/?userid=" + userid);
 
         try {
             BuyerInfo buyerInfo = buyerInfoDao.getBuyerInfoByUserId(userid);
@@ -186,7 +179,6 @@ public class BuyerInfoController {
      */
     @PutMapping("")
     public ResponseEntity<BuyerInfo> updateBuyerInfo(@RequestBody BuyerInfo buyerInfo) {
-        LOG.info("PUT /buyerInformation " + buyerInfo);
         LOG.info("PUT /buyerInformation " + buyerInfo);
 
         try {
@@ -242,7 +234,7 @@ public class BuyerInfoController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         int id = user.getId();
-        LOG.info("GET /buyerInformation/cart");
+        LOG.info("GET /buyerInformation/" + id + "/cart");
 
         try {
             BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);

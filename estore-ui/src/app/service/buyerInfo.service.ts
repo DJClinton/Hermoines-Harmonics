@@ -33,15 +33,15 @@ export class BuyerInfoService {
       .pipe(catchError(this.handleError<any>(`getBuyerInfo id:${id}`)));
   }
 
-  getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
-    return this.http
-      .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
-      .pipe(
-        catchError(
-          this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
-        )
-      );
-  }
+  // getBuyerInfoByUserId(userid: number): Observable<BuyerInfo> {
+  //   return this.http
+  //     .get<Array<BuyerInfo>>(`${this.buyerInformationURL}/?userid=${userid}`)
+  //     .pipe(
+  //       catchError(
+  //         this.handleError<any>(`getBuyerInfoByUserId userid:${userid}`, [])
+  //       )
+  //     );
+  // }
 
   createNewBuyerInfo(): Observable<BuyerInfo> {
     const buyerInfo: BuyerInfo = {
@@ -78,11 +78,12 @@ export class BuyerInfoService {
       .delete<BuyerInfo>(url, this.httpOptions)
       .pipe(catchError(this.handleError<any>('deleteBuyerInfo')));
   }
-  getBuyerCart(): Observable<Cart> {
+
+  getBuyerCart(id: number): Observable<Cart> {
     const url = `${this.buyerInformationURL}/cart`;
     return this.http
       .get<Cart>(url)
-      .pipe(catchError(this.handleError<any>(`getBuyerCart`)));
+      .pipe(catchError(this.handleError<any>(`getBuyerCart id:${id}`)));
   }
 
   getBuyerInfoByUser(): Observable<BuyerInfo> {

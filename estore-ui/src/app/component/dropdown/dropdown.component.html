@@ -6,9 +6,11 @@
 <div class="menu-items-wrapper">
     <mat-menu #menu="matMenu">
 
-    <button mat-menu-item (click)=redirectToCart()>My Cart</button>
-    <button mat-menu-item (click)=redirectToMyAccount()>Account</button>
-    <button mat-menu-item (click)=redirectToLogout()>Logout</button>
+    <button mat-menu-item (click)='redirectTo("cart")'>My Cart</button>
+    <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("accounts")'>Accounts</button>
+    <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("inventory")'>Inventory</button>
+    <button *ngIf="!isAdmin()" mat-menu-item (click)='redirectToMyAccount()'>My Account</button>
+    <button mat-menu-item (click)='redirectTo("logout")'>Logout</button>
 
     </mat-menu>
 </div>
