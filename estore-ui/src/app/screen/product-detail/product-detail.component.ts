@@ -27,7 +27,9 @@ export class ProductDetailComponent {
   getProduct(id: number): void {
     this.productService
       .getProduct(id)
-      .subscribe((product) => (this.product = product));
+      .subscribe((product) => {
+        this.product = product
+      });
   }
 
   goBack(): void {

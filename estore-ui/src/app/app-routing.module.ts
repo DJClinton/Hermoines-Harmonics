@@ -12,7 +12,7 @@ import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'inventory', component: InventoryControlComponent },
-  { path: 'products', component: BrowseProductsComponent },
+  { path: '', component: BrowseProductsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'search', component: SearchProductsComponent },
   { path: 'logout', component: LogoutComponent },

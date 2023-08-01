@@ -40,6 +40,7 @@ export class InventoryControlComponent implements OnInit {
       tags: [],
       price,
       quantity,
+      numClicks: 0
     };
     this.productService.addProduct(newProduct).subscribe((product: Product) => {
       this.products.push(product);

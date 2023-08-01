@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class Product {
+public class Product implements Comparable<Product> {
     private static final Logger LOG = Logger.getLogger(Product.class.getName());
 
     // Package private for tests
@@ -56,7 +56,8 @@ public class Product {
             @JsonProperty("tags") String[] tags,
             @JsonProperty("description") String description,
             @JsonProperty("price") double price,
-            @JsonProperty("quantity") int quantity) {
+            @JsonProperty("quantity") int quantity,
+            @JsonProperty("numClicks") int numClicks) {
         LOG.info("Creating Product with id: " + id + " and name: " + name);
         this.id = id;
         this.name = name;
@@ -102,5 +103,10 @@ public class Product {
 
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return Double.compare(this.getPrice(), o.getPrice());
     }
 }
