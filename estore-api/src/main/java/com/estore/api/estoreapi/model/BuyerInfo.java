@@ -1,5 +1,6 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,16 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BuyerInfo {
     private static final Logger LOG = Logger.getLogger(BuyerInfo.class.getName());
 
-    static final String STRING_FORMAT = "Buyer [id=%d, user id=%d, first name=%s, last name=%s, phone number=%s, past orders=%s, credit cards=%s, shipping addresses=%s, cart=%s, wishlist=%s]";
+    static final String STRING_FORMAT = "Buyer [id=%d, user id=%d, name=%s, phone number=%s, past orders=%s, credit cards=%s, shipping addresses=%s, cart=%s, wishlist=%s]";
 
     @JsonProperty("id")
     private int id;
     @JsonProperty("userId")
     private int userid;
-    @JsonProperty("firstName")
-    private String firstName;
-    @JsonProperty("lastName")
-    private String lastName;
+    @JsonProperty("name")
+    private String name;
     @JsonProperty("phoneNumber")
     private String phoneNumber;
     @JsonProperty("pastOrdersIds")
@@ -33,26 +32,24 @@ public class BuyerInfo {
     @JsonProperty("shippingAddresses")
     private Collection<String> shippingAddresses;
     @JsonProperty("cart")
-    private Collection<Integer> cart;
+    private ArrayList<Integer> cart;
     @JsonProperty("wishlist")
-    private Collection<Integer> wishlist;
+    private ArrayList<Integer> wishlist;
 
     public BuyerInfo(
             @JsonProperty("id") int id,
             @JsonProperty("userId") int userid,
-            @JsonProperty("firstName") String firstName,
-            @JsonProperty("lastName") String lastName,
+            @JsonProperty("name") String name,
             @JsonProperty("phoneNumber") String phoneNumber,
             @JsonProperty("pastOrdersIds") Collection<Integer> pastOrderIds,
             @JsonProperty("creditCards") Collection<CreditCard> creditCards,
             @JsonProperty("shippingAddresses") Collection<String> shippingAddresses,
-            @JsonProperty("cart") Collection<Integer> cart,
-            @JsonProperty("wishlist") Collection<Integer> wishlist) {
+            @JsonProperty("cart") ArrayList<Integer> cart,
+            @JsonProperty("wishlist") ArrayList<Integer> wishlist) {
 
         this.id = id;
         this.userid = userid;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.pastOrderIds = pastOrderIds;
         this.creditCards = creditCards;
@@ -83,23 +80,13 @@ public class BuyerInfo {
     }
 
     /**
-     * Retrieves this buyer's first name
+     * Retrieves this buyer's name
      * 
-     * @return buyer first name
+     * @return buyer name
      */
-    public String getFirstName() {
-        LOG.info("Retrieving buyer first name: " + firstName);
-        return firstName;
-    }
-
-    /**
-     * Retrieves this buyer's last name
-     * 
-     * @return buyer last name
-     */
-    public String getLastName() {
-        LOG.info("Retrieving buyer last name: " + lastName);
-        return lastName;
+    public String getName() {
+        LOG.info("Retrieving buyer first name: " + name);
+        return name;
     }
 
     /**
@@ -152,23 +139,13 @@ public class BuyerInfo {
     }
 
     /**
-     * Sets the buyer's first name
+     * Sets the buyer's name
      * 
-     * @param firstName new first name
+     * @param firstName new name
      */
-    public void setFirstName(String firstName) {
-        LOG.info("Setting buyer first name: " + firstName);
-        this.firstName = firstName;
-    }
-
-    /**
-     * Sets the buyer's last name
-     * 
-     * @param lastName new last name
-     */
-    public void setLastName(String lastName) {
-        LOG.info("Setting buyer last name: " + lastName);
-        this.lastName = lastName;
+    public void setName(String name) {
+        LOG.info("Setting buyer name: " + name);
+        this.name = name;
     }
 
     /**
@@ -208,7 +185,7 @@ public class BuyerInfo {
      */
 
     // @JsonGetter("cart")
-    public Collection<Integer> getCart() {
+    public ArrayList<Integer> getCart() {
         return cart;
     }
 
@@ -239,7 +216,7 @@ public class BuyerInfo {
      */
 
     // @JsonGetter("wishlist")
-    public Collection<Integer> getWishlist() {
+    public ArrayList<Integer> getWishlist() {
         return wishlist;
     }
 
@@ -268,7 +245,7 @@ public class BuyerInfo {
      */
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, userid, firstName, lastName,
+        return String.format(STRING_FORMAT, id, userid, name,
                 phoneNumber, pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
     }
 

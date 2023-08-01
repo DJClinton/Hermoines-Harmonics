@@ -28,6 +28,11 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { BuyerInfosComponent } from './component/buyerInfos/buyerInfos.component';
 import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo-detail.component';
 import { BrowseProductsComponent } from './screen/browse-products/browse-products.component';
+import { DropdownComponent } from './component/dropdown/dropdown.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { CartInfoComponent } from './component/cart-info/cart-info.component';
+import { SignupComponent } from './screen/signup/signup.component';
+
 import { PastOrdersComponent } from './screen/past-orders/past-orders.component';
 @NgModule({
   declarations: [
@@ -44,7 +49,6 @@ import { PastOrdersComponent } from './screen/past-orders/past-orders.component'
     LoginButtonComponent,
     TagsListComponent,
     LogoutComponent,
-    PastOrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,7 @@ import { PastOrdersComponent } from './screen/past-orders/past-orders.component'
     MatButtonModule,
     MatChipsModule,
     ChipEditorComponent,
+    MatMenuModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

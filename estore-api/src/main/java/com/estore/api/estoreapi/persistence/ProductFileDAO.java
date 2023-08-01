@@ -89,14 +89,14 @@ public class ProductFileDAO implements ProductDAO {
 
         for (Product product : this.products.values()) {
             Integer relavance = 0;
-            if (containsText == null || product.getName().contains(containsText)) {
+            if (containsText == null || product.getName().toLowerCase().contains(containsText.toLowerCase())) {
                 relavance += 1;
             }
-            if (containsText == null || product.getDescription().contains(containsText)) {
+            if (containsText == null || product.getDescription().toLowerCase().contains(containsText.toLowerCase())) {
                 relavance += 1;
             }
             for (String tag : product.getTags()) {
-                if (containsText == null || tag.contains(containsText)) {
+                if (containsText == null || tag.contains(containsText.toLowerCase())) {
                     relavance += 1;
                 }
             }

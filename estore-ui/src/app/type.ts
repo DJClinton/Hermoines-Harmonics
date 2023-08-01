@@ -5,24 +5,23 @@ export interface Product {
   description: string;
   price: number;
   quantity: number;
+  numClicks: number; // Used by popularity sort
 }
 
 export interface BuyerInfo {
   id: number;
-  userid: number;
-  firstName: string;
-  lastName: string;
+  userId: number;
+  name: string;
   phoneNumber: string;
   pastOrdersIds: Array<number>;
-  creditCards: Array<CreditCard>;
+  creditCards: Array<{ holderName: string, cardNumber: string }>;
   shippingAddresses: Array<String>;
   cart: Array<number>;
   wishlist: Array<number>;
 }
 
-export interface CreditCard {
-  holderName: string;
-  cardNumber: number;
+export interface Cart{
+  cart: Array<Product>;
 }
 
 export interface Order{
