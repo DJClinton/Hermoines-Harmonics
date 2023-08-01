@@ -6,6 +6,7 @@ export interface Product {
   price: number;
   quantity: number;
   numClicks: number; // Used by popularity sort
+  image?: string;
 }
 
 export interface BuyerInfo {
