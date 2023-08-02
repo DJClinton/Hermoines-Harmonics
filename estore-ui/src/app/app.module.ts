@@ -32,6 +32,9 @@ import { DropdownComponent } from './component/dropdown/dropdown.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
 import { SignupComponent } from './screen/signup/signup.component';
+import { PastOrdersComponent } from './screen/past-orders/past-orders.component';
+import OrderComponent from './component/order/order.component';
+import { ProductComponent } from './component/product/product.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { SignupComponent } from './screen/signup/signup.component';
     DropdownComponent,
     CartInfoComponent,
     SignupComponent,
+    PastOrdersComponent,
+    OrderComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +73,7 @@ import { SignupComponent } from './screen/signup/signup.component';
     MatButtonModule,
     MatChipsModule,
     ChipEditorComponent,
-    MatMenuModule,
+    MatMenuModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

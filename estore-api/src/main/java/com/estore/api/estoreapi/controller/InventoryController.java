@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -116,6 +117,22 @@ public class InventoryController {
 
         try {
             Product[] products = productDao.findProducts(search);
+            return new ResponseEntity<Product[]>(products, HttpStatus.OK);
+        } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/products/")
+    public ResponseEntity<Product[]> getProducts(@RequestParam Integer[] ids){
+        LOG.info("GET /inventory/products/?ids=" + Arrays.toString(ids));
+
+        Product[] products = new Product[ids.length];
+        try {
+            for (int i = 0; i < ids.length; i++) {
+                products[i] = productDao.getProduct(ids[i]);
+            }            
             return new ResponseEntity<Product[]>(products, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());

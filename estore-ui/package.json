@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^16.1.6",
     "@angular/platform-browser-dynamic": "^16.1.6",
     "@angular/router": "^16.1.6",
+    "luxon": "^3.3.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.0",
     "zone.js": "~0.13.1"
@@ -29,6 +30,7 @@
     "@angular/cli": "~16.1.5",
     "@angular/compiler-cli": "^16.1.6",
     "@types/jasmine": "~4.3.5",
+    "@types/luxon": "^3.3.1",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",

@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
 import com.estore.api.estoreapi.persistence.OrderDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
+import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.Order;
 import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
@@ -39,6 +42,7 @@ public class OrderController {
     private static final Logger LOG = Logger.getLogger(InventoryController.class.getName());
     private OrderDAO orderDao;
     private UserFileDAO userFileDao;
+    private BuyerInfoFileDAO buyerInfoFileDao;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -48,9 +52,10 @@ public class OrderController {
      *                 <br>
      *                 This dependency is injected by the Spring Framework
      */
-    public OrderController(OrderDAO orderDao, UserFileDAO userFileDao) {
+    public OrderController(OrderDAO orderDao, UserFileDAO userFileDao, BuyerInfoFileDAO buyerInfoFileDao) {
         this.orderDao = orderDao;
         this.userFileDao = userFileDao;
+        this.buyerInfoFileDao = buyerInfoFileDao;
     }
 
     /**
@@ -95,17 +100,52 @@ public class OrderController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("")
-    public ResponseEntity<Order[]> getOrders() {
+    public ResponseEntity<Order[]> getAllOrders(HttpServletRequest request) {
         LOG.info("GET /orders");
-        try {
+        User user = getUser(request);
+        try {          
             Order[] allOrders = orderDao.getAll();
+            if (user.getAuthorities() != "ADMIN" && allOrders[0].getUserID() != user.getId())
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<Order[]>(allOrders, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
+     /**
+     * Responds to the GET request for all {@linkplain Order order} by {@link uid}
+     * 
+     * @param uid       optinal query paramter that can be provided within the request. If
+     *                  present then it will search for orders with the specific user id.
+     * 
+     * @return ResponseEntity with array of {@link Order order} objects (may be
+     *         empty) and
+     *         HTTP status of OK<br>
+     *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     */
+    @GetMapping("/user")
+    public ResponseEntity<ArrayList<Order>> getOrders(HttpServletRequest request) {
+        User user = getUser(request);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int id = user.getId();
+        BuyerInfo buyer = buyerInfoFileDao.getBuyerInfo(id);
+        LOG.info("GET /orders/user");
+        try {
+            ArrayList<Integer> orderIDs = new ArrayList<>(buyer.getPastOrderIds());
+            ArrayList<Order> pastOrders = new ArrayList<Order>();
+            for(int num: orderIDs){
+                pastOrders.add(orderDao.getOrder(num));
+            }
+            return new ResponseEntity<ArrayList<Order>>(pastOrders, HttpStatus.OK);
+        } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Creates a {@linkplain Order order} with the provided product object
      * 
@@ -152,7 +192,7 @@ public class OrderController {
     @PutMapping("")
     public ResponseEntity<Order> updateOrderStatus(@RequestBody Order order, @RequestBody OrderStatus orderStatus) {
         LOG.info("PUT /orders " + order);
-
+        
         try {
             if (orderDao.getOrder(order.getUserID()) == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

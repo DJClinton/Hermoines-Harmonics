@@ -24,3 +24,20 @@ export interface BuyerInfo {
 export interface Cart{
   cart: Array<Product>;
 }
+
+export interface Order{
+  productId: number[];
+  date: number;
+  orderStatus: keyof typeof OrderStatus;
+  ccDigits: number;
+  address: string;
+  orderID: number;
+  userID: number;
+}
+
+export enum OrderStatus{
+    UNPROCESSED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
+}
