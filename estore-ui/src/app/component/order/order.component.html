@@ -22,6 +22,6 @@
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content class = "header-content">
-    <div *ngFor="let product of products; trackBy: trackProductItem">{{product.name}}</div>
+    <div *ngFor="let product of products; trackBy: trackProductItem"><app-product [product]="product"></app-product></div>
   </mat-card-content>
 </mat-card>

@@ -17,6 +17,9 @@ export class PastOrdersComponent {
   ){}
 
   ngOnInit(){
+    if (this.isAdmin()){
+      this.location.back();
+    }
     this.getPastOrders();
   }
 
@@ -27,5 +30,7 @@ export class PastOrdersComponent {
       })
   }
 
-
+  isAdmin(): boolean {
+    return localStorage.getItem("token") == 'admin:admin';
+  }
 }
