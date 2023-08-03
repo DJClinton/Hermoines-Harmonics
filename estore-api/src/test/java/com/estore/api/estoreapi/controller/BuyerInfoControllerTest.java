@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
+import com.estore.api.estoreapi.persistence.OrderDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -28,12 +29,15 @@ public class BuyerInfoControllerTest {
   HttpServletRequest mockRequest;
   User mockUser;
   BuyerInfo mockBuyerInfo;
+  OrderDAO mockOrderDAO;
 
   @BeforeEach
   public void setUp() throws Exception {
+    mockOrderDAO = mock(OrderDAO.class);
+    mockProductDAO = mock(ProductFileDAO.class);
     mockBuyerInfoDAO = mock(BuyerInfoFileDAO.class);
     mockUserDAO = mock(UserFileDAO.class);
-    buyerInfoController = new BuyerInfoController(mockBuyerInfoDAO, mockUserDAO, mockProductDAO);
+    buyerInfoController = new BuyerInfoController(mockBuyerInfoDAO, mockUserDAO);
     mockRequest = mock(HttpServletRequest.class);
     mockUser = mock(User.class);
     mockBuyerInfo = mock(BuyerInfo.class);
