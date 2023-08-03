@@ -19,7 +19,6 @@ export class InventoryControlComponent implements OnInit {
     tags: [],
     price: 0,
     quantity: 0,
-    numClicks: 0,
   };
 
   // Clone emptyProduct to create a new product as well as the tags list

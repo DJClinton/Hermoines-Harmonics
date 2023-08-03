@@ -5,7 +5,6 @@ export interface Product {
   description: string;
   price: number;
   quantity: number;
-  numClicks: number; // Used by popularity sort
   image?: string;
 }
 
@@ -15,17 +14,17 @@ export interface BuyerInfo {
   name: string;
   phoneNumber: string;
   pastOrdersIds: Array<number>;
-  creditCards: Array<{ holderName: string, cardNumber: string }>;
+  creditCards: Array<{ holderName: string; cardNumber: string }>;
   shippingAddresses: Array<String>;
   cart: Array<number>;
   wishlist: Array<number>;
 }
 
-export interface Cart{
+export interface Cart {
   cart: Array<Product>;
 }
 
-export interface Order{
+export interface Order {
   productId: number[];
   date: number;
   orderStatus: keyof typeof OrderStatus;
@@ -35,9 +34,9 @@ export interface Order{
   userID: number;
 }
 
-export enum OrderStatus{
-    UNPROCESSED,
-    SHIPPED,
-    DELIVERED,
-    CANCELLED
+export enum OrderStatus {
+  UNPROCESSED,
+  SHIPPED,
+  DELIVERED,
+  CANCELLED,
 }

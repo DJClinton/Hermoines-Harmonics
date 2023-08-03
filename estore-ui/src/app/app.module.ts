@@ -33,9 +33,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
 import { SignupComponent } from './screen/signup/signup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PastOrdersComponent } from './screen/past-orders/past-orders.component';
 import OrderComponent from './component/order/order.component';
 import { ProductComponent } from './component/product/product.component';
+import {MatSelectModule} from '@angular/material/select';
+import { DisplayOrdersComponent } from './screen/display-orders/display-orders.component';
 
 @NgModule({
   declarations: [
@@ -55,9 +56,9 @@ import { ProductComponent } from './component/product/product.component';
     DropdownComponent,
     CartInfoComponent,
     SignupComponent,
-    PastOrdersComponent,
     OrderComponent,
     ProductComponent,
+    DisplayOrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +76,7 @@ import { ProductComponent } from './component/product/product.component';
     MatChipsModule,
     ChipEditorComponent,
     MatMenuModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatMenuModule,
   ],

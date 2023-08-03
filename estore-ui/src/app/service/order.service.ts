@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, of } from 'rxjs';
-import { Order, Product } from '../type';
+import { Observable, catchError, of } from 'rxjs';
+import { Order } from '../type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrderService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   httpOptions = {
     headers: new HttpHeaders().append('Content-Type', 'application/json'),
@@ -22,33 +22,33 @@ export class OrderService {
     };
   }
 
-  updateOrder(order: any): Observable<any> {
+  updateOrder(order: Order): Observable<any> {
     return this.http
       .put(this.orderUrl, order, this.httpOptions)
       .pipe(catchError(this.handleError(`updateOrder`)));
-  } 
-
-  getOrder(id: number): Observable<any>{
-    const url = `${this.orderUrl}/${id}`;
-    return this.http
-    .get(url)
-    .pipe(catchError(this.handleError(`getProduct id:${id}`)));
   }
 
-  getAllOrders(): Observable<any>{
+  getOrder(id: number): Observable<any> {
+    const url = `${this.orderUrl}/${id}`;
+    return this.http
+      .get(url)
+      .pipe(catchError(this.handleError(`getProduct id:${id}`)));
+  }
+
+  getAllOrders(): Observable<any> {
     return this.http.get(this.orderUrl);
   }
 
-  getOrdersofUser(): Observable<any>{
+  getOrdersofUser(): Observable<any> {
     const url = `${this.orderUrl}/user`;
     return this.http
       .get(url)
       .pipe(catchError(this.handleError(`getOrdersofUser`)));
   }
 
-  createOrder(order: any): Observable<any>{
+  createOrder(order: Order): Observable<any> {
     return this.http
-    .post(this.orderUrl, order, this.httpOptions)
-    .pipe(catchError(this.handleError(`createOrder`)));
+      .post(this.orderUrl, order, this.httpOptions)
+      .pipe(catchError(this.handleError(`createOrder`)));
   }
 }

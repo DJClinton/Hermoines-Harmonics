@@ -80,7 +80,7 @@ public class OrderController {
         try {
             Order order = orderDao.getOrder(id);
             if (order != null) {
-                if (user.getAuthorities() != "ADMIN" && order.getUserID() != user.getId())
+                if (!user.getAuthorities().equals("ADMIN") && order.getUserID() != user.getId())
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 return new ResponseEntity<Order>(order, HttpStatus.OK);
             } else
@@ -103,22 +103,23 @@ public class OrderController {
     public ResponseEntity<Order[]> getAllOrders(HttpServletRequest request) {
         LOG.info("GET /orders");
         User user = getUser(request);
-        try {          
+
+        try {
             Order[] allOrders = orderDao.getAll();
-            if (user.getAuthorities() != "ADMIN" && allOrders[0].getUserID() != user.getId())
-                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            if (!user.getAuthorities().equals("ADMIN"))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<Order[]>(allOrders, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-     /**
+
+    /**
      * Responds to the GET request for all {@linkplain Order order} by {@link uid}
      * 
-     * @param uid       optinal query paramter that can be provided within the request. If
-     *                  present then it will search for orders with the specific user id.
+     * @param uid optinal query paramter that can be provided within the request. If
+     *            present then it will search for orders with the specific user id.
      * 
      * @return ResponseEntity with array of {@link Order order} objects (may be
      *         empty) and
@@ -128,7 +129,7 @@ public class OrderController {
     @GetMapping("/user")
     public ResponseEntity<ArrayList<Order>> getOrders(HttpServletRequest request) {
         User user = getUser(request);
-        if(user == null){
+        if (user == null || user.getAuthorities().equals("ADMIN")) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         int id = user.getId();
@@ -137,7 +138,7 @@ public class OrderController {
         try {
             ArrayList<Integer> orderIDs = new ArrayList<>(buyer.getPastOrderIds());
             ArrayList<Order> pastOrders = new ArrayList<Order>();
-            for(int num: orderIDs){
+            for (int num : orderIDs) {
                 pastOrders.add(orderDao.getOrder(num));
             }
             return new ResponseEntity<ArrayList<Order>>(pastOrders, HttpStatus.OK);
@@ -146,6 +147,7 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Creates a {@linkplain Order order} with the provided product object
      * 
@@ -190,15 +192,15 @@ public class OrderController {
      *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @PutMapping("")
-    public ResponseEntity<Order> updateOrderStatus(@RequestBody Order order, @RequestBody OrderStatus orderStatus) {
+    public ResponseEntity<Order> updateOrder(@RequestBody Order order) {
         LOG.info("PUT /orders " + order);
-        
+
         try {
-            if (orderDao.getOrder(order.getUserID()) == null) {
+            if (orderDao.getOrder(order.getOrderID()) == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            order = orderDao.updateOrderStatus(order.getOrderID(), orderStatus);
+            order = orderDao.updateOrder(order);
             return new ResponseEntity<Order>(order, HttpStatus.OK);
 
         } catch (IOException ioe) {

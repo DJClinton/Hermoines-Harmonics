@@ -120,17 +120,15 @@ public class OrderFileDAOTest {
 
     @Test
     public void testUpdateProduct() throws IOException {
-        int id = 1;
-        OrderStatus status = OrderStatus.DELIVERED;
         int[] productids = { 1, 2, 3 };
         Order expected = new Order(productids, new Date(1689653389), OrderStatus.DELIVERED,
                 0123, "9782 West Bayberry Street Cookeville, TN 38501", 1, 2);
 
-        assertEquals(expected.getOrderStatus(), orderFileDAO.updateOrderStatus(id, status).getOrderStatus());
+        assertEquals(expected, orderFileDAO.updateOrder(expected));
     }
 
     @Test
-    public void testNonExistantOrder() throws IOException {
+    public void testNonExistentOrder() throws IOException {
         // Setup
         int id = 4;
 
@@ -140,6 +138,11 @@ public class OrderFileDAOTest {
         // Analyze
         assertNull(actual);
         assertFalse(orderFileDAO.deleteOrder(id));
-        assertNull(orderFileDAO.updateOrderStatus(id, OrderStatus.DELIVERED));
+
+        int[] productids = { 1, 2, 3 };
+        Order order = new Order(productids, new Date(1689653389), OrderStatus.DELIVERED,
+                0123, "9782 West Bayberry Street Cookeville, TN 38501", 999, 2);
+
+        assertNull(orderFileDAO.updateOrder(order));
     }
 }

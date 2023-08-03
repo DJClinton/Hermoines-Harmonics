@@ -2,14 +2,11 @@ package com.estore.api.estoreapi.persistence;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collection;
 
-import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.Order;
-import com.estore.api.estoreapi.model.Order.OrderStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +31,7 @@ public class OrderFileDAO implements OrderDAO {
                                        // to the file
     private static int nextId; // The next Id to assign to a new order
     private String filename; // Filename to read from and write to
+
     /**
      * Creates a Order File Data Access Object
      * 
@@ -60,9 +58,8 @@ public class OrderFileDAO implements OrderDAO {
         return id;
     }
 
-
     /**
-     * Generates an array of all of the {@linkplain Order orders} from the tree map 
+     * Generates an array of all of the {@linkplain Order orders} from the tree map
      * <br>
      * 
      * @return The array of {@link Order orders}, may be empty
@@ -70,11 +67,10 @@ public class OrderFileDAO implements OrderDAO {
     private Order[] getAllOrders() {
 
         Collection<Order> values = orders.values();
-        Order[] array = values.toArray(new Order[0]);   
+        Order[] array = values.toArray(new Order[0]);
         return array;
 
     }
-
 
     /**
      * Loads {@linkplain Order orders} from the JSON file into the map
@@ -105,7 +101,7 @@ public class OrderFileDAO implements OrderDAO {
         return true;
     }
 
-     /**
+    /**
      * Saves the {@linkplain Order order} from the map into the file as an
      * array of JSON objects
      * 
@@ -139,15 +135,15 @@ public class OrderFileDAO implements OrderDAO {
     @Override
     public Order getOrder(int id) {
         synchronized (orders) {
-            for(Order order: orders.values()){
-                if(id == order.getOrderID()){
-                return order;
+            for (Order order : orders.values()) {
+                if (id == order.getOrderID()) {
+                    return order;
                 }
             }
             return null;
         }
     }
-    
+
     /**
      ** {@inheritDoc}
      */
@@ -156,8 +152,8 @@ public class OrderFileDAO implements OrderDAO {
         synchronized (orders) {
             // We create a new product object because the id field is immutable
             // and we need to assign the next unique id
-            Order newOrder = new Order(order.getProductIds(), order.getDate(), order.getOrderStatus(), 
-                                        order.getCCDigits(), order.getAddress(), nextId(), order.getUserID());
+            Order newOrder = new Order(order.getProductIds(), order.getDate(), order.getOrderStatus(),
+                    order.getCCDigits(), order.getAddress(), nextId(), order.getUserID());
             orders.put(newOrder.getOrderID(), newOrder);
             save(); // may throw an IOException
             return newOrder;
@@ -178,7 +174,7 @@ public class OrderFileDAO implements OrderDAO {
                 save(); // may throw an IOException
                 return true;
             }
-            
+
         }
     }
 
@@ -186,18 +182,15 @@ public class OrderFileDAO implements OrderDAO {
      ** {@inheritDoc}
      */
     @Override
-    public Order updateOrderStatus(int id, OrderStatus orderStatus) throws IOException {
+    public Order updateOrder(Order order) throws IOException {
         synchronized (orders) {
             // If product does exist
-            if (orders.containsKey(id) == false){
+            if (orders.containsKey(order.getOrderID()) == false)
                 return null;
-            }
-            else {
-                Order orderToUpdate = getOrder(id);
-                orderToUpdate.setOrderStatus(orderStatus);
-                save(); // may throw an IOException
-                return orderToUpdate;
-            }
+
+            orders.put(order.getOrderID(), order);
+            save(); // may throw an IOException
+            return order;
         }
     }
 
