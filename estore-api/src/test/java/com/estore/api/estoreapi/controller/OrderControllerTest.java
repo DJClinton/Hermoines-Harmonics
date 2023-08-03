@@ -22,6 +22,7 @@ import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.model.Order.OrderStatus;
 import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
 import com.estore.api.estoreapi.persistence.OrderDAO;
+import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 public class OrderControllerTest {
@@ -35,13 +36,17 @@ public class OrderControllerTest {
     User mockUser;
     Order mockOrder;
     BuyerInfo mockBuyerInfo;
+    ProductFileDAO mockProductFileDAO;
+
 
     @BeforeEach
     public void setUp() throws Exception {
         mockOrderDAO = mock(OrderDAO.class);
         mockUserDAO = mock(UserFileDAO.class);
         mockBuyerInfoDAO = mock(BuyerInfoFileDAO.class);
-        orderController = new OrderController(mockOrderDAO, mockUserDAO, mockBuyerInfoDAO);
+        mockProductFileDAO = mock(ProductFileDAO.class);
+
+        orderController = new OrderController(mockOrderDAO, mockUserDAO, mockBuyerInfoDAO, mockProductFileDAO);
         mockRequest = mock(HttpServletRequest.class);
         mockUser = mock(User.class);
         mockOrder = mock(Order.class);

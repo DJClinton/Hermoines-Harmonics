@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.estore.api.estoreapi.model.BuyerInfo;
-import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
 import com.estore.api.estoreapi.persistence.ProductFileDAO;
@@ -165,7 +164,7 @@ public class BuyerInfoControllerTest {
     when(mockRequest.getHeader("Authorization")).thenReturn(null);
 
     // Invoke
-    ResponseEntity<ArrayList<Product>> res1 = buyerInfoController.getCart(mockRequest);
+    ResponseEntity<ArrayList<Integer>> res1 = buyerInfoController.getCart(mockRequest);
 
     // Analyze
     assertEquals(HttpStatus.UNAUTHORIZED, res1.getStatusCode());
@@ -182,7 +181,7 @@ public class BuyerInfoControllerTest {
       new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 
     // Invoke
-    ResponseEntity<ArrayList<Product>> res1 = buyerInfoController.getCart(mockRequest);
+    ResponseEntity<ArrayList<Integer>> res1 = buyerInfoController.getCart(mockRequest);
 
     // Analyze
     assertEquals(HttpStatus.OK, res1.getStatusCode());
@@ -198,7 +197,7 @@ public class BuyerInfoControllerTest {
     when(mockBuyerInfoDAO.getBuyerInfoByUserId(1)).thenReturn(null);
       
     // Invoke
-    ResponseEntity<ArrayList<Product>> res1 = buyerInfoController.getCart(mockRequest);
+    ResponseEntity<ArrayList<Integer>> res1 = buyerInfoController.getCart(mockRequest);
 
     // Analyze
     assertEquals(HttpStatus.NOT_FOUND, res1.getStatusCode());
@@ -214,7 +213,7 @@ public class BuyerInfoControllerTest {
     when(mockBuyerInfoDAO.getBuyerInfoByUserId(1)).thenThrow(new IOException());
       
     // Invoke
-    ResponseEntity<ArrayList<Product>> res1 = buyerInfoController.getCart(mockRequest);
+    ResponseEntity<ArrayList<Integer>> res1 = buyerInfoController.getCart(mockRequest);
 
     // Analyze
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, res1.getStatusCode());
