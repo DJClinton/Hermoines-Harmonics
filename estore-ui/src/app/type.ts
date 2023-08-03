@@ -14,10 +14,15 @@ export interface BuyerInfo {
   name: string;
   phoneNumber: string;
   pastOrdersIds: Array<number>;
-  creditCards: Array<{ holderName: string; cardNumber: string }>;
-  shippingAddresses: Array<String>;
+  creditCards: Array<CreditCard>;
+  shippingAddresses: Array<string>;
   cart: Array<number>;
   wishlist: Array<number>;
+}
+
+export interface CreditCard {
+  holderName: string;
+  cardNumber: string;
 }
 
 export interface Cart {

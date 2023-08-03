@@ -32,11 +32,14 @@ import { DropdownComponent } from './component/dropdown/dropdown.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
 import { SignupComponent } from './screen/signup/signup.component';
+import { WishlistComponent } from './screen/wishlist/wishlist.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import OrderComponent from './component/order/order.component';
 import { ProductComponent } from './component/product/product.component';
 import {MatSelectModule} from '@angular/material/select';
 import { DisplayOrdersComponent } from './screen/display-orders/display-orders.component';
+import { PurchaseComponent } from './screen/purchase/purchase.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -56,9 +59,12 @@ import { DisplayOrdersComponent } from './screen/display-orders/display-orders.c
     DropdownComponent,
     CartInfoComponent,
     SignupComponent,
+    WishlistComponent,
     OrderComponent,
     ProductComponent,
     DisplayOrdersComponent,
+    PurchaseComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

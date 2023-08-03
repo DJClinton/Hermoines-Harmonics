@@ -7,6 +7,20 @@
   background-color: rgb(45, 45, 45);
   color: white;
 }
+
+.logo{
+  display: grid;
+  column-width: auto;
+}
+.doggie{
+  grid-column: 1;
+  float: left;
+}
+.home{
+  grid-column: 2;
+}
+
+
 .right {
   display: flex;
   flex-direction: row;

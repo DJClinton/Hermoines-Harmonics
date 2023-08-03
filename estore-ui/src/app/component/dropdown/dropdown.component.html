@@ -10,6 +10,7 @@
     <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("accounts")'>Accounts</button>
     <button *ngIf="isAdmin()" mat-menu-item (click)='redirectTo("inventory")'>Inventory</button>
     <button *ngIf="!isAdmin()" mat-menu-item (click)='redirectToMyAccount()'>My Account</button>
+    <button *ngIf="!isAdmin()" mat-menu-item (click)='redirectTo("wishlist")'>Wishlist</button>
     <button mat-menu-item (click)='redirectTo("orders")'>
         <p *ngIf="!isAdmin()">Past Orders</p>
         <p *ngIf="isAdmin()">Orders</p>

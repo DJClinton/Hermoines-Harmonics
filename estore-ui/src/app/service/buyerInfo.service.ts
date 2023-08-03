@@ -57,6 +57,7 @@ export class BuyerInfoService {
   }
 
   updateBuyerInfo(buyerInfo: any): Observable<BuyerInfo> {
+    console.log("updating buyer info");
     return this.http
       .put<BuyerInfo>(this.buyerInformationURL, buyerInfo, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateBuyerInfo')));

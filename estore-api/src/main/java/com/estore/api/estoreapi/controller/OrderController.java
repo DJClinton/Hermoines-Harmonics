@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.estore.api.estoreapi.persistence.BuyerInfoFileDAO;
 import com.estore.api.estoreapi.persistence.OrderDAO;
+import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.Order;
@@ -43,7 +44,8 @@ public class OrderController {
     private OrderDAO orderDao;
     private UserFileDAO userFileDao;
     private BuyerInfoFileDAO buyerInfoFileDao;
-
+    private ProductFileDAO productFileDao;
+    
     /**
      * Creates a REST API controller to reponds to requests
      * 
@@ -52,10 +54,11 @@ public class OrderController {
      *                 <br>
      *                 This dependency is injected by the Spring Framework
      */
-    public OrderController(OrderDAO orderDao, UserFileDAO userFileDao, BuyerInfoFileDAO buyerInfoFileDao) {
+    public OrderController(OrderDAO orderDao, UserFileDAO userFileDao, BuyerInfoFileDAO buyerInfoFileDao, ProductFileDAO productFileDao) {
         this.orderDao = orderDao;
         this.userFileDao = userFileDao;
         this.buyerInfoFileDao = buyerInfoFileDao;
+        this.productFileDao = productFileDao;
     }
 
     /**
@@ -171,6 +174,14 @@ public class OrderController {
             }
 
             order = orderDao.createOrder(order);
+            int[] productIds = order.getProductIds();
+            for (int i = 0; i < productIds.length; i++) {
+                boolean result = productFileDao.decrementQuantity(productIds[i]);
+                if (!result){
+                    LOG.info("Could not find product with id: " + productIds[i]);
+                }
+            }
+
             return new ResponseEntity<Order>(order, HttpStatus.CREATED);
 
         } catch (IOException ioe) {

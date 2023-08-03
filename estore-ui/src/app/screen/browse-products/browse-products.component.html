@@ -29,7 +29,7 @@
 
 <ul class="Products">
   <li *ngFor="let product of products">
-    <div>
+    <div class="button-bin">
         <a routerLink="/product/{{product.id}}" (click)="incrementNumClicks(product)">
           <span class="badge"></span> {{product.name}}
         </a>

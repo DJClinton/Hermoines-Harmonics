@@ -11,6 +11,8 @@ import { BuyerInfoDetailComponent } from './component/buyerInfo-detail/buyerInfo
 import { SignupComponent } from './screen/signup/signup.component';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
 import { DisplayOrdersComponent } from './screen/display-orders/display-orders.component';
+import { WishlistComponent } from './screen/wishlist/wishlist.component';
+import { PurchaseComponent } from './screen/purchase/purchase.component';
 
 const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
@@ -24,6 +26,10 @@ const routes: Routes = [
   { path: 'account/:id', component: BuyerInfoDetailComponent },
   { path: 'cart', component: CartInfoComponent},
   { path: 'orders', component: DisplayOrdersComponent},
+  { path: 'cart', component: CartInfoComponent},
+  { path: 'wishlist', component: WishlistComponent},
+  { path: 'purchase', component: PurchaseComponent},
+
 ];
 
 @NgModule({

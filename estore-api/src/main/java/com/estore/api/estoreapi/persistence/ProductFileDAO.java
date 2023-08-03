@@ -238,4 +238,16 @@ public class ProductFileDAO implements ProductDAO {
                 return false;
         }
     }
+
+    public boolean decrementQuantity(int id) throws IOException {
+        synchronized (products) {
+            if (products.containsKey(id)) {
+                Product product = products.get(id);
+                product.decrementQuantity();
+                products.put(id, product);
+                return save();
+            } else
+                return false;
+        }
+    }
 }

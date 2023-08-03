@@ -228,7 +228,7 @@ public class BuyerInfoController {
     }
 
     @GetMapping("/cart")
-    public ResponseEntity<ArrayList<Product>> getCart(HttpServletRequest request) {
+    public ResponseEntity<ArrayList<Integer>> getCart(HttpServletRequest request) {
         User user = getUser(request);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -242,12 +242,29 @@ public class BuyerInfoController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             ArrayList<Integer> cart = buyer.getCart();
-            ArrayList<Product> newCart = new ArrayList<Product>();
-            for (int num : cart) {
-                newCart.add(productDAO.getProduct(num));
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        } catch (IOException ioe) {
+            LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("convertProduct")
+    public ResponseEntity<ArrayList<Product>> cartToProduct(HttpServletRequest request){
+        User user = getUser(request);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        int id = user.getId();
+        LOG.info("Fetching products...");
+
+         try {
+            BuyerInfo buyer = buyerInfoDao.getBuyerInfoByUserId(id);
+            if (buyer == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            LOG.info(newCart.toString());
-            return new ResponseEntity<>(newCart, HttpStatus.OK);
+            ArrayList<Product> cart = buyerInfoDao.fetchProducts(buyer);
+            return new ResponseEntity<>(cart, HttpStatus.OK);
         } catch (IOException ioe) {
             LOG.log(Level.SEVERE, ioe.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

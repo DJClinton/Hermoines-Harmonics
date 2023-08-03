@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { BuyerInfoService } from 'src/app/service/buyerInfo.service';
-import { BuyerInfo } from 'src/app/type';
+import { ProductService } from 'src/app/service/product.service';
+import { BuyerInfo, Order } from 'src/app/type';
 import { Product } from 'src/app/type';
+import { DateTime } from 'luxon';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,57 +14,49 @@ import { Product } from 'src/app/type';
 })
 export class CartInfoComponent {
   cart : Product[] = [];
-  userId : any
-  buyerInfo: any
-  buyerId: any
-  totalPrice: any
-  constructor(private infoService: BuyerInfoService){}
+  userId : number = 0;
+  buyerInfo: BuyerInfo = {} as BuyerInfo;
+  buyerId: number = 0;
+  totalPrice: number = 0;
+  list: Product[] = [];
+  constructor(private infoService: BuyerInfoService, 
+              private productService: ProductService,
+              private router: Router){}
 
   ngOnInit(): void {
-    this.getUser();
+    this.getCart();
   }
 
-  getUser(): void{
-    const token = localStorage.getItem('token')
-    if(token!=null){
-      this.userId = token.split(':')[2];
-      this.infoService.getBuyerInfoByUser().subscribe(
-        (data: BuyerInfo) => {
-          this.buyerInfo = data;
-          this.buyerId = this.buyerInfo.id;
-          this.userId = this.buyerInfo.userId;
-          this.getCart();
-        },
-        (error) => {
-          console.error('Error getting cart:', error);
-        }
-      );
-    } else {
-      console.error('User not authenticated');
-    }
+  getCart(): void {
+    this.infoService.getBuyerInfoByUser().subscribe((data: BuyerInfo) => {
+      this.buyerInfo = data;
+      this.productService.getProductsByIds(this.buyerInfo.cart).subscribe((data: Product[]) => {
+        this.cart = data.filter((product: Product) => product !== null);
+        this.getCartTotal();
+      });
+    });
   }
-  
-  getCart(): void{
-    const token = localStorage.getItem('token');
-    if(token!=null && this.buyerInfo){
-      console.log(this.buyerInfo.id)
-      this.infoService.getBuyerCart().subscribe(
-        (cartData: any) => {
-          this.cart = cartData;
-          this.getCartTotal();
-        },
-        (error) => {
-          console.error('Error getting cart:', error);
-        }
-      );
-    } else {
-      console.error('User not authenticated');
-    }
+
+  delete(index: number): void {
+    console.log("Deleting product from cart at index: " + index + " with product id: " + this.cart[index].id);
+    this.buyerInfo.cart.splice(index, 1);
+    this.infoService.updateBuyerInfo(this.buyerInfo).subscribe();
+    this.getCart();
   }
+
   getCartTotal(): void{
     this.totalPrice = 0;
     this.cart.forEach(product => {
       this.totalPrice+=product.price;
     });
   }
+
+  isCartEmpty(): boolean{
+    return this.cart.length == 0;
+  }
+
+  purchase(): void {
+    this.router.navigateByUrl("/purchase");
+  }
+
 }
