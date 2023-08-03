@@ -32,6 +32,7 @@ import { DropdownComponent } from './component/dropdown/dropdown.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartInfoComponent } from './component/cart-info/cart-info.component';
 import { SignupComponent } from './screen/signup/signup.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PastOrdersComponent } from './screen/past-orders/past-orders.component';
 import OrderComponent from './component/order/order.component';
 import { ProductComponent } from './component/product/product.component';
@@ -73,7 +74,9 @@ import { ProductComponent } from './component/product/product.component';
     MatButtonModule,
     MatChipsModule,
     ChipEditorComponent,
-    MatMenuModule
+    MatMenuModule,
+    MatSnackBarModule,
+    MatMenuModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

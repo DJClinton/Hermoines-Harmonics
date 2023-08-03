@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../service/product.service';
 import { Product } from '../../type';
 import { Location } from '@angular/common';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products',
@@ -11,12 +12,28 @@ import { Location } from '@angular/common';
 export class InventoryControlComponent implements OnInit {
   products: Product[] = [];
 
+  emptyProduct: Product = {
+    id: 0,
+    name: '',
+    description: '',
+    tags: [],
+    price: 0,
+    quantity: 0,
+    numClicks: 0,
+  };
+
+  // Clone emptyProduct to create a new product as well as the tags list
+  newProduct: Product = { ...this.emptyProduct, tags: [] };
+
   constructor(
     private productService: ProductService,
-    private location: Location
+    private location: Location,
+    private _snackBar: MatSnackBar
   ) {
     const token = localStorage.getItem('token');
-    if (token == null || token !== 'admin:admin') {
+    if (token == null || !token.startsWith('admin')) {
+      console.log(`Unauthorized access: ${token}`);
+
       this.location.back();
     }
   }
@@ -25,28 +42,44 @@ export class InventoryControlComponent implements OnInit {
     this.getProducts();
   }
 
+  updateNewProduct<TAttribute extends keyof Product>(
+    productAttribute: TAttribute,
+    value: Product[TAttribute]
+  ) {
+    this.newProduct[productAttribute] = value;
+  }
+
+  clearNewProductField() {
+    // Clone emptyProduct to create a new product as well as the tags list
+    this.newProduct = { ...this.emptyProduct, tags: [] };
+  }
+
   getProducts() {
     this.productService.getProducts().subscribe((products) => {
-      this.products = products;
+      // Array is reverted to make the newest product appear first
+      this.products = products.reverse();
     });
   }
 
-  addProduct(name: string, price: number, quantity: number) {
-    const id: number = 0; // Server will handle the actual product ID, replacing this temporary value.
-    const newProduct: Product = {
-      id,
-      name,
-      description: '',
-      tags: [],
-      price,
-      quantity,
-      numClicks: 0
-    };
-    this.productService.addProduct(newProduct).subscribe((product: Product) => {
-      this.products.push(product);
-      this.getProducts(); // Refreshes product list
-      console.log('Product created successfully');
-    });
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Close', { duration: 5000 });
+  }
+
+  addProduct() {
+    this.productService
+      .addProduct(this.newProduct)
+      .subscribe((product: Product) => {
+        this.products.push(product);
+        this.getProducts(); // Refreshes product list
+        console.log('Product created successfully');
+      });
+    this.clearNewProductField();
+    this.openSnackBar('Product added successfully');
+  }
+
+  updateProductTags(product: Product, tags: string[]) {
+    product.tags = tags;
+    this.updateProduct(product);
   }
 
   updateProduct(product: Product) {

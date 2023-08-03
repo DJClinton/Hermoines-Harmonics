@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,10 +23,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   ],
 })
 export class ChipEditorComponent {
-  keywords: string[] = [];
+  @Input() keywords: string[] = [];
+  @Output() onChange = new EventEmitter<string[]>();
   formControl = new FormControl(['angular']);
-
-  announcer = inject(LiveAnnouncer);
 
   set chipEditor(keywords: string[]) {
     this.keywords = keywords;
@@ -36,8 +35,6 @@ export class ChipEditorComponent {
     const index = this.keywords.indexOf(keyword);
     if (index >= 0) {
       this.keywords.splice(index, 1);
-
-      this.announcer.announce(`removed ${keyword}`);
     }
   }
 
@@ -48,6 +45,8 @@ export class ChipEditorComponent {
     if (value) {
       this.keywords.push(value);
     }
+
+    this.onChange.emit(this.keywords);
 
     // Clear the input value
     event.chipInput!.clear();
