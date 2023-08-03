@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.estore.api.estoreapi.model.Product;
@@ -28,6 +29,26 @@ public class InventoryControllerTest {
     mockProductDAO = mock(ProductDAO.class);
     mockRequest = mock(HttpServletRequest.class);
     inventoryController = new InventoryController(mockProductDAO);
+  }
+
+  @Test
+  public void testGetProducts() throws IOException {
+    Integer[] ids = {1, 2, 3, 4};
+
+    when(mockProductDAO.getProduct(0)).thenThrow(new IOException());
+
+    ResponseEntity<Product[]> res = inventoryController.getProducts(ids);
+
+    assertEquals(HttpStatus.OK, res.getStatusCode());
+
+    when(mockProductDAO.getProduct(1)).thenThrow(new IOException());
+
+    res = inventoryController.getProducts(ids);
+
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, res.getStatusCode());
+  
+    
+
   }
 
   @Test

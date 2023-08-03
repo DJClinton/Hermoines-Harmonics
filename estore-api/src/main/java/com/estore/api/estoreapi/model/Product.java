@@ -60,8 +60,7 @@ public class Product implements Comparable<Product> {
             @JsonProperty("description") String description,
             @JsonProperty("price") double price,
             @JsonProperty("quantity") int quantity,
-            @JsonProperty("image") String image,
-            @JsonProperty("numClicks") int numClicks) {
+            @JsonProperty("image") String image) {
         LOG.info("Creating Product with id: " + id + " and name: " + name);
         this.id = id;
         this.name = name;

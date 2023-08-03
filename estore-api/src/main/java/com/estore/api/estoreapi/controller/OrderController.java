@@ -233,7 +233,7 @@ public class OrderController {
         }
     }
 
-    private User getUser(HttpServletRequest request) {
+    User getUser(HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if (auth == null)
             return null;

@@ -33,10 +33,14 @@ public class ProductFileDAOTest {
     public void setupProductFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
 
+        String[] tags = {"Brass", "Heavy"};
+        String[] tags2 = {"Woodwind"};
+        String[] tags3 = {"String"};
+
         testProducts = new Product[3];
-        testProducts[0] = new Product(1, "Tuba", 599.99, 5);
-        testProducts[1] = new Product(2, "Clarinet", 349.99, 7);
-        testProducts[2] = new Product(3, "Guitar", 499.99, 4);
+        testProducts[0] = new Product(1, "Tuba", tags, "A large tuba", 599.99, 5, "img.png");
+        testProducts[1] = new Product(2, "Clarinet", tags2, "Squidwards instrument", 349.99, 7, "img2.png");
+        testProducts[2] = new Product(3, "Guitar", tags3, "Cool", 499.99, 4, "img3.png");
 
         when(mockObjectMapper
                 .readValue(new File("doesnt_matter.txt"), Product[].class))
@@ -126,7 +130,8 @@ public class ProductFileDAOTest {
         int index0 = 0;
         int index1 = 1;
         int index2 = 2;
-        Product newProduct = new Product(4, "Flute", 249.99, 3);
+        String[] tags = {"Wind", "Light"};
+        Product newProduct = new Product(4, "Flute", tags, "Small and sleek", 249.99, 3, "img.png");
         Product[] expected = { testProducts[index0], testProducts[index1], testProducts[index2], newProduct };
 
         // Invoke
@@ -146,7 +151,8 @@ public class ProductFileDAOTest {
         // Setup
         int index0 = 0;
         int index1 = 1;
-        Product updatedProduct = new Product(3, "Electric Guitar", 599.99, 9);
+        String[] tags = {"String", "Cool"};
+        Product updatedProduct = new Product(3, "Electric Guitar", tags, "Very cool and modern", 599.99, 9, "img.png");
         Product[] expected = { testProducts[index0], testProducts[index1], updatedProduct };
 
         // Invoke

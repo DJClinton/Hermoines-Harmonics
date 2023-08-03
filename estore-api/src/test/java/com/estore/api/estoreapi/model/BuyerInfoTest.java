@@ -18,8 +18,8 @@ public class BuyerInfoTest {
     private Collection<Integer> expectedPastOrderIds;
     private Collection<CreditCard> expectedCreditCards;
     private Collection<String> expectedShippingAddresses;
-    private Collection<Integer> expectedCart;
-    private Collection<Integer> expectedWishlist;
+    private ArrayList<Integer> expectedProductCart;
+    private ArrayList<Integer> expectedProductWishlist;
     private BuyerInfo buyerInfo;
     
     @BeforeEach
@@ -40,61 +40,133 @@ public class BuyerInfoTest {
         expectedShippingAddresses = new ArrayList<>();
         expectedShippingAddresses.add("stupid town");
 
-        expectedCart = new ArrayList<>();
-        expectedCart.add(4);
+        expectedProductCart = new ArrayList<>();
+        expectedProductCart.add(4);
 
-        expectedWishlist = new ArrayList<>();
-        expectedWishlist.add(5);
+        expectedProductWishlist = new ArrayList<>();
+        expectedProductWishlist.add(5);
 
 
         buyerInfo = new BuyerInfo(expectedId, expectedUserId, expectedName, expectedPhoneNumber, expectedPastOrderIds, expectedCreditCards, 
-                          expectedShippingAddresses, expectedCart, expectedWishlist);
+                          expectedShippingAddresses, expectedProductCart, expectedProductWishlist);
     }
 
 
     @Test
-    public void testID() {
+    public void testGetID() {
+
         assertEquals(expectedId, buyerInfo.getId());
     }
 
     @Test
-    public void testUserId() {
+    public void testGetUserId() {
         assertEquals(expectedUserId, buyerInfo.getUserId());
     }
 
     @Test
-    public void testName() {
-        assertEquals(expectedName, buyerInfo.getName());
+    public void testSetUserId() {
+
+        buyerInfo.setUserID(1); 
+        double actualID = buyerInfo.getUserId();
+        assertEquals(expectedId, actualID);
+
     }
 
     @Test
-    public void testPhoneNumber() {
+    public void testGetName() {
+        assertEquals(expectedName, buyerInfo.getName());
+    }
+
+      @Test
+    public void testSetName() {
+        buyerInfo.setName("jill smith");
+        String actualName = buyerInfo.getName();
+        assertEquals("jill smith", actualName);
+    }
+
+    @Test
+    public void testGetPhoneNumber() {
         assertEquals(expectedPhoneNumber, buyerInfo.getPhoneNumber());
     }
 
     @Test
-    public void testPastOrderIds() {
+    public void testSetPhoneNumber() {
+        buyerInfo.setPhoneNumber("333-333-3333");
+        String actualPhoneNumber = buyerInfo.getPhoneNumber();
+        assertEquals("333-333-3333", actualPhoneNumber);
+    }
+
+    @Test
+    public void testGetPastOrderIds() {
         assertEquals(expectedPastOrderIds, buyerInfo.getPastOrderIds());
     }
 
     @Test
-    public void testCreditCards() {
+    public void testGetCreditCards() {
         assertEquals(expectedCreditCards, buyerInfo.getCreditCards());
     }
 
     @Test
-    public void testShippingAddresses() {
+    public void testSetCreditCards() {
+        CreditCard card1 = new CreditCard("jill smith", "3333");
+        CreditCard card2 = new CreditCard("jane doe", "4444");
+
+        Collection<CreditCard> newCreditCards = new ArrayList<>();
+        newCreditCards.add(card1);
+        newCreditCards.add(card2);
+
+        buyerInfo.setCreditCards(newCreditCards);
+        Collection<CreditCard>  actualCreditCards =  buyerInfo.getCreditCards();
+        assertEquals(newCreditCards, actualCreditCards);
+    }
+
+    @Test
+    public void testGetShippingAddresses() {
         assertEquals(expectedShippingAddresses, buyerInfo.getShippingAddresses());
     }
 
     @Test
-    public void testCart() {
-        assertEquals(expectedCart, buyerInfo.getCart());
+    public void testSetShippingAddresses() {
+
+        ArrayList<String> newShippingAddresses = new ArrayList<String>();
+        newShippingAddresses.add("stupid town");
+        newShippingAddresses.add("bougie hills");
+
+        buyerInfo.setShippingAddresses(newShippingAddresses);
+        Collection<String> actualShippingAddresses = buyerInfo.getShippingAddresses();
+        assertEquals(newShippingAddresses, actualShippingAddresses);
     }
 
     @Test
-    public void testWishlist() {
-        assertEquals(expectedWishlist, buyerInfo.getWishlist());
+    public void testAddProductCart() {
+        ArrayList<Integer> expectedCart = new ArrayList<>(expectedProductCart);
+        expectedCart.add(3);
+
+        buyerInfo.getCart().add(3); 
+
+        ArrayList<Integer> actualCart = buyerInfo.getCart();
+        assertEquals(expectedCart, actualCart); 
+    }
+
+    @Test
+    public void testRemoveProductCart() {
+        String[] tags1 = {"Brass"};
+        Product product1 = new Product(0, "sax", tags1, "jazzy", 20, 2, "img.png");
+        buyerInfo.removeProductCart(product1);
+
+        assertEquals(0, buyerInfo.getCart().size());
+    }
+
+    @Test
+    public void testAddProductWishlist() {
+
+        ArrayList<Integer> expectedWishlist = new ArrayList<>(expectedProductWishlist);
+
+        expectedWishlist.add(3);
+        buyerInfo.getWishlist().add(3);
+
+        ArrayList<Integer> actualWishlist = buyerInfo.getWishlist();
+        assertEquals(expectedWishlist, actualWishlist);
     }
 
     @Test
@@ -102,7 +174,7 @@ public class BuyerInfoTest {
         String expectedString = String.format(BuyerInfo.STRING_FORMAT, expectedId, expectedUserId, 
                                               expectedName, expectedPhoneNumber,
                                               expectedPastOrderIds, expectedCreditCards, 
-                                              expectedShippingAddresses, expectedCart, expectedWishlist);
+                                              expectedShippingAddresses, expectedProductCart, expectedProductWishlist);
 
         assertEquals(expectedString, buyerInfo.toString());
     }

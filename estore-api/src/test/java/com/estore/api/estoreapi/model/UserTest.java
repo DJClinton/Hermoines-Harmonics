@@ -60,4 +60,13 @@ public class UserTest {
         user.setPassword("password");
         assertEquals(user.checkPassword("password"), true);
     }
+
+    @Test
+    public void testToString(){
+        String expectedString =  "User [id=" + expectedID + ", username=" + expectedUserName + ", password=" + expectedPassword + ", authorities="
+        + expectedAuthorities + "]";
+
+        assertEquals(expectedString, user.toString());
+
+    }
 }

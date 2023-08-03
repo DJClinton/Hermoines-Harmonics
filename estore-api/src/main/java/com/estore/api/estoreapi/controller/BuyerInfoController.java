@@ -215,7 +215,7 @@ public class BuyerInfoController {
         }
 
         try {
-            BuyerInfo buyer = buyerInfoDao.getBuyerInfo(id);
+            BuyerInfo buyer = buyerInfoDao.deleteBuyerInfo(id);
             if (buyer == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

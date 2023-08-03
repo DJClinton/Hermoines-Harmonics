@@ -125,6 +125,7 @@ public class BuyerInfo {
      * @return list of buyer's shipping addresses
      */
     public Collection<String> getShippingAddresses() {
+        LOG.info("Retrieving buyer's shippingAddress: " + shippingAddresses);
         return shippingAddresses;
     }
 
@@ -175,6 +176,7 @@ public class BuyerInfo {
      */
     // @JsonSetter("shippingAddresses")
     public void setShippingAddresses(List<String> shippingAddresses) {
+        LOG.info("Setting buyer's shipping address: " + shippingAddresses);
         this.shippingAddresses = shippingAddresses;
     }
 
@@ -186,6 +188,7 @@ public class BuyerInfo {
 
     // @JsonGetter("cart")
     public ArrayList<Integer> getCart() {
+        LOG.info("Retrieving buyer's cart: " + cart);
         return cart;
     }
 
@@ -196,6 +199,7 @@ public class BuyerInfo {
      */
 
     public void addProductCart(Product product) {
+        LOG.info("Adding product to buyer's cart: " + product.getId());
         this.cart.add(product.getId());
     }
 
@@ -206,6 +210,7 @@ public class BuyerInfo {
      */
 
     public void removeProductCart(Product product) {
+        LOG.info("Removing product to buyer's cart: " + product.getId());
         this.cart.remove(product.getId());
     }
 
@@ -217,6 +222,7 @@ public class BuyerInfo {
 
     // @JsonGetter("wishlist")
     public ArrayList<Integer> getWishlist() {
+        LOG.info("Getting buyer's wishlist: " + wishlist);
         return wishlist;
     }
 
@@ -227,6 +233,7 @@ public class BuyerInfo {
      */
 
     public void addProductWishlist(Product product) {
+        LOG.info("Adding a product to buyer's wishlist: " + product.getId());
         this.wishlist.add(product.getId());
     }
 
@@ -237,6 +244,7 @@ public class BuyerInfo {
      */
 
     public void removeProductWishlist(Product product) {
+        LOG.info("Removing a product to buyer's wishlist: " + product.getId());
         this.wishlist.remove(product.getId());
     }
 

@@ -21,6 +21,12 @@ public class CreditCardTest {
                 // Analyze
                 assertEquals(card1.getHolderName(), holderName1);
                 assertEquals(card1.getCardNumber(), cardNum1);
+
+                card1.setCardNumber("1234");
+                card1.setHolderName("unit test bob");
+
+                assertEquals(card1.getCardNumber(), "1234");
+                assertEquals(card1.getHolderName(), "unit test bob");
         }
 
         @Test

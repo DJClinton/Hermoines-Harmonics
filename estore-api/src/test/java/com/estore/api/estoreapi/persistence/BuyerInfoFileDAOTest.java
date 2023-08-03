@@ -11,18 +11,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
+import com.estore.api.estoreapi.SpringContext;
 import com.estore.api.estoreapi.model.BuyerInfo;
 import com.estore.api.estoreapi.model.CreditCard;
-import com.estore.api.estoreapi.model.Order;
-import com.estore.api.estoreapi.model.Order.OrderStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
 
 
 /**
@@ -35,11 +33,21 @@ public class BuyerInfoFileDAOTest {
     BuyerInfoFileDAO buyerInfoFileDAO;
     BuyerInfo[] testBuyerInfos;
     ObjectMapper mockObjectMapper;
+    ApplicationContext mockApplicationContext;
+    BuyerInfoFileDAO mockBuyerInfoFileDAO;
+    SpringContext context = new SpringContext();
 
     @BeforeEach
     public void setupBuyerInfoFileDAO() throws IOException {
+        mockApplicationContext = mock(ApplicationContext.class);
+        mockBuyerInfoFileDAO = mock(BuyerInfoFileDAO.class);
+
         mockObjectMapper = mock(ObjectMapper.class);
         testBuyerInfos = new BuyerInfo[1];
+
+        when(mockApplicationContext.getBean(BuyerInfoFileDAO.class)).thenReturn(mockBuyerInfoFileDAO);
+
+        context.setApplicationContext(mockApplicationContext);
 
         Collection<Integer> pastOrderIds = new ArrayList<>();
         pastOrderIds.add(1);
@@ -52,10 +60,10 @@ public class BuyerInfoFileDAOTest {
         Collection<String> shippingAddresses = new ArrayList<>();
         shippingAddresses.add("towny mc town face");
 
-        Collection<Integer> cart = new ArrayList<>();
+        ArrayList<Integer> cart = new ArrayList<>();
         cart.add(4);
 
-        Collection<Integer> wishlist = new ArrayList<>();
+        ArrayList<Integer> wishlist = new ArrayList<>();
         wishlist.add(5);
 
         testBuyerInfos[0] = new BuyerInfo(1, 2, "John Buyer", "555-123-4567", 
@@ -103,9 +111,9 @@ public class BuyerInfoFileDAOTest {
         Collection<String> shippingAddresses = new ArrayList<>();
         shippingAddresses.add("whoville");
 
-        Collection<Integer> cart = new ArrayList<>();
+        ArrayList<Integer> cart = new ArrayList<>();
 
-        Collection<Integer> wishlist = new ArrayList<>();
+        ArrayList<Integer> wishlist = new ArrayList<>();
         wishlist.add(2);
         BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe setup", 
                                 "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
@@ -142,12 +150,16 @@ public class BuyerInfoFileDAOTest {
         Collection<String> shippingAddresses = new ArrayList<>();
         shippingAddresses.add("whoville");
 
-        Collection<Integer> cart = new ArrayList<>();
+        ArrayList<Integer> cart = new ArrayList<>();
 
-        Collection<Integer> wishlist = new ArrayList<>();
+        ArrayList<Integer> wishlist = new ArrayList<>();
         wishlist.add(2);
         BuyerInfo buyerInfo = new BuyerInfo(2, 3, "joe setup", 
                                 "999-999-9999", pastOrderIds, creditCards, shippingAddresses, cart, wishlist);
+
+        try {
+        buyerInfoFileDAO.createBuyerInfo(buyerInfo);
+        } catch (IOException ioe) {/* SQUASH */}
 
         // Invoke
         BuyerInfo result = assertDoesNotThrow(() -> buyerInfoFileDAO.updateBuyerInfo(buyerInfo),
