@@ -2,4 +2,5 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "livePreview.defaultPreviewPath": "/estore-api/target/site/jacoco/index.html",
     "java.debug.settings.onBuildFailureProceed": true,
+    "java.compile.nullAnalysis.mode": "disabled",
 }
