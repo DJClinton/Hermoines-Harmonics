@@ -1,7 +1,6 @@
-# E-Store:  _____ _Instrument Store_ _____
-# Modify this document to expand any and all sections that are applicable for a better understanding from your users/testers/collaborators (remove this comment and other instructions areas for your FINAL release)
+# E-Store:  Hermoine's Harmonics
 
-An online E-store system built in Java 11=> and ___ _replace with other platform requirements_ ___
+An online E-store system built in Java 8=>11
   
 ## Team
 
@@ -62,14 +61,6 @@ To run tests on all the tiers in isolation do this:
 1. Access the `PROJECT_DOCS_HOME/` directory
 2. Execute `mvn exec:exec@docs`
 3. The generated PDF will be in `PROJECT_DOCS_HOME/` directory
-
-
-## How to setup/run/test program 
-1. Tester, first obtain the Acceptance Test plan
-2. IP address of target machine running the app
-3. Execute ________
-4. ...
-5. ...
 
 ## Links
 1. Acceptance test link - [https://docs.google.com/spreadsheets/d/1YjYNWZW_DiSGKiMx0M7f7FcyFlr3p6NV/edit#gid=1976262378](url)
